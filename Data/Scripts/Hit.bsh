@@ -1,0 +1,204 @@
+import java.util.LinkedHashMap;
+
+boolean executeAction(int aimFor){
+	
+	message = new LinkedHashMap();
+	String[] targets = {"head","torso","legs"};
+
+	double hit = generator.nextDouble();
+	boolean b = false;
+	logger.info(hit + " " + probability);
+	//successful hit
+	if(hit < probability){
+		if(damage > 0){
+			target.addHP(-damage);
+			logger.info(actor.getName() + " hits " + target.getName() + " for " + damage + " damage at section " + aimFor);
+			if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+				message.put(actor.getName(),"redbold");
+				message.put(" aimed for the " + targets[aimFor] + " and hits ", "regular");
+				message.put(target.getName(),"greenbold");
+				message.put(" for ","regular");
+				message.put(damage + " damage.","redbold");
+			}
+			else{
+				message.put(actor.getName(),"greenbold");
+				message.put(" aimed for the " + targets[aimFor] + " and hits ", "regular");
+				message.put(target.getName(),"redbold");
+				message.put(" for ","regular");
+				message.put(damage + " damage.","redbold");
+
+				double random = Math.random();
+				String weaponType = actor.getWapen().getWeaponType();
+				if(weaponType.equalsIgnoreCase("Sword") && random < 0.5/Math.sqrt(RPGMain.speler.getSwordSkill())){
+					RPGMain.speler.addSwordSkill(1);
+				}
+				else if(weaponType.equalsIgnoreCase("Axe") && random < 0.5/Math.sqrt(RPGMain.speler.getAxeSkill())){
+					RPGMain.speler.addAxeSkill(1);
+				}
+				else if(weaponType.equalsIgnoreCase("Club") && random < 0.5/Math.sqrt(RPGMain.speler.getClubSkill())){
+					RPGMain.speler.addClubSkill(1);
+				}
+			}
+			if(aimFor == 2){
+				logger.info("Diminishing movement");
+				if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+					message.put(actor.getName() + " aimed for the legs, and hurt your leg. You'll have trouble running away if the time should come.","regular");
+				}
+				else{
+					message.put(target.getName() + " was hit in its leg, and it seemingly has problems moving as swiftly as it did before.","regular");
+				}
+				target.dimMovement(0.1*(double)damage/(double)target.getDefense(2));
+				logger.info("target movement: " + target.getMovement());
+			}
+
+			//add debuffs from weapons
+			try{
+				String weaponType = actor.getWapen().getWeaponType();
+				if(weaponType.equalsIgnoreCase("Sword")){
+					target.addBuff("Bleeding","Physical Melee",-(int)(actor.getWapen().getStrength()*(0.5 + Math.random())),3,5000,"");
+				}
+				else if(weaponType.equalsIgnoreCase("Axe")){
+					target.addBuff("Bleeding","Physical Melee",-(int)(actor.getWapen().getStrength()*(0.5 + Math.random())),3,5000,"");
+				}
+				else if(weaponType.equalsIgnoreCase("Club")){
+					if(Math.random() < (Math.min(1,(actor.getStrength() + actor.getWapen().getStrength())/target.getStrength()) - 0.3)){
+						target.setKnockedDown(true);
+						RPGMain.printText(true,target.getName() + " is knocked down by the fierce blow of " + actor.getName() + ".");
+					}
+				}
+			} catch(NullPointerException exc){
+			}
+			try{
+				// add applied poisons
+				actor.getWapen().getPoison().activate(target);
+			} catch(NullPointerException e){
+			}
+		}
+		else{
+			if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+				message.put(actor.getName(),"redbold"); 
+				message.put(" cannot penetrate into flesh, and deals no damage.","regular");
+			}
+			else{
+				message.put(actor.getName(),"greenbold"); 
+				message.put(" cannot penetrate into flesh, and deals no damage.","regular");
+			}
+		}
+		target.wearOut(damage, aimFor);
+		b = true;
+	}
+	// miss because of hitting shield
+	else if(hit < (probability + actor.getMeleeWeaponSkill()) && target.getSchild().getStrength() > 0){
+		if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+			message.put(actor.getName(),"redbold");
+			message.put("'s blow struck its shield","regular");
+		}
+		else{
+			message.put(actor.getName(),"greenbold");
+			message.put("'s blow struck its shield","regular");
+		}
+		target.getSchild().addKwaliteit(-(int)(damage/(target.getSchild().getStrength()+0.01)));
+		if(target.getSchild().getKwaliteit() <= 0){
+			message.put(", shattering it and leaving your opponent unprotected.","regular");
+		}
+		else{
+			message.put(".","regular");
+		}
+		b = true;
+	}
+	// miss
+	else{
+		if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+			message.put(actor.getName(),"redbold");
+			message.put(" missed.","regular");
+		}
+		else{
+			message.put(actor.getName(),"greenbold");
+			message.put(" missed.","regular");
+		}
+	}
+
+	RPGMain.printText(true,message.keySet().toArray(new String[]{}), message.values().toArray(new String[]{}));
+	return b;
+}
+
+int aimFor = 0;
+int damage = 0;
+double heightModifier = coefficients[0];
+double chargeModifier = coefficients[1];
+double probability = 0;
+String prediction;
+
+try{
+	// parameters influencing probability: +weapon Skill, +dexterity player, -dexterity enemy, target aimed at, -shield
+	if(actionTarget.equalsIgnoreCase("head")){
+	  probability = Math.min(0.7, 0.2 + 0.7*actor.getMeleeWeaponSkill()*actor.getDexterity()/target.getDexterity() - 0.1*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+	}
+	else if(actionTarget.equalsIgnoreCase("torso")){
+	  aimFor = 1;
+	  probability = Math.min(0.9, 0.6 + 0.5*actor.getMeleeWeaponSkill()*actor.getDexterity()/target.getDexterity() - 0.3*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+	}
+	else if(actionTarget.equalsIgnoreCase("legs")){
+	  aimFor = 2;
+	  probability = Math.min(0.8, 0.5 + 0.5*actor.getMeleeWeaponSkill()*actor.getDexterity()/target.getDexterity() - 0.15*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+	}
+	else{
+	  RPGMain.printText(true, "\"" + actionContent + "\" is not a valid target (head/torso/legs).");
+	  return false;
+	}
+}catch(NullPointerException exc){
+	RPGMain.printText(true, "You must specify your target (head/torso/legs).");
+	return false;
+} catch(Exception e){
+	logger.debug(e);
+	return false;
+}
+
+// see if enemy predicted player's attack
+if(actor.getClass().getName().equalsIgnoreCase("game.Avatar")){
+	prediction = target.predictAction(actorPos, targetPos);
+	System.out.println("Prediction: " + prediction);
+	RPGMain.speler.addMeleeAction(actionTarget);
+	if(prediction.equalsIgnoreCase(actionTarget)){
+	  probability-=0.5;
+	  RPGMain.printText(true, "It anticipated your move!");
+	}
+}
+
+//improve odds of hitting because of higher weapon skill
+String weaponType = actor.getWapen().getWeaponType();
+if(actor.getClass().getName().equalsIgnoreCase("game.Avatar")){
+	if(weaponType.equalsIgnoreCase("Sword")){
+		probability+=RPGMain.speler.getSwordSkill()/500.0;
+	}
+	else if(weaponType.equalsIgnoreCase("Axe")){
+		probability+=RPGMain.speler.getAxeSkill()/500.0;
+	}
+	else if(weaponType.equalsIgnoreCase("Club")){
+		probability+=RPGMain.speler.getClubSkill()/500.0;
+	}
+}
+
+logger.info("Probability: " + probability);
+// parameters influencing damage: +player strength, +weapon strength, -weapon durability, -enemy defense,+heightModifier
+// 0.4*pStrength^(sPow+0.03*(pStrength-eDefense))*wStrength^(1.1)/(eDefense^sPow)*(dur/maxDur+0.5)
+
+if(!actor.getWapen().getName().equalsIgnoreCase("nothing")){
+	damage = (int) (Math.round(chargeModifier*heightModifier*0.4*Math.pow(actor.getStrength(),1.5+0.03*(actor.getStrength()-target.getDefense(aimFor)))*Math.pow(actor.getWapen().getStrength(),1.1)/Math.pow(target.getDefense(aimFor), 1.5)*(actor.getWapen().getKwaliteit()/actor.getWapen().getMaxKwaliteit() + 0.5)));
+}
+else{
+	damage = (int) (Math.round(chargeModifier*heightModifier*0.4*Math.pow(actor.getStrength(),2.6+0.03*(actor.getStrength()-target.getDefense(aimFor)))/Math.pow(target.getDefense(aimFor), 1.5)));
+}
+damage = (int)(damage*actor.getStanceAttackModifier());
+damage = (int)(damage/target.getStanceDefenseModifier());
+
+if(target.getKnockedDown()){
+	damage=(int)(damage*1.5);
+	probability+=0.2;
+}
+
+logger.info("Damage = " + damage);
+boolean b = executeAction(aimFor);
+if(generator.nextDouble() > 0.2){
+	actor.getWapen().addKwaliteit(-1);
+}

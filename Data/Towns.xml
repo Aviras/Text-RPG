@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Towns>
+  <Dolorem id="0">
+    <name>Dolorem</name>
+    <img>Edoras.jpg</img>
+    <districts>
+      <district x="0" y="0">
+        <name>Trade Quarter</name>
+        <description>You hear the fires of the smithy roar, and the river flow in the background. There are quite some guards stationed here, but all is peaceful. You are now in the Trade Quarter.</description>
+        <npcs>0</npcs>
+        <location>
+          <name>Darius' Smith</name>
+          <description>You enter the workshop and the heat overwhelms you a little. Darius stares at you, "You need something?".</description>
+          <type>Shop</type>
+          <itemsPresent>equipment:0,1,2,3,4</itemsPresent>
+          <npcID>5</npcID>
+        </location>
+        <location>
+          <name>Aviras' Bakery</name>
+          <description>You enter the bakery, and you notice yourself smiling as the air enters your nostrils. Aviras warms you with a welcome smile.</description>
+          <type>Shop</type>
+          <itemsPresent>consumable:0,1,2</itemsPresent>
+          <npcID>6</npcID>
+        </location>
+        <location>
+          <name>The Prancing Unicorn</name>
+          <description>As you enter the Prancing Unicorn, the festivity overwhelms you.</description>
+          <type>Inn</type>
+          <itemsPresent>null</itemsPresent>
+          <npcID>1</npcID>
+        </location>
+        <location>
+          <name>Great Western Gate</name>
+          <description>You move between four guards, with a serious look on their face. Freedom, here we come.</description>
+          <type>gate:west</type>
+          <itemsPresent>null</itemsPresent>
+          <npcID>0</npcID>
+        </location>
+      </district>
+      <district x="1" y="0">
+        <name>Main Square</name>
+        <description>You cross the river and arrive at a grand plaza. A statue of a mounted person clad in armour stands in the middle. King Benedicte, leader of the free peoples the inscription reads. You are at the main square.</description>
+        <location>
+          <name>Souvenir Shop</name>
+          <description>You enter the souvenir shop. It's stuffed with little statues of King Benedicte. He must've been quite the important one.</description>
+          <type>shop</type>
+          <itemsPresent>null</itemsPresent>
+          <npcID>1</npcID>
+        </location>
+        <location>
+          <name>Great Eastern Gate</name>
+          <description>The guards look at you, seemingly uninterested.</description>
+          <type>gate:east</type>
+          <itemsPresent>null</itemsPresent>
+          <npcID>0</npcID>
+        </location>
+        <location>
+          <name>Library</name>
+          <description>You enter the city's library. Few people are here, and there is not a sound except for the turning of pages in the old manuscripts. You have some books lying before you.</description>
+          <type>library</type>
+          <itemsPresent>0</itemsPresent>
+          <npcID>0</npcID>
+        </location>
+      </district>
+      <district x="0" y="1">
+        <name>Shanty Town</name>
+        <description>This part of the city has suffered a lot these last weeks. Fires, disease, and frustration resulting in violence have all but destroyed its streets and buildings. There are no children playing merrily here, just the sad faces from people trying to get their life back on track.</description>
+        <npcs>1;2</npcs>
+        <location>
+          <name>Ye moulded bread.</name>
+          <description>When you get closer, you see the sign used to say 'Ye warm bread', and was changed recently to 'moulded'. You start to lose your appetite already.</description>
+          <type>shop</type>
+          <itemsPresent>consumable:2</itemsPresent>
+          <npcID>3</npcID>
+        </location>
+      </district>
+      <district x="1" y="1">
+        <name>Administrative Centre</name>
+        <description>You see a lot of armed guards patrolling around the western side of the quarter, trying to block off troublemakers coming from Shanty Town. The houses are richly decorated, and another statue, this time of steward Andrew, guardian of the city of Dolorem.</description>
+        <npcs>4</npcs>
+        <location>
+          <name>Chapel</name>
+          <description>The creaking of the door disturbs the silence as you enter, and the few that are present paying turn their heads and look at you strangely.</description>
+          <type>library</type>
+          <itemsPresent>0</itemsPresent>
+        </location>
+        <location>
+          <name>Southern Gate</name>
+          <description>The guards look tense. You try to act casual.</description>
+          <type>gate:south</type>
+        </location>
+      </district>
+    </districts>
+  </Dolorem>
+  
+  <HaldinsDen id="1">
+    <name>Haldin's Den</name>
+    <img>Haldin's Den.jpg</img>
+    <districts>
+      <district x="0" y="0">
+        <name>Scholar's Retreat</name>
+        <description>You mount the stairs leading to Scholar's Retreat. The field ahead of you lies entirely in the shadow of the mountain. People are scurrying about, clearly lost in thought. It's a lot quieter here, the silence broken only by the wind gushing over the blanket that the mountain provides around the village. The atmosphere is somehow dense, but soothing. The path leading to the den appears abandoned, though you know better.</description>
+        <npc>2</npc>
+        <location>
+          <name>City Archives</name>
+          <description>The door creaks open and the stale air fills your nostrils. In front of you lie heaps of scrolls, many of which the letters don't appear familiar to you at all. There is an awesome amount of knowledge present here, and trying to grasp the enormity makes you head spin.</description>
+          <type>library</type>
+          <itemsPresent>1;2</itemsPresent>
+        </location>
+      </district>
+      <district x="1" y="0">
+        <name>Haldin's Retreat</name>
+        <description>You approach the mouth of the mountain, where Haldin the Fierce in times long past found shelter from a great blizzard during his journey to singlehandedly reclaim the old world, or so the legend says. Long before that, the cave had already served as a cult gathering place for our ancestors. Markings of ritual ceremonies are still visible on the inner walls.</description>
+      </district>
+      <district x="0" y="1">
+        <name>Choir's Quarter</name>
+        <description>As you walk through the streets you hear a faint melody in the background. It's a subtle, soothing song that brings back early childhood memories. The music is created by an ingenious system of pipes connecting with rooftops of the houses, where the precipitation is collected and directed to several centers in the village. There, via an intricate system of pipes and flows, it is distributed to different instruments, creating soft melodies in the wind.</description>
+      </district>
+      <district x="0" y="2">
+        <name>Shrine of Mudan</name>
+        <description>Ahead of you rises a temple for the old god Mudan, the 'One who carved stone'. Though discarded by modern society after The Great Discovery, many persons still find comfort and faith in the rites of times past. The innovations found by those seeking knowledge and power take a long time to seep through the more outer regions of the reik, and the influence of cultural customs is still very high. The temple is decorated with local treasures, like rare metals and part of the harvest. Inside you see some acolytes engaged in prayer.</description>
+      </district>
+      <district x="1" y="2">
+        <name>Shadow of Nature</name>
+        <description>There's grass beneath your feet. You're standing under the Great Tree, its branches covering nearly the entire field, providing it shadow and shelter. The air feels fresh, and you feel at ease in the presence of this majestic natural tower. You see people meditating, and children playing close to the bark. The wind rustles through the leaves, and a feeling of homecoming overwhelms you.</description>
+      </district>
+      <district x="2" y="2">
+        <name>Housing District</name>
+        <description>There isn't a lot of traffic in the streets, but you see a lot of activity in the houses. Children playing, mothers taking care of their offspring, men coming home from working the land. </description>
+      </district>
+      <district x="2" y="1">
+        <name>Shrine of the Healer</name>
+        <description>Before you lies a network of tunnels connecting different houses, used to transport the sick and the elderly to a different location without exposing them to the cold. You see some healers sitting in a far-off corner performing some kind of ritual to ask blessings from their primordial gods.</description>
+      </district>
+      <district x="1" y="3">
+        <name>Palm of the Mountain</name>
+        <description>You stand in the middle of an open field. Behind you the mountain top, looming, reaching for the sky. You hear the soft whistling of the wind through the branches of the Great Tree. Ahead of you, through the gate, you have an overview of the valley below, encircled by the mountain range the elderly call 'The Lost Peaks', after an old legend. A darkgreen carpet of pine trees cover its center, the smells of the forest reaching your nostrils. Low hanging clouds have yet to cross the mountains, smearing out the details of what lies beyond.</description>
+        <location>
+          <name>Southern Gate</name>
+          <description>You pass through the gate and the land before you gently descends, the thick layer of snow covering the hard rock of the mountain. You see pine trees further down, where the path vanishes in the shadows.</description>
+          <type>gate:south</type>
+        </location>
+        <location>
+          <name>Talec's bakery</name>
+          <description>You enter the bakery and you are met with the smell of freshly baked bread. As you stand there, nearly drooling, Talec comes to greet you, out of politeness but just as much curiosity. You find yourself in a cozy firelit house, the walls made partly out of wood and partly out of stone. To the right you see the ovens, heated by the burning of some strange type of coal. Dough crafted of local weat is being prepared by his wife, a red-haired woman in her late thirties. She looks at you strangely, and all of a sudden Talec is standing right in front of you, smiling curiously.</description>
+          <type>shop</type>
+          <itemsPresent>consumable:0,1</itemsPresent>
+          <npcID>4</npcID>
+        </location>
+          <location>
+            <name>Frozen Peaks Inn</name>
+            <description>You enter the inn, and apart from a few greybeards there aren't a whole lot of people present. Derin, the innkeeper, hardly notices your presence as you approach the counter. He's busy rearranging the small stack of liquor and beverages that seem to make up the entirety of the offer here.</description>
+            <type>Inn</type>
+            <npcID>1</npcID>
+            <npcs>0;1</npcs>
+        </location>
+        <location>
+          <name>House</name>
+          <description>The house has next to no furniture, and there is little light illuminating the room. It must be hard to live here.</description>
+          <type>house</type>
+          <npcs>0;1</npcs>
+          <itemsPresent>consumable:0;1</itemsPresent>
+        </location>
+        <location>
+          <name>City Stables</name>
+          <description>Test</description>
+          <type>stables</type>
+          <connectedCities>0</connectedCities>
+          <npcID>0</npcID>
+        </location>
+      </district>
+    </districts>
+  </HaldinsDen>
+</Towns>

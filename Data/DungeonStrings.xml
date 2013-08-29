@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Fri Nov 11 10:08:44 CET 2011 -->
+
+<DungeonStrings>
+	<forest>
+		<day>
+			Actually, by day this isn't such a bad place to be, you think.
+			As you go deeper into the woods, a strange feeling settles onto you.
+			You nearly jump out of your skin as a pheasant shoots through the bushes. Damned birds.
+			You see something in the distance. Never mind, it's a tree.
+			Regret settles in, with a hunger to destroy entire civilisations. You weren't made to be surrounded by trees.
+			It started raining, making what was left of the path you were following a naked mud wrestling paradise. If only..
+			For some minutes now, a wretchid stench has been assaulting your nostrils. You stepped in some animal's faeces.
+			You remember the townsfolk warning you about going too deep in here. Silly farmers.
+			One does not simply jump over this branch like you just did.
+			You didn't scare up from seeing for what looked like an evil tree. Everything went better than expected.
+		</day>
+		<night>
+			At night, this isn't such a fun place to be. At all.
+			Considering all the things crawling close to, pheasant encounters almost seem like a happy memory.
+			Note to self: Carry a torch next time. At least that way you'll see what hits you before it does.
+			You've brave, you're bold, you shouldn't be scared.
+			You could disappear into a pitfall and no one would be awake to hear you scream.
+			The moon gives you some light to see by.
+			A bright focused beam of light meets your eye. Someone actually dropped a mirror here, together with some limbs it seems.
+			Good Lordy, it sure is dark in here.
+			If I'd be a madman, the bloodthirsty howls in the distance would make me feel challenged.
+			You just pooped your britches, like a baws.
+			You hum the melody the bards would sing as they tale about your epic quest. If you don't die tonight, that is.
+			No quiero morir aquí! That's spanish for you being a wimp.
+			Perhaps you should just go to sleep.
+			Risking your life for glory and fame is overrated.
+			Some clouds moved in front of the moon.
+			A moist cold enters your feet. Pond you stepped in #257.
+		</night>
+	</forest>
+	<plains>
+	  <day>
+	  </day>
+	  <night>
+	  </night>
+	</plains>
+</DungeonStrings>

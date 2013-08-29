@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Fri Nov 11 02:39:31 CET 2011 -->
+<Items>
+  <item id="0">
+    <name>Rusty Dagger</name>
+    <strength>1</strength>
+    <cost>2</cost>
+    <durability>5</durability>
+    <type>10</type>
+    <weight>0.5</weight>
+  </item>
+  <item id="1">
+    <name>Woolen Shirt</name>
+    <strength>0</strength>
+    <cost>2</cost>
+    <durability>5</durability>
+    <type>6</type>
+    <weight>0.6</weight>
+  </item>
+  <item id="2">
+    <name>Boarhide Leggings</name>
+    <strength>2</strength>
+    <cost>2</cost>
+    <durability>5</durability>
+    <type>8</type>
+    <weight>0.4</weight>
+  </item>
+	<Item id="3">
+		<name>Copper Shortsword</name>
+		<strength>2</strength>
+		<cost>5</cost>
+		<durability>10</durability>
+		<type>10</type>
+		<weight>2.0</weight>
+	</Item>
+	<Item id="4">
+		<name>Bronze Harnass</name>
+		<strength>3</strength>
+		<cost>10</cost>
+		<durability>10</durability>
+		<type>6</type>
+		<weight>7.0</weight>
+	</Item>
+	<Item id="5">
+    <name>Iron Buckler</name>
+    <strength>3</strength>
+    <cost>9</cost>
+    <durability>15</durability>
+    <type>3</type>
+    <weight>4.0</weight>
+	</Item>
+	<Item id="6">
+    <name>Oakwood Bow</name>
+    <strength>2</strength>
+    <cost>15</cost>
+    <durability>20</durability>
+    <type>4</type>
+    <weight>2.0</weight>
+	</Item>
+	<Item id="7">
+    <name>The Despoiler</name>
+    <strength>15</strength>
+    <cost>1</cost>
+    <durability>20</durability>
+    <type>20</type>
+    <weight>4.0</weight>
+    <feat>Strength</feat>
+    <feat_amount>5</feat_amount>
+	</Item>
+</Items>

@@ -1,0 +1,362 @@
+public int[] getClosestCover(int[] pos){
+	int[] closestCoverPos = new int[2];
+	Point p = new Point(pos[0],pos[1]);
+	for(double[][] coverPos: covers.keySet()){
+		if(p.distance(coverPos[0][0],coverPos[0][1]) < p.distance(closestCoverPos[0],closestCoverPos[1])){
+			closestCoverPos[0] = (int)coverPos[0][0];
+			closestCoverPos[1] = (int)coverPos[0][1];
+		}
+	}
+	return closestCoverPos;
+}
+
+public boolean checkObstruction(int[] newPos){
+	double coverSize = 180;
+	double playerSize = 14;
+	for(double[][] pos: covers.keySet()){
+		double cosTheta = (double)(newPos[0]-pos[0][0])/Math.sqrt(Math.pow(newPos[0] - pos[0][0], 2) + Math.pow(newPos[1] - pos[0][1], 2));
+		double radius = 1.0/Math.sqrt(Math.pow(cosTheta/(coverSize/2*pos[1][0]), 2) + (1-cosTheta*cosTheta)/Math.pow((coverSize/2*pos[1][1]),2));
+		if(new Point(newPos[0],newPos[1]).distance(pos[0][0],pos[0][1]) <= (radius+playerSize/2)){
+			return true;
+		}
+	}
+	return false;
+}
+
+public String predictAction(int[] playerPos, int[] myPos){
+	double distance = new Point(playerPos[0],playerPos[1]).distance(myPos[0],myPos[1]);
+	String prediction = null;
+	
+	if(distance < 70){
+		prediction = predictPattern(speler.getMeleeActions());
+	}
+	else{
+		prediction = predictPattern(speler.getRangedActions());
+	}
+	
+	return prediction;
+	
+}
+public String predictPattern(String actions){
+	int patternNr = mob.getIntelligence();
+
+	String[] possibilities = {"head","torso","legs"};
+	int[] occurences = new double[possibilities.length];
+	double efficiency = 0;
+	
+	String prediction = possibilities[(int)(Math.random()*possibilities.length)];
+	
+	try{
+		while(efficiency < (Math.max(0.05, 0.3-0.008*actions.length())) && patternNr > 0){
+			String lastMoves = actions.substring(actions.length()-patternNr);
+			String consideredMoves = actions.substring(0, actions.length()-patternNr);
+			
+			int i = consideredMoves.indexOf(lastMoves);
+			while(i != -1){
+				try{
+					// check what came after the combination that was found
+					char s = consideredMoves.charAt(i+patternNr);
+					
+					switch(s){
+					case 'h': occurences[0]+=1; break;
+					case 't': occurences[1]+=1; break;
+					case 'l': occurences[2]+=1; break;
+					}
+					
+					i = consideredMoves.indexOf(lastMoves,i+patternNr);
+					
+				} catch(IndexOutOfBoundsException exc){
+					i = -1;
+				}
+			}
+			for(int j=0;j<occurences.length;j++){
+				if(occurences[j] > 0){
+					occurences[j]*=1.0/((double)consideredMoves.length()/(double)(patternNr+1));
+					if(occurences[j] >= efficiency){
+						efficiency = occurences[j];
+						prediction = possibilities[j];
+					}
+				}
+			}
+			patternNr--;
+		}
+	}catch(NullPointerException exc){
+		
+	}catch(IndexOutOfBoundsException exc){
+		
+	}
+	return prediction;
+}
+/*public int[] determineMove(int[] playerPos,int[] myPos, int[] bestCoverPos, double bestCover, int[] bestHeightPos, double maxHeightModifier, boolean hasActed, HashMap<double[][],Double> covers, int mobIndex){
+	
+	// positions, distances and health perc get calculated, both of enemy and player
+	// width and height of map window get calculated, path gets initiated
+	int[] newPos = new int[2];
+	newPos[0] = myPos[0];
+	newPos[1] = myPos[1];
+	double myHealthPerc = (double)mob.getHP()/(double)mob.getMaxHP();
+	double plHealthPerc = (double)speler.getHP()/(double)speler.getMaxHP();
+	double distance = new Point(playerPos[0],playerPos[1]).distance(myPos[0],myPos[1]);
+	int width = dungeonMap.getWidth();
+	int height = dungeonMap.getHeight();
+	double meter = width/15;
+	ArrayList<int[]> path = new ArrayList<int[]>();
+	
+
+	// in melee range
+	if(distance/meter <= 1){
+		switch(mob.getIntelligence()){
+		// least intelligent, will always stay in melee range
+		case 1:	break;
+		// will stay in melee until below 33% health, then run away, or if better at ranged
+		case 2: if(myHealthPerc < 0.34 || mob.getBoog().getStrength() > mob.getWapen().getStrength()){
+				// newPos = oldPos + movement*cos(theta) for x, sin(theta) for y
+				// min, max so that it stays in playing field
+				newPos[0] = Math.max(2*Global.playerSize,Math.min(width-2*Global.playerSize, myPos[0] + (int)(movement*((double)(myPos[0]-playerPos[0])/sum))));
+				newPos[1] = Math.max(2*Global.playerSize,Math.min(height-2*Global.playerSize,myPos[1] + (int)(movement*((double)(myPos[1]-playerPos[1])/sum))));
+			}
+			break;
+		case 3: if(bestCover > 0 && ((plHealthPerc-myHealthPerc) < 0.2 || (bestCover < 0.6 && boog.getStrength() > wapen.getStrength()))){
+					newPos[0] = bestCoverPos[0];
+					newPos[1] = bestCoverPos[1];
+				}
+			else if(maxHeightModifier > 0 && (!hasActed || boog.getStrength() > wapen.getStrength())){
+				newPos[0] = bestHeightPos[0];
+				newPos[1] = bestHeightPos[1];
+			}
+			else if(myHealthPerc < 0.34 || boog.getStrength() > wapen.getStrength()){
+				newPos[0] = Math.max(0,Math.min(width-2*Global.playerSize, myPos[0] + (int)(movement*((double)(myPos[0]-playerPos[0])/sum))));
+				newPos[1] = Math.max(0,Math.min(height-2*Global.playerSize,myPos[1] + (int)(movement*((double)(myPos[1]-playerPos[1])/sum))));
+			}
+		}
+	}
+	// out of melee range
+	else{
+		switch(mob.getIntelligence()){
+		//TODO is sum actually correct? Better is actually time cosine = dx/distance
+		case 1: newPos[0] = myPos[0] - (int)(Math.min(distance - 2*Global.playerSize, movement)*((double)(myPos[0]-playerPos[0])/distance));
+			newPos[1] = myPos[1] - (int)(Math.min(distance - 2*Global.playerSize, movement)*((double)(myPos[1]-playerPos[1])/distance));
+			break;
+		case 2: if(myHealthPerc < 0.34){
+				// newPos = oldPos + movement*cos(theta) for x, sin(theta) for y
+				// min, max so that it stays in playing field
+				newPos[0] = Math.max(0,Math.min(width-2*Global.playerSize, myPos[0] + (int)(movement*((double)(myPos[0]-playerPos[0])/sum))));
+				newPos[1] = Math.max(0,Math.min(height-2*Global.playerSize,myPos[1] + (int)(movement*((double)(myPos[1]-playerPos[1])/sum))));
+			}
+			else{
+				newPos[0] = myPos[0] - (int)(Math.min(distance - 2*Global.playerSize, movement)*((double)(myPos[0]-playerPos[0])/sum));
+				newPos[1] = myPos[1] - (int)(Math.min(distance - 2*Global.playerSize, movement)*((double)(myPos[1]-playerPos[1])/sum));
+			}
+			break;
+			//TODO next cases
+		}
+	}
+	path = Global.calculatePath(myPos, playerPos, movement, covers,true);
+	for(int j=0;j<path.size();j++){
+		dungeonMap.updateBattlefield(covers, playerPos, path.get(j),mobIndex);
+		try{
+			Thread.sleep(1000/24);
+		} catch(InterruptedException exc){
+			
+		}
+		if(j == path.size()-1){
+			return path.get(path.size()-1);
+		}
+	}
+	return myPos;
+}
+public String determineAction(int[] playerPos, int[] myPos, boolean hasMoved){
+	
+	Random generator = new Random();
+	
+	// health perc and distance get calculated
+	double enHealthPerc = (double)mob.getHP()/(double)mob.getMaxHP();
+	double plHealthPerc = (double)speler.getHP()/(double)speler.getMaxHP();
+	double distance = new Point(playerPos[0],playerPos[1]).distance(myPos[0],myPos[1]);
+	double meter = dungeonMap.getWidth()/15;
+	System.out.println("In determineAction");
+	
+	// stance is default at defensive
+	String stance = " d";
+	// possible targets to aim at
+	String[] targets = {"head","torso","legs"};
+	// check what target is best defended
+	int strongest = 0;
+	int defense = 0;
+	for(int j=0;j<3;j++){
+		if(defense < speler.getDefense(j)){
+			defense = speler.getDefense(j);
+			strongest = j;
+		}
+	}
+	// choose other part to target at, so it is not the strongest one
+	String toHit = targets[strongest];
+	while(toHit.equalsIgnoreCase(targets[strongest])){
+		toHit = targets[generator.nextInt(3)];
+	}
+	
+	switch(intelligence){
+	// always in offensive stance, uniform target
+	case 1: if(distance/meter <= 1){
+				return "hit " + targets[generator.nextInt(3)] + " o";
+			}
+		// if better at ranged: shoot, else charge
+		else if(mob.getBoog().getStrength() > mob.getWapen().getStrength()){
+			return "shoot " + targets[generator.nextInt(3)] + " o";
+		}
+		else{
+			return "charge " + targets[generator.nextInt(3)];
+		}
+	// if health > 30%, offensive, else into defensive, rest same as above
+	case 2: if(enHealthPerc > 0.3){
+				stance = " o";
+			}
+		if(distance/meter <= 1){
+			return "hit " + targets[generator.nextInt(3)] + stance;
+		}
+		else if(mob.getBoog().getStrength() > mob.getWapen().getStrength()){
+			return "shoot " + targets[generator.nextInt(3)] + stance;
+		}
+		else{
+			return "charge " + targets[generator.nextInt(3)];
+		}
+	// compares player and own health perc, will try to stun if possible, rest same as above	
+	case 3: if((enHealthPerc-plHealthPerc) > 0.2){
+				stance = " o";
+			}
+			if(distance/meter <= 1){
+				if(mob.hasStun()){
+					//TODO see commentary on ability-class on Blackberry
+					return null;
+				}
+				else{
+					return "hit " + toHit + stance;
+				}
+			}
+			else if(mob.getBoog().getStrength() > mob.getWapen().getStrength()){
+				return "shoot " + toHit + stance;
+			}
+			else{
+				return "charge " + toHit;
+			}
+	
+	case 4: break;
+	}
+	
+	
+	return null;
+}*/
+
+//TODO put all the pixel related stuff to absolute distance
+logger.info("Enemy turn: " + mob.getName() + " (" + index + ")");
+int actionsCompleted = 0;
+
+int windowWidth = battlefield.getWidth();
+
+while(!mob.checkDood() && actionsCompleted < 2){
+	//System.out.println("Mob preparing attack.");
+	String action = null;
+	// double moveAway = 0,moveTowards = 0,attack = 0;
+	// determine system to see if mob wants to move then attack or vice versa
+	// use of a heuristic function
+	// parameters influencing heuristic function:
+	// player hp, mob hp, weapon strength, distance, nearby covers, nearby height difference
+	// heuristic function is a measure for mobHP - playerHP, so preferably as high as possible
+	// %%%%%%% ABANDONED %%%%%%%
+	// since it only searches one step ahead, and just to see if to move first or attack first,
+	// heuristic function is overkill
+	// where to move and which attack to do is handled in the functions
+	Point enemyPos = new Point(enemyCoords.get(index)[0],enemyCoords.get(index)[1]);
+	int enMov = mob.getMovement()*windowWidth/battlefield.sizeInMeter;
+	logger.info("Enemy Mov: " + mob.getMovement() + " in pixels: " + enMov);
+	// determine position according to nearby covers
+	double coverEffect = 0;
+	double maxCover = hostA.getCover(playerCoord,enemyCoords.get(index),true,covers);
+	logger.debug("Past getting cover");
+	int[] bestCoverPos = new int[2];
+	//Set<double[][]> coverPos = covers.keySet();
+	
+	// redundant?
+	// see if there is better cover than where you are at now within the allowed movement
+	for(double[][] pos: covers.keySet()){
+		if(enemyPos.distance(pos[0][0],pos[0][1]) < enMov && covers.get(pos) > maxCover){
+			// better value the closer and better the cover, smarter enemies search for cover faster
+			coverEffect+=(double)enMov/(double)(enemyPos.distance(pos[0][0],pos[0][1]))*covers.get(pos)*mob.getIntelligence();
+		}
+	}
+	logger.debug("Past cover effect 1");
+	// solution: could 
+	// get maximum cover
+	int[] pos = new int[2];
+	for(int k=20;k<=enMov;k=k+10){
+		for(int j=-k;j<k;j=j+10){
+			logger.debug("In cover cycle");
+			pos[0] = Math.max(0, Math.min(j + enemyCoords.get(index)[0], windowWidth));
+			pos[1] = Math.max(0, Math.min(k + enemyCoords.get(index)[1], windowWidth));
+			int[] clCoPos = getClosestCover(pos);
+			// if cover at that spot is bigger and the distance away from the player is bigger than 70% of current
+			// check over a disk instead of a circle, and have to make sure you don't land in the cover
+			double newCover = hostA.getCover(playerCoord,pos,true,covers);
+			if(newCover > maxCover && 
+					new Point(pos[0],pos[1]).distance(playerCoord[0],playerCoord[1]) > enemyPos.distance(playerCoord[0],playerCoord[1])*0.7 && 
+					!checkObstruction(pos)){
+				
+				maxCover = newCover;
+				bestCoverPos[0] = pos[0];
+				bestCoverPos[1] = pos[1];
+			}
+		}
+	}
+	logger.debug("Past cover effect 2");
+	// determine position effect according to nearby strategic heights
+	double heightEffect = 0;
+	double plHM = dungeonRoom.getHeightModifier(playerCoord);
+	double maxHeightModifier = plHM;
+	int[] bestHeightPos = new int[2];
+	for(int j=-enMov;j<=enMov;j=j+5){
+		// go on a circle around enemy to see if there's strategic height
+		pos[0] = j + enemyCoords.get(index)[0];
+		pos[1] = (int)Math.sqrt(enMov*enMov - j*j) + enemyCoords.get(index)[1];
+		if(dungeonRoom.getHeightModifier(pos) > maxHeightModifier && new Point(pos[0],pos[1]).distance(playerCoord[0],playerCoord[1]) > enemyPos.distance(playerCoord[0],playerCoord[1])){
+			heightEffect = 10.0;
+			maxHeightModifier = dungeonRoom.getHeightModifier(pos);
+			bestHeightPos[0] = pos[0];
+			bestHeightPos[1] = pos[1];
+			break;
+		}
+	}
+	logger.debug("Past height effect");
+	// 
+	// REMINDER: Only decision here is to move first or attack first, moving away or moving towards is handled in the function itself
+	// ((HP & no stun || poss cover/height || better at ranged || already at ranged) && no cover/better avail && no height adv)
+	if((((double)mob.getHP()/(double)mob.getMaxHP() < (double)speler.getHP()/(double)speler.getMaxHP() - 0.7 && !mob.hasStun()) || // big HP difference, and no stuns
+			((coverEffect /*+ heightEffect*/) > 0 && mob.getIntelligence() > 2) || // if enemy is smart enough to move to cover or height
+			(enemyPos.distance(playerCoord[0],playerCoord[1]) < abilities.get(0).getRange()[1]*windowWidth/battlefield.sizeInMeter && mob.getWapen().getStrength() < mob.getBoog().getStrength()) || // if in melee position and actually better at ranged
+			enemyPos.distance(playerCoord[0],playerCoord[1]) > abilities.get(0).getRange()[1]*windowWidth/battlefield.sizeInMeter) && // If not in melee distance, will always move, except when in cover or strategically good, when there is none significantly better available
+			hostA.getCover(playerCoord,enemyCoords.get(index),true,covers) < (maxCover+0.2) &&
+			dungeonRoom.getHeightModifier(enemyCoords.get(index)) <= dungeonRoom.getHeightModifier(playerCoord)){
+		try{
+			logger.info("Enemy chose to move");
+			plHM = 1;
+			////System.out.println("enemyCoords size: " + enemyCoords.size());
+			enemyCoords.set(index, mob.determineMove(playerCoord, enemyCoords.get(index), bestCoverPos, maxCover, bestHeightPos, maxHeightModifier - plHM, false, covers,index));	
+		}catch(Exception e){
+			e.printStackTrace();
+			//System.out.println("enemyCoords size after error:" + enemyCoords.size());
+		}
+		/*action = mob.determineAction(playerCoord, enemyCoords.get(index), true);
+		actionInterpreter(action,mob,RPGMain.speler,index);*/
+	}
+	else{
+		logger.info("First action.");
+		action = mob.determineAction(playerCoord, enemyCoords.get(index), false);
+		System.out.println(action);
+		dungeonRoom.actionInterpreter(action,mob,speler,index);
+		//enemyCoords.set(index, mob.determineMove(playerCoord, enemyCoords.get(index), bestCoverPos, maxCover, bestHeightPos, maxHeightModifier - plHM, true, covers,index));
+	}
+	actionsCompleted++;
+	battlefield.repaint();
+	//System.out.println("Action: " + action);
+	//System.out.println("Mob should have moved.");
+}
+		

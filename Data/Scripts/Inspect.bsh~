@@ -1,0 +1,25 @@
+RPGMain.printText(false, "Up ahead stands a " + target.getName());
+// check what mob is wearing
+if(target.getWapen().getStrength() > 0){
+	String message = ", carrying a ";
+	if(target.getWapen().getTreat() != null){
+		message+="powerful ";
+	}
+	message+=target.getWapen().getWeaponType();
+	if(target.getSchild().getStrength() > 0){
+		message+=" and shield";
+	}
+}
+RPGMain.printText(true, ".");
+
+String[] parts = {"head","torso","legs"};
+String strongest = parts[0];
+// check the strongest defensive part of its equipment
+int defense = 0;
+for(int j=0;j<3;j++){
+	if(defense < target.getDefense(j)){
+		defense = target.getDefense(j);
+		strongest = parts[j];
+	}
+}
+RPGMain.printText(true, "It seems it is most heavily armoured at the " + strongest + ".");

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Spells>
+  <spell id="0">
+    <name>Fireball</name>
+    <strength>3</strength>
+    <castingtime>3</castingtime>
+    <type>fire</type>
+    <success>You're like a magician, playing with these balls of fire.</success>
+    <fail>You scorch your hand</fail>
+  </spell>
+  <spell id="1">
+    <name>Lightning Strike</name>
+    <strength>4</strength>
+    <castingtime>4</castingtime>
+    <type>electricity</type>
+    <success>Thunder strikes from the heavens.</success>
+    <fail>Thunder strikes from the heavens, though the wrong target.</fail>
+  </spell>
+  <spell id="2">
+    <name>Frostbolt</name>
+    <strength>3</strength>
+    <castingtime>3</castingtime>
+    <type>frost</type>
+    <success>The blueish glow makes you look menacing.</success>
+    <fail>Cold, cold, cold, cold.</fail>
+  </spell>
+  <spell id="3">
+    <name>Arcane Disturbance</name>
+    <strength>2</strength>
+    <castingtime>2</castingtime>
+    <type>arcane</type>
+    <success>Purple sparks fly.</success>
+    <fail>Purple something.</fail>
+  </spell>
+  <spell id="4">
+    <name>Heal</name>
+    <strength>-6</strength>
+    <castingtime>3</castingtime>
+    <type>healing</type>
+    <success>You are renewed with vigour.</success>
+    <fail>Failing to heal sucks, doesn't it.</fail>
+  </spell>
+</Spells>

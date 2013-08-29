@@ -1,0 +1,546 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<HEAD>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="../stylesheet.css" TITLE="Style">
+<META NAME="GENERATOR" CONTENT="Java2HTML Version 1.5">
+<TITLE>game.GameFrameCanvas (Java2HTML)</TITLE>
+</HEAD>
+<BODY><TABLE id="Header" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td colspan="2" width="33%">&nbsp;</td>
+<td align="center" colspan="2" width="33%">
+<font size="4">GameFrameCanvas.java</font>
+</td>
+<td align="right" colspan="2" width="33%">&nbsp;</td>
+</tr>
+</TABLE>
+<pre ID="Classes">
+<FONT ID="LN">1   </FONT><A NAME="1"></A><FONT ID="Package">package</FONT> game;
+<FONT ID="LN">2   </FONT><A NAME="2"></A>
+<FONT ID="LN">3   </FONT><A NAME="3"></A><FONT ID="Import">import</FONT> javax.imageio.ImageIO;
+<FONT ID="LN">4   </FONT><A NAME="4"></A><FONT ID="Import">import</FONT> javax.sound.sampled.AudioInputStream;
+<FONT ID="LN">5   </FONT><A NAME="5"></A><FONT ID="Import">import</FONT> javax.sound.sampled.AudioSystem;
+<FONT ID="LN">6   </FONT><A NAME="6"></A><FONT ID="Import">import</FONT> javax.sound.sampled.Clip;
+<FONT ID="LN">7   </FONT><A NAME="7"></A><FONT ID="Import">import</FONT> javax.sound.sampled.DataLine;
+<FONT ID="LN">8   </FONT><A NAME="8"></A><FONT ID="Import">import</FONT> javax.sound.sampled.LineUnavailableException;
+<FONT ID="LN">9   </FONT><A NAME="9"></A><FONT ID="Import">import</FONT> javax.sound.sampled.UnsupportedAudioFileException;
+<FONT ID="LN">10  </FONT><A NAME="10"></A><FONT ID="Import">import</FONT> javax.swing.*;
+<FONT ID="LN">11  </FONT><A NAME="11"></A><FONT ID="Import">import</FONT> javax.swing.table.DefaultTableCellRenderer;
+<FONT ID="LN">12  </FONT><A NAME="12"></A><FONT ID="Import">import</FONT> javax.swing.table.DefaultTableModel;
+<FONT ID="LN">13  </FONT><A NAME="13"></A><FONT ID="Import">import</FONT> javax.swing.text.BadLocationException;
+<FONT ID="LN">14  </FONT><A NAME="14"></A><FONT ID="Import">import</FONT> javax.swing.text.Style;
+<FONT ID="LN">15  </FONT><A NAME="15"></A><FONT ID="Import">import</FONT> javax.swing.text.StyleConstants;
+<FONT ID="LN">16  </FONT><A NAME="16"></A><FONT ID="Import">import</FONT> javax.swing.text.StyleContext;
+<FONT ID="LN">17  </FONT><A NAME="17"></A><FONT ID="Import">import</FONT> javax.swing.text.StyledDocument;
+<FONT ID="LN">18  </FONT><A NAME="18"></A>
+<FONT ID="LN">19  </FONT><A NAME="19"></A><FONT ID="Import">import</FONT> org.apache.log4j.Logger;
+<FONT ID="LN">20  </FONT><A NAME="20"></A>
+<FONT ID="LN">21  </FONT><A NAME="21"></A><FONT ID="Import">import</FONT> java.awt.*;
+<FONT ID="LN">22  </FONT><A NAME="22"></A><FONT ID="Import">import</FONT> java.awt.event.*;
+<FONT ID="LN">23  </FONT><A NAME="23"></A><FONT ID="Import">import</FONT> java.io.File;
+<FONT ID="LN">24  </FONT><A NAME="24"></A><FONT ID="Import">import</FONT> java.io.IOException;
+<FONT ID="LN">25  </FONT><A NAME="25"></A><FONT ID="Import">import</FONT> java.util.ArrayList;
+<FONT ID="LN">26  </FONT><A NAME="26"></A>
+<FONT ID="LN">27  </FONT><A NAME="27"></A><FONT ID="Public">public</FONT> <FONT ID="Class">class</FONT> GameFrameCanvas <FONT ID="Extends">extends</FONT> JPanel{
+<FONT ID="LN">28  </FONT><A NAME="28"></A>
+<FONT ID="LN">29  </FONT><A NAME="29"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> <FONT ID="Final">final</FONT> <FONT ID="Long">long</FONT> serialVersionUID = <FONT ID="IntegerLiteral">1L</FONT>;
+<FONT ID="LN">30  </FONT><A NAME="30"></A>    <FONT ID="SingleLineComment">//different UI components
+<FONT ID="LN">31  </FONT><A NAME="31"></A></FONT>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> JTextPane textPane;
+<FONT ID="LN">32  </FONT><A NAME="32"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> JScrollPane scrollPane,playerInfoScrollPane;
+<FONT ID="LN">33  </FONT><A NAME="33"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> JTable playerInfo;
+<FONT ID="LN">34  </FONT><A NAME="34"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> JTextField textField;
+<FONT ID="LN">35  </FONT><A NAME="35"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <A HREF="../game/ImagePanel.java.html">ImagePanel</A> imagePanel;
+<FONT ID="LN">36  </FONT><A NAME="36"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <A HREF="../game/MapArea.java.html">MapArea</A> dungeonMap;
+<FONT ID="LN">37  </FONT><A NAME="37"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <A HREF="../game/Battlefield.java.html">Battlefield</A> battlefield;
+<FONT ID="LN">38  </FONT><A NAME="38"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <A HREF="../game/Portrait.java.html">Portrait</A> playerPortrait,enemyPortrait,logoPortrait;
+<FONT ID="LN">39  </FONT><A NAME="39"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> JButton setWalking,setRunning,setCrouching;
+<FONT ID="LN">40  </FONT><A NAME="40"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> JPanel movementModePanel, clothingPanel;
+<FONT ID="LN">41  </FONT><A NAME="41"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <A HREF="../game/NoiseMeter.java.html">NoiseMeter</A> noiseMeter;
+<FONT ID="LN">42  </FONT><A NAME="42"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> JLabel[] walkIcons, clothingIcons;
+<FONT ID="LN">43  </FONT><A NAME="43"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> SpringLayout layout;
+<FONT ID="LN">44  </FONT><A NAME="44"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> String n,e,s,w;
+<FONT ID="LN">45  </FONT><A NAME="45"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> Color normalColor, enemyTextColor, playerTextColor, townLocationColor, dungeonStringColor, playerInputColor;
+<FONT ID="LN">46  </FONT><A NAME="46"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> Logger logger = Logger.getLogger(<A HREF="../game/GameFrameCanvas.java.html">GameFrameCanvas</A>.<FONT ID="Class">class</FONT>);
+<FONT ID="LN">47  </FONT><A NAME="47"></A>    
+<FONT ID="LN">48  </FONT><A NAME="48"></A>    
+<FONT ID="LN">49  </FONT><A NAME="49"></A>    <FONT ID="SingleLineComment">//audio components
+<FONT ID="LN">50  </FONT><A NAME="50"></A></FONT>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Boolean">boolean</FONT> soundOn = <FONT ID="True">true</FONT>;
+<FONT ID="LN">51  </FONT><A NAME="51"></A>    <FONT ID="Public">public</FONT> ArrayList&lt;Clip&gt; clips = <FONT ID="New">new</FONT> ArrayList&lt;Clip&gt;();
+<FONT ID="LN">52  </FONT><A NAME="52"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Int">int</FONT> LOOP = <FONT ID="IntegerLiteral">0</FONT>,SOUNDINDEX = <FONT ID="IntegerLiteral">0</FONT>;
+<FONT ID="LN">53  </FONT><A NAME="53"></A>    <FONT ID="SingleLineComment">//background image
+<FONT ID="LN">54  </FONT><A NAME="54"></A></FONT>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> Image background = <FONT ID="Null">null</FONT>;
+<FONT ID="LN">55  </FONT><A NAME="55"></A>    
+<FONT ID="LN">56  </FONT><A NAME="56"></A>    <FONT ID="Public">public</FONT> GameFrameCanvas(){
+<FONT ID="LN">57  </FONT><A NAME="57"></A>
+<FONT ID="LN">58  </FONT><A NAME="58"></A>        layout = <FONT ID="New">new</FONT> SpringLayout();
+<FONT ID="LN">59  </FONT><A NAME="59"></A>        setLayout(layout);
+<FONT ID="LN">60  </FONT><A NAME="60"></A>        
+<FONT ID="LN">61  </FONT><A NAME="61"></A>        <FONT ID="SingleLineComment">//load background image
+<FONT ID="LN">62  </FONT><A NAME="62"></A></FONT>        <FONT ID="Try">try</FONT> {
+<FONT ID="LN">63  </FONT><A NAME="63"></A>            background = ImageIO.read(<FONT ID="New">new</FONT> File(<FONT ID="StringLiteral">"Images/plasma_ab_single.jpg"</FONT>));
+<FONT ID="LN">64  </FONT><A NAME="64"></A>        } <FONT ID="Catch">catch</FONT> (IOException e1) {
+<FONT ID="LN">65  </FONT><A NAME="65"></A>        }
+<FONT ID="LN">66  </FONT><A NAME="66"></A>        
+<FONT ID="LN">67  </FONT><A NAME="67"></A>        setBackground(<FONT ID="New">new</FONT> Color(<FONT ID="IntegerLiteral">30</FONT>,<FONT ID="IntegerLiteral">30</FONT>,<FONT ID="IntegerLiteral">30</FONT>));
+<FONT ID="LN">68  </FONT><A NAME="68"></A>        <FONT ID="SingleLineComment">//construct UI components
+<FONT ID="LN">69  </FONT><A NAME="69"></A></FONT>        imagePanel = <FONT ID="New">new</FONT> <A HREF="../game/ImagePanel.java.html">ImagePanel</A>(<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">450</FONT>,<FONT ID="IntegerLiteral">450</FONT>));
+<FONT ID="LN">70  </FONT><A NAME="70"></A>        imagePanel.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">71  </FONT><A NAME="71"></A>        dungeonMap = <FONT ID="New">new</FONT> <A HREF="../game/MapArea.java.html">MapArea</A>(<FONT ID="IntegerLiteral">300</FONT>,<FONT ID="IntegerLiteral">300</FONT>);
+<FONT ID="LN">72  </FONT><A NAME="72"></A>        battlefield = <FONT ID="New">new</FONT> <A HREF="../game/Battlefield.java.html">Battlefield</A>(<FONT ID="IntegerLiteral">400</FONT>,<FONT ID="IntegerLiteral">400</FONT>);
+<FONT ID="LN">73  </FONT><A NAME="73"></A>        logoPortrait = <FONT ID="New">new</FONT> <A HREF="../game/Portrait.java.html">Portrait</A>(<FONT ID="StringLiteral">"Images/Dragon-Age-Logo.png"</FONT>,<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">450</FONT>,<FONT ID="IntegerLiteral">120</FONT>),<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">450</FONT>,<FONT ID="IntegerLiteral">120</FONT>));
+<FONT ID="LN">74  </FONT><A NAME="74"></A>        playerPortrait = <FONT ID="New">new</FONT> <A HREF="../game/Portrait.java.html">Portrait</A>(<FONT ID="StringLiteral">"Images/richard_big.jpg"</FONT>,<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">220</FONT>,<FONT ID="IntegerLiteral">100</FONT>),<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">100</FONT>,<FONT ID="IntegerLiteral">100</FONT>));
+<FONT ID="LN">75  </FONT><A NAME="75"></A>        playerPortrait.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">76  </FONT><A NAME="76"></A>        enemyPortrait = <FONT ID="New">new</FONT> <A HREF="../game/Portrait.java.html">Portrait</A>(<FONT ID="StringLiteral">"Images/hildebadt_big.jpg"</FONT>,<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">220</FONT>,<FONT ID="IntegerLiteral">100</FONT>),<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">100</FONT>,<FONT ID="IntegerLiteral">100</FONT>));
+<FONT ID="LN">77  </FONT><A NAME="77"></A>        enemyPortrait.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">78  </FONT><A NAME="78"></A>        
+<FONT ID="LN">79  </FONT><A NAME="79"></A>        noiseMeter = <FONT ID="New">new</FONT> <A HREF="../game/NoiseMeter.java.html">NoiseMeter</A>(<FONT ID="StringLiteral">"Images/gradient-stops.jpg"</FONT>, <FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">150</FONT>,<FONT ID="IntegerLiteral">10</FONT>));
+<FONT ID="LN">80  </FONT><A NAME="80"></A>        
+<FONT ID="LN">81  </FONT><A NAME="81"></A>        textField = <FONT ID="New">new</FONT> JTextField(<FONT ID="IntegerLiteral">52</FONT>);
+<FONT ID="LN">82  </FONT><A NAME="82"></A>        textField.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">83  </FONT><A NAME="83"></A>            <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt) {
+<FONT ID="LN">84  </FONT><A NAME="84"></A>                String text = textField.getText().trim();
+<FONT ID="LN">85  </FONT><A NAME="85"></A>                <FONT ID="If">if</FONT>(!text.isEmpty() || Global.pause){
+<FONT ID="LN">86  </FONT><A NAME="86"></A>                    printText(text + <FONT ID="StringLiteral">"\n"</FONT>, <FONT ID="StringLiteral">"sienna"</FONT>);
+<FONT ID="LN">87  </FONT><A NAME="87"></A>                    RPGMain.recieveMessage(text);
+<FONT ID="LN">88  </FONT><A NAME="88"></A>                    textField.selectAll();
+<FONT ID="LN">89  </FONT><A NAME="89"></A>    
+<FONT ID="LN">90  </FONT><A NAME="90"></A>                    <FONT ID="SingleLineComment">//Make sure the new text is visible, even if there
+<FONT ID="LN">91  </FONT><A NAME="91"></A></FONT>                    <FONT ID="SingleLineComment">//was a selection in the text area.
+<FONT ID="LN">92  </FONT><A NAME="92"></A></FONT>                    textPane.setCaretPosition(textPane.getDocument().getLength());
+<FONT ID="LN">93  </FONT><A NAME="93"></A>                }
+<FONT ID="LN">94  </FONT><A NAME="94"></A>            }
+<FONT ID="LN">95  </FONT><A NAME="95"></A>        });
+<FONT ID="LN">96  </FONT><A NAME="96"></A>        textField.setFont(<FONT ID="New">new</FONT> Font(<FONT ID="StringLiteral">"SansSerif"</FONT>,Font.PLAIN,<FONT ID="IntegerLiteral">16</FONT>));
+<FONT ID="LN">97  </FONT><A NAME="97"></A>        
+<FONT ID="LN">98  </FONT><A NAME="98"></A>        textPane = <FONT ID="New">new</FONT> JTextPane();
+<FONT ID="LN">99  </FONT><A NAME="99"></A>        textPane.setDisabledTextColor(Color.black);
+<FONT ID="LN">100 </FONT><A NAME="100"></A>        textPane.setEditable(<FONT ID="False">false</FONT>);
+<FONT ID="LN">101 </FONT><A NAME="101"></A>        StyledDocument doc = textPane.getStyledDocument();
+<FONT ID="LN">102 </FONT><A NAME="102"></A>        addStylesToDocument(doc);
+<FONT ID="LN">103 </FONT><A NAME="103"></A>        scrollPane = <FONT ID="New">new</FONT> JScrollPane(textPane);
+<FONT ID="LN">104 </FONT><A NAME="104"></A>        scrollPane.setPreferredSize(<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">800</FONT>, <FONT ID="IntegerLiteral">600</FONT>));
+<FONT ID="LN">105 </FONT><A NAME="105"></A>        scrollPane.setMinimumSize(<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">10</FONT>, <FONT ID="IntegerLiteral">10</FONT>));
+<FONT ID="LN">106 </FONT><A NAME="106"></A>        
+<FONT ID="LN">107 </FONT><A NAME="107"></A>        movementModePanel = <FONT ID="New">new</FONT> JPanel();
+<FONT ID="LN">108 </FONT><A NAME="108"></A>        movementModePanel.setOpaque(<FONT ID="False">false</FONT>);
+<FONT ID="LN">109 </FONT><A NAME="109"></A>        
+<FONT ID="LN">110 </FONT><A NAME="110"></A>        setWalking = <FONT ID="New">new</FONT> JButton(<FONT ID="StringLiteral">"W"</FONT>);
+<FONT ID="LN">111 </FONT><A NAME="111"></A>        setWalking.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">112 </FONT><A NAME="112"></A>            <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt){
+<FONT ID="LN">113 </FONT><A NAME="113"></A>                RPGMain.speler.setMovementMode(<FONT ID="StringLiteral">"walking"</FONT>);
+<FONT ID="LN">114 </FONT><A NAME="114"></A>                textField.requestFocus();
+<FONT ID="LN">115 </FONT><A NAME="115"></A>            }
+<FONT ID="LN">116 </FONT><A NAME="116"></A>        });
+<FONT ID="LN">117 </FONT><A NAME="117"></A>        
+<FONT ID="LN">118 </FONT><A NAME="118"></A>        setRunning = <FONT ID="New">new</FONT> JButton(<FONT ID="StringLiteral">"R"</FONT>);
+<FONT ID="LN">119 </FONT><A NAME="119"></A>        setRunning.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">120 </FONT><A NAME="120"></A>            <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt){
+<FONT ID="LN">121 </FONT><A NAME="121"></A>                RPGMain.speler.setMovementMode(<FONT ID="StringLiteral">"running"</FONT>);
+<FONT ID="LN">122 </FONT><A NAME="122"></A>                textField.requestFocus();
+<FONT ID="LN">123 </FONT><A NAME="123"></A>            }
+<FONT ID="LN">124 </FONT><A NAME="124"></A>        });
+<FONT ID="LN">125 </FONT><A NAME="125"></A>        
+<FONT ID="LN">126 </FONT><A NAME="126"></A>        setCrouching = <FONT ID="New">new</FONT> JButton(<FONT ID="StringLiteral">"C"</FONT>);
+<FONT ID="LN">127 </FONT><A NAME="127"></A>        setCrouching.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">128 </FONT><A NAME="128"></A>            <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt){
+<FONT ID="LN">129 </FONT><A NAME="129"></A>                RPGMain.speler.setMovementMode(<FONT ID="StringLiteral">"crouching"</FONT>);
+<FONT ID="LN">130 </FONT><A NAME="130"></A>                textField.requestFocus();
+<FONT ID="LN">131 </FONT><A NAME="131"></A>            }
+<FONT ID="LN">132 </FONT><A NAME="132"></A>        });
+<FONT ID="LN">133 </FONT><A NAME="133"></A>        
+<FONT ID="LN">134 </FONT><A NAME="134"></A>        walkIcons = <FONT ID="New">new</FONT> JLabel[<FONT ID="IntegerLiteral">8</FONT>];
+<FONT ID="LN">135 </FONT><A NAME="135"></A>        
+<FONT ID="LN">136 </FONT><A NAME="136"></A>        walkIcons[<FONT ID="IntegerLiteral">0</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"Z"</FONT>);
+<FONT ID="LN">137 </FONT><A NAME="137"></A>        walkIcons[<FONT ID="IntegerLiteral">1</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"E"</FONT>);
+<FONT ID="LN">138 </FONT><A NAME="138"></A>        walkIcons[<FONT ID="IntegerLiteral">2</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"D"</FONT>);
+<FONT ID="LN">139 </FONT><A NAME="139"></A>        walkIcons[<FONT ID="IntegerLiteral">3</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"C"</FONT>);
+<FONT ID="LN">140 </FONT><A NAME="140"></A>        walkIcons[<FONT ID="IntegerLiteral">4</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"X"</FONT>);
+<FONT ID="LN">141 </FONT><A NAME="141"></A>        walkIcons[<FONT ID="IntegerLiteral">5</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"W"</FONT>);
+<FONT ID="LN">142 </FONT><A NAME="142"></A>        walkIcons[<FONT ID="IntegerLiteral">6</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"Q"</FONT>);
+<FONT ID="LN">143 </FONT><A NAME="143"></A>        walkIcons[<FONT ID="IntegerLiteral">7</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"A"</FONT>);
+<FONT ID="LN">144 </FONT><A NAME="144"></A>        
+<FONT ID="LN">145 </FONT><A NAME="145"></A>        <FONT ID="For">for</FONT>(JLabel jl: walkIcons){
+<FONT ID="LN">146 </FONT><A NAME="146"></A>            jl.setForeground(Color.white);
+<FONT ID="LN">147 </FONT><A NAME="147"></A>            jl.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">148 </FONT><A NAME="148"></A>        }
+<FONT ID="LN">149 </FONT><A NAME="149"></A>        
+<FONT ID="LN">150 </FONT><A NAME="150"></A>        
+<FONT ID="LN">151 </FONT><A NAME="151"></A>        movementModePanel.add(setWalking);
+<FONT ID="LN">152 </FONT><A NAME="152"></A>        movementModePanel.add(setRunning);
+<FONT ID="LN">153 </FONT><A NAME="153"></A>        movementModePanel.add(setCrouching);
+<FONT ID="LN">154 </FONT><A NAME="154"></A>        
+<FONT ID="LN">155 </FONT><A NAME="155"></A>        movementModePanel.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">156 </FONT><A NAME="156"></A>        
+<FONT ID="LN">157 </FONT><A NAME="157"></A>        noiseMeter.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">158 </FONT><A NAME="158"></A>        
+<FONT ID="LN">159 </FONT><A NAME="159"></A>        clothingIcons = <FONT ID="New">new</FONT> JLabel[<FONT ID="IntegerLiteral">3</FONT>];
+<FONT ID="LN">160 </FONT><A NAME="160"></A>        
+<FONT ID="LN">161 </FONT><A NAME="161"></A>        clothingIcons[<FONT ID="IntegerLiteral">0</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"Mantle"</FONT>);
+<FONT ID="LN">162 </FONT><A NAME="162"></A>        clothingIcons[<FONT ID="IntegerLiteral">1</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"Shirt"</FONT>);
+<FONT ID="LN">163 </FONT><A NAME="163"></A>        clothingIcons[<FONT ID="IntegerLiteral">2</FONT>] = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"Pants"</FONT>);
+<FONT ID="LN">164 </FONT><A NAME="164"></A>        
+<FONT ID="LN">165 </FONT><A NAME="165"></A>        clothingPanel = <FONT ID="New">new</FONT> JPanel();
+<FONT ID="LN">166 </FONT><A NAME="166"></A>        clothingPanel.setOpaque(<FONT ID="False">false</FONT>);
+<FONT ID="LN">167 </FONT><A NAME="167"></A>        
+<FONT ID="LN">168 </FONT><A NAME="168"></A>        <FONT ID="For">for</FONT>(JLabel jl: clothingIcons){
+<FONT ID="LN">169 </FONT><A NAME="169"></A>            jl.setForeground(Color.white);
+<FONT ID="LN">170 </FONT><A NAME="170"></A>            jl.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">171 </FONT><A NAME="171"></A>            clothingPanel.add(jl);
+<FONT ID="LN">172 </FONT><A NAME="172"></A>        }
+<FONT ID="LN">173 </FONT><A NAME="173"></A>        
+<FONT ID="LN">174 </FONT><A NAME="174"></A>        String[] columnNames = {<FONT ID="StringLiteral">"Variable"</FONT>,<FONT ID="StringLiteral">"Value"</FONT>};
+<FONT ID="LN">175 </FONT><A NAME="175"></A>        
+<FONT ID="LN">176 </FONT><A NAME="176"></A>        String[][] data = {{<FONT ID="StringLiteral">"Name"</FONT>,<FONT ID="StringLiteral">"playerName"</FONT>},{<FONT ID="StringLiteral">"Level"</FONT>,<FONT ID="StringLiteral">"1"</FONT>},{<FONT ID="StringLiteral">"Strength"</FONT>,<FONT ID="StringLiteral">"1"</FONT>},{<FONT ID="StringLiteral">"Dexterity"</FONT>,<FONT ID="StringLiteral">"1"</FONT>},{<FONT ID="StringLiteral">"Intellect"</FONT>,<FONT ID="StringLiteral">"1"</FONT>},{<FONT ID="StringLiteral">"Charisma"</FONT>,<FONT ID="StringLiteral">"1"</FONT>},{<FONT ID="StringLiteral">"Swords"</FONT>,<FONT ID="StringLiteral">"1"</FONT>},{<FONT ID="StringLiteral">"Axes"</FONT>,<FONT ID="StringLiteral">"1"</FONT>},{<FONT ID="StringLiteral">"Clubs"</FONT>,<FONT ID="StringLiteral">"1"</FONT>},{<FONT ID="StringLiteral">"Archery"</FONT>,<FONT ID="StringLiteral">"1"</FONT>}};
+<FONT ID="LN">177 </FONT><A NAME="177"></A>        
+<FONT ID="LN">178 </FONT><A NAME="178"></A>        playerInfo = <FONT ID="New">new</FONT> JTable(data, columnNames);
+<FONT ID="LN">179 </FONT><A NAME="179"></A>        playerInfo.setFocusable(<FONT ID="False">false</FONT>);
+<FONT ID="LN">180 </FONT><A NAME="180"></A>        playerInfo.setFont(<FONT ID="New">new</FONT> Font(<FONT ID="StringLiteral">"SansSerif"</FONT>,Font.PLAIN,<FONT ID="IntegerLiteral">16</FONT>));
+<FONT ID="LN">181 </FONT><A NAME="181"></A>        
+<FONT ID="LN">182 </FONT><A NAME="182"></A>        playerInfoScrollPane = <FONT ID="New">new</FONT> JScrollPane(playerInfo);
+<FONT ID="LN">183 </FONT><A NAME="183"></A>        playerInfoScrollPane.setPreferredSize(<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">300</FONT>,<FONT ID="IntegerLiteral">400</FONT>));
+<FONT ID="LN">184 </FONT><A NAME="184"></A>        playerInfoScrollPane.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">185 </FONT><A NAME="185"></A>
+<FONT ID="LN">186 </FONT><A NAME="186"></A>        
+<FONT ID="LN">187 </FONT><A NAME="187"></A>        <FONT ID="MultiLineComment">/*JPanel buttonPanel = new JPanel();
+<FONT ID="LN">188 </FONT><A NAME="188"></A>        buttonPanel.setOpaque(false);
+<FONT ID="LN">189 </FONT><A NAME="189"></A>        
+<FONT ID="LN">190 </FONT><A NAME="190"></A>        newGame = new JButton("New Game");
+<FONT ID="LN">191 </FONT><A NAME="191"></A>        newGame.addActionListener(new ActionListener(){
+<FONT ID="LN">192 </FONT><A NAME="192"></A>            public void actionPerformed(ActionEvent evt){
+<FONT ID="LN">193 </FONT><A NAME="193"></A>                textArea.append("Succesfully starting new game.\n");
+<FONT ID="LN">194 </FONT><A NAME="194"></A>                (new RPGMain()).execute();
+<FONT ID="LN">195 </FONT><A NAME="195"></A>                textField.requestFocus();
+<FONT ID="LN">196 </FONT><A NAME="196"></A>            }
+<FONT ID="LN">197 </FONT><A NAME="197"></A>        });
+<FONT ID="LN">198 </FONT><A NAME="198"></A>        
+<FONT ID="LN">199 </FONT><A NAME="199"></A>        sound = new JButton("Sound off");
+<FONT ID="LN">200 </FONT><A NAME="200"></A>        sound.addActionListener(new ActionListener(){
+<FONT ID="LN">201 </FONT><A NAME="201"></A>            public void actionPerformed(ActionEvent evt){
+<FONT ID="LN">202 </FONT><A NAME="202"></A>                soundOn = !soundOn;
+<FONT ID="LN">203 </FONT><A NAME="203"></A>                if(soundOn)
+<FONT ID="LN">204 </FONT><A NAME="204"></A>                {
+<FONT ID="LN">205 </FONT><A NAME="205"></A>                    //clips.get(SOUNDINDEX).start();
+<FONT ID="LN">206 </FONT><A NAME="206"></A>                    clips.get(SOUNDINDEX).loop(LOOP);
+<FONT ID="LN">207 </FONT><A NAME="207"></A>                    sound.setText("Sound off");
+<FONT ID="LN">208 </FONT><A NAME="208"></A>                }
+<FONT ID="LN">209 </FONT><A NAME="209"></A>                else{
+<FONT ID="LN">210 </FONT><A NAME="210"></A>                    clips.get(SOUNDINDEX).stop();
+<FONT ID="LN">211 </FONT><A NAME="211"></A>                    //(mp3Player = new MusicPlayer("Heroic Age.mp3")).execute();
+<FONT ID="LN">212 </FONT><A NAME="212"></A>                    sound.setText("Sound on");
+<FONT ID="LN">213 </FONT><A NAME="213"></A>                }
+<FONT ID="LN">214 </FONT><A NAME="214"></A>            }
+<FONT ID="LN">215 </FONT><A NAME="215"></A>        });
+<FONT ID="LN">216 </FONT><A NAME="216"></A>        
+<FONT ID="LN">217 </FONT><A NAME="217"></A>        exit = new JButton("Exit");
+<FONT ID="LN">218 </FONT><A NAME="218"></A>        exit.addActionListener(new ActionListener(){
+<FONT ID="LN">219 </FONT><A NAME="219"></A>            public void actionPerformed(ActionEvent evt){
+<FONT ID="LN">220 </FONT><A NAME="220"></A>                System.exit(0);
+<FONT ID="LN">221 </FONT><A NAME="221"></A>            }
+<FONT ID="LN">222 </FONT><A NAME="222"></A>        });
+<FONT ID="LN">223 </FONT><A NAME="223"></A>        buttonPanel.add(newGame);
+<FONT ID="LN">224 </FONT><A NAME="224"></A>        buttonPanel.add(sound);
+<FONT ID="LN">225 </FONT><A NAME="225"></A>        buttonPanel.add(exit);*/</FONT>
+<FONT ID="LN">226 </FONT><A NAME="226"></A>        
+<FONT ID="LN">227 </FONT><A NAME="227"></A>        <FONT ID="SingleLineComment">//add all the elements to the panel
+<FONT ID="LN">228 </FONT><A NAME="228"></A></FONT>        <FONT ID="SingleLineComment">//add(imagePanel);
+<FONT ID="LN">229 </FONT><A NAME="229"></A></FONT>        add(dungeonMap);
+<FONT ID="LN">230 </FONT><A NAME="230"></A>        add(battlefield);
+<FONT ID="LN">231 </FONT><A NAME="231"></A>        add(logoPortrait);
+<FONT ID="LN">232 </FONT><A NAME="232"></A>        add(playerPortrait);
+<FONT ID="LN">233 </FONT><A NAME="233"></A>        add(enemyPortrait);
+<FONT ID="LN">234 </FONT><A NAME="234"></A>        add(scrollPane);
+<FONT ID="LN">235 </FONT><A NAME="235"></A>        add(textField);
+<FONT ID="LN">236 </FONT><A NAME="236"></A>        add(noiseMeter);
+<FONT ID="LN">237 </FONT><A NAME="237"></A>        add(movementModePanel);
+<FONT ID="LN">238 </FONT><A NAME="238"></A>        add(clothingPanel);
+<FONT ID="LN">239 </FONT><A NAME="239"></A>        add(playerInfoScrollPane);
+<FONT ID="LN">240 </FONT><A NAME="240"></A>        <FONT ID="For">for</FONT>(JLabel jl: walkIcons){
+<FONT ID="LN">241 </FONT><A NAME="241"></A>            add(jl);
+<FONT ID="LN">242 </FONT><A NAME="242"></A>        }
+<FONT ID="LN">243 </FONT><A NAME="243"></A>        
+<FONT ID="LN">244 </FONT><A NAME="244"></A>        <FONT ID="SingleLineComment">//positional strings used
+<FONT ID="LN">245 </FONT><A NAME="245"></A></FONT>        w = SpringLayout.WEST;
+<FONT ID="LN">246 </FONT><A NAME="246"></A>        e = SpringLayout.EAST;
+<FONT ID="LN">247 </FONT><A NAME="247"></A>        n = SpringLayout.NORTH;
+<FONT ID="LN">248 </FONT><A NAME="248"></A>        s = SpringLayout.SOUTH;
+<FONT ID="LN">249 </FONT><A NAME="249"></A>        
+<FONT ID="LN">250 </FONT><A NAME="250"></A>        <FONT ID="SingleLineComment">//organize the components
+<FONT ID="LN">251 </FONT><A NAME="251"></A></FONT>        layout.putConstraint(w, logoPortrait, <FONT ID="IntegerLiteral">25</FONT>, w, <FONT ID="This">this</FONT>);
+<FONT ID="LN">252 </FONT><A NAME="252"></A>        layout.putConstraint(n, logoPortrait, <FONT ID="IntegerLiteral">40</FONT>, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">253 </FONT><A NAME="253"></A>        layout.putConstraint(w, playerPortrait, <FONT ID="IntegerLiteral">25</FONT>, w, <FONT ID="This">this</FONT>);
+<FONT ID="LN">254 </FONT><A NAME="254"></A>        layout.putConstraint(n, playerPortrait, <FONT ID="IntegerLiteral">50</FONT>, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">255 </FONT><A NAME="255"></A>        layout.putConstraint(w, enemyPortrait, <FONT ID="IntegerLiteral">10</FONT>, e, playerPortrait);
+<FONT ID="LN">256 </FONT><A NAME="256"></A>        layout.putConstraint(n, enemyPortrait, <FONT ID="IntegerLiteral">50</FONT>, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">257 </FONT><A NAME="257"></A>        layout.putConstraint(n, noiseMeter, -<FONT ID="IntegerLiteral">50</FONT>, n, dungeonMap);
+<FONT ID="LN">258 </FONT><A NAME="258"></A>        layout.putConstraint(w, noiseMeter, <FONT ID="IntegerLiteral">0</FONT>, w, dungeonMap);
+<FONT ID="LN">259 </FONT><A NAME="259"></A>        layout.putConstraint(n, clothingPanel, <FONT ID="IntegerLiteral">10</FONT>, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">260 </FONT><A NAME="260"></A>        layout.putConstraint(w, clothingPanel, <FONT ID="IntegerLiteral">10</FONT>, e, playerPortrait);
+<FONT ID="LN">261 </FONT><A NAME="261"></A>        <FONT ID="MultiLineComment">/*layout.putConstraint(w, imagePanel, 100, e, scrollPane);
+<FONT ID="LN">262 </FONT><A NAME="262"></A>        layout.putConstraint(n, imagePanel, 30, n, this);*/</FONT>
+<FONT ID="LN">263 </FONT><A NAME="263"></A>        layout.putConstraint(w, dungeonMap, <FONT ID="IntegerLiteral">50</FONT>, e, scrollPane);
+<FONT ID="LN">264 </FONT><A NAME="264"></A>        layout.putConstraint(s, dungeonMap, -<FONT ID="IntegerLiteral">30</FONT>, s, <FONT ID="This">this</FONT>);
+<FONT ID="LN">265 </FONT><A NAME="265"></A>        layout.putConstraint(w, playerInfoScrollPane, <FONT ID="IntegerLiteral">0</FONT>, w, dungeonMap);
+<FONT ID="LN">266 </FONT><A NAME="266"></A>        layout.putConstraint(n, playerInfoScrollPane, <FONT ID="IntegerLiteral">40</FONT>, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">267 </FONT><A NAME="267"></A>        layout.putConstraint(w, battlefield, <FONT ID="IntegerLiteral">0</FONT>, w, playerPortrait);
+<FONT ID="LN">268 </FONT><A NAME="268"></A>        layout.putConstraint(n, battlefield, <FONT ID="IntegerLiteral">20</FONT>, s, playerPortrait);
+<FONT ID="LN">269 </FONT><A NAME="269"></A>        layout.putConstraint(s, walkIcons[<FONT ID="IntegerLiteral">0</FONT>], -<FONT ID="IntegerLiteral">10</FONT>, n, dungeonMap);
+<FONT ID="LN">270 </FONT><A NAME="270"></A>        layout.putConstraint(w, walkIcons[<FONT ID="IntegerLiteral">0</FONT>], <FONT ID="IntegerLiteral">220</FONT><FONT ID="MultiLineComment">/*-walkIcons[0].getWidth()/2*/</FONT>, w, dungeonMap);
+<FONT ID="LN">271 </FONT><A NAME="271"></A>        layout.putConstraint(n, walkIcons[<FONT ID="IntegerLiteral">4</FONT>], <FONT ID="IntegerLiteral">10</FONT>, s, dungeonMap);
+<FONT ID="LN">272 </FONT><A NAME="272"></A>        layout.putConstraint(w, walkIcons[<FONT ID="IntegerLiteral">4</FONT>], <FONT ID="IntegerLiteral">0</FONT>, w, walkIcons[<FONT ID="IntegerLiteral">0</FONT>]);
+<FONT ID="LN">273 </FONT><A NAME="273"></A>        layout.putConstraint(n, walkIcons[<FONT ID="IntegerLiteral">6</FONT>], <FONT ID="IntegerLiteral">220</FONT><FONT ID="MultiLineComment">/*-walkIcons[6].getHeight()/2*/</FONT>, n, dungeonMap);
+<FONT ID="LN">274 </FONT><A NAME="274"></A>        layout.putConstraint(e, walkIcons[<FONT ID="IntegerLiteral">6</FONT>], -<FONT ID="IntegerLiteral">10</FONT>, w, dungeonMap);
+<FONT ID="LN">275 </FONT><A NAME="275"></A>        layout.putConstraint(n, walkIcons[<FONT ID="IntegerLiteral">2</FONT>], <FONT ID="IntegerLiteral">0</FONT>, n, walkIcons[<FONT ID="IntegerLiteral">6</FONT>]);
+<FONT ID="LN">276 </FONT><A NAME="276"></A>        layout.putConstraint(w, walkIcons[<FONT ID="IntegerLiteral">2</FONT>], <FONT ID="IntegerLiteral">10</FONT>, e, dungeonMap);
+<FONT ID="LN">277 </FONT><A NAME="277"></A>        layout.putConstraint(n, walkIcons[<FONT ID="IntegerLiteral">1</FONT>], <FONT ID="IntegerLiteral">0</FONT>, n, walkIcons[<FONT ID="IntegerLiteral">0</FONT>]);
+<FONT ID="LN">278 </FONT><A NAME="278"></A>        layout.putConstraint(w, walkIcons[<FONT ID="IntegerLiteral">1</FONT>], <FONT ID="IntegerLiteral">0</FONT>, w, walkIcons[<FONT ID="IntegerLiteral">2</FONT>]);
+<FONT ID="LN">279 </FONT><A NAME="279"></A>        layout.putConstraint(n, walkIcons[<FONT ID="IntegerLiteral">3</FONT>], <FONT ID="IntegerLiteral">0</FONT>, n, walkIcons[<FONT ID="IntegerLiteral">4</FONT>]);
+<FONT ID="LN">280 </FONT><A NAME="280"></A>        layout.putConstraint(w, walkIcons[<FONT ID="IntegerLiteral">3</FONT>], <FONT ID="IntegerLiteral">0</FONT>, w, walkIcons[<FONT ID="IntegerLiteral">2</FONT>]);
+<FONT ID="LN">281 </FONT><A NAME="281"></A>        layout.putConstraint(e, walkIcons[<FONT ID="IntegerLiteral">5</FONT>], <FONT ID="IntegerLiteral">0</FONT>, e, walkIcons[<FONT ID="IntegerLiteral">6</FONT>]);
+<FONT ID="LN">282 </FONT><A NAME="282"></A>        layout.putConstraint(n, walkIcons[<FONT ID="IntegerLiteral">5</FONT>], <FONT ID="IntegerLiteral">0</FONT>, n, walkIcons[<FONT ID="IntegerLiteral">4</FONT>]);
+<FONT ID="LN">283 </FONT><A NAME="283"></A>        layout.putConstraint(e, walkIcons[<FONT ID="IntegerLiteral">7</FONT>], <FONT ID="IntegerLiteral">0</FONT>, e, walkIcons[<FONT ID="IntegerLiteral">6</FONT>]);
+<FONT ID="LN">284 </FONT><A NAME="284"></A>        layout.putConstraint(n, walkIcons[<FONT ID="IntegerLiteral">7</FONT>], <FONT ID="IntegerLiteral">0</FONT>, n, walkIcons[<FONT ID="IntegerLiteral">0</FONT>]);
+<FONT ID="LN">285 </FONT><A NAME="285"></A>        layout.putConstraint(w, scrollPane, <FONT ID="IntegerLiteral">20</FONT>, w, <FONT ID="This">this</FONT>);
+<FONT ID="LN">286 </FONT><A NAME="286"></A>        layout.putConstraint(n, scrollPane, <FONT ID="IntegerLiteral">20</FONT>, s, playerPortrait);
+<FONT ID="LN">287 </FONT><A NAME="287"></A>        layout.putConstraint(w, textField, <FONT ID="IntegerLiteral">0</FONT>, w, scrollPane);
+<FONT ID="LN">288 </FONT><A NAME="288"></A>        layout.putConstraint(n, textField, <FONT ID="IntegerLiteral">5</FONT>, s, scrollPane);
+<FONT ID="LN">289 </FONT><A NAME="289"></A>        
+<FONT ID="LN">290 </FONT><A NAME="290"></A>        layout.putConstraint(e, <FONT ID="This">this</FONT>, <FONT ID="IntegerLiteral">30</FONT>, e, dungeonMap);
+<FONT ID="LN">291 </FONT><A NAME="291"></A>        layout.putConstraint(s, <FONT ID="This">this</FONT>, <FONT ID="IntegerLiteral">40</FONT>, s, textField);
+<FONT ID="LN">292 </FONT><A NAME="292"></A>        
+<FONT ID="LN">293 </FONT><A NAME="293"></A>        <FONT ID="MultiLineComment">/*loadSounds("Music/Intro Theme.wav");
+<FONT ID="LN">294 </FONT><A NAME="294"></A>        loadSounds("Music/Warrior's theme - take 1.wav");*/</FONT>
+<FONT ID="LN">295 </FONT><A NAME="295"></A>    }
+<FONT ID="LN">296 </FONT><A NAME="296"></A>    
+<FONT ID="LN">297 </FONT><A NAME="297"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> updatePlayerInfoTable(){
+<FONT ID="LN">298 </FONT><A NAME="298"></A>        
+<FONT ID="LN">299 </FONT><A NAME="299"></A>        <A HREF="../game/Avatar.java.html">Avatar</A> sp = RPGMain.speler;
+<FONT ID="LN">300 </FONT><A NAME="300"></A>        Object[][] data = {{<FONT ID="StringLiteral">"&lt;html&gt;&lt;b&gt;General Info&lt;/b&gt;&lt;/html&gt;"</FONT>},{<FONT ID="StringLiteral">"Name"</FONT>,sp.getName()},{<FONT ID="StringLiteral">"Level"</FONT>,sp.getLevel() + <FONT ID="StringLiteral">" ("</FONT> + (<FONT ID="Int">int</FONT>)((sp.getFullLevel()-sp.getLevel())*<FONT ID="FloatPointLiteral">100.0</FONT>) + <FONT ID="StringLiteral">"%)"</FONT>},{<FONT ID="StringLiteral">"Strength"</FONT>,sp.getStrength()},{<FONT ID="StringLiteral">"Dexterity"</FONT>,sp.getDexterity()},{<FONT ID="StringLiteral">"Intellect"</FONT>,sp.getIntellect()},{<FONT ID="StringLiteral">"Charisma"</FONT>,sp.getCharisma()},{<FONT ID="StringLiteral">"Movement"</FONT>,String.format(<FONT ID="StringLiteral">"%.2g%n"</FONT>, sp.getMovement()) + <FONT ID="StringLiteral">"m ("</FONT> + sp.getExtraMovementPercentage() + <FONT ID="StringLiteral">"%)"</FONT>},{<FONT ID="StringLiteral">"Gold"</FONT>,sp.getGoud()},{<FONT ID="StringLiteral">"&lt;html&gt;&lt;b&gt;Weapon Skills&lt;/b&gt;&lt;/html&gt;"</FONT>},{<FONT ID="StringLiteral">"Swords"</FONT>,sp.getSwordSkill()},{<FONT ID="StringLiteral">"Axes"</FONT>,sp.getAxeSkill()},{<FONT ID="StringLiteral">"Clubs"</FONT>,sp.getClubSkill()},{<FONT ID="StringLiteral">"Archery"</FONT>,sp.getArchery()},{<FONT ID="StringLiteral">"&lt;html&gt;&lt;b&gt;Survival&lt;/b&gt;&lt;/html&gt;"</FONT>},{<FONT ID="StringLiteral">"Making Fire"</FONT>, sp.getFireMaking()},{<FONT ID="StringLiteral">"Herbalism"</FONT>,sp.getHerbalism()},{<FONT ID="StringLiteral">"Hunting"</FONT>,sp.getHunting()},{<FONT ID="StringLiteral">"Animal Knowledge"</FONT>,sp.getAnimalKnowledge()},{<FONT ID="StringLiteral">"&lt;html&gt;&lt;b&gt;Athleticism&lt;/b&gt;&lt;/html&gt;"</FONT>},{<FONT ID="StringLiteral">"Stamina"</FONT>,sp.getStamina()},{<FONT ID="StringLiteral">"Swimming"</FONT>,sp.getSwimming()},{<FONT ID="StringLiteral">"Thievery"</FONT>,sp.getThievery()},{<FONT ID="StringLiteral">"&lt;html&gt;&lt;b&gt;Mental Skills&lt;/b&gt;&lt;/html&gt;"</FONT>},{<FONT ID="StringLiteral">"Erudition"</FONT>,sp.getErudition()}};
+<FONT ID="LN">301 </FONT><A NAME="301"></A>        
+<FONT ID="LN">302 </FONT><A NAME="302"></A>        playerInfo.setModel(<FONT ID="New">new</FONT> DefaultTableModel(data, <FONT ID="New">new</FONT> String[]{<FONT ID="StringLiteral">"Variable"</FONT>,<FONT ID="StringLiteral">"Value"</FONT>}));
+<FONT ID="LN">303 </FONT><A NAME="303"></A>        playerInfo.setTableHeader(<FONT ID="Null">null</FONT>);
+<FONT ID="LN">304 </FONT><A NAME="304"></A>        playerInfo.setRowHeight(<FONT ID="IntegerLiteral">25</FONT>);
+<FONT ID="LN">305 </FONT><A NAME="305"></A>        playerInfo.setRowSelectionAllowed(<FONT ID="False">false</FONT>);
+<FONT ID="LN">306 </FONT><A NAME="306"></A>        playerInfo.setColumnSelectionAllowed(<FONT ID="False">false</FONT>);
+<FONT ID="LN">307 </FONT><A NAME="307"></A>        
+<FONT ID="LN">308 </FONT><A NAME="308"></A>        playerInfoScrollPane.setVisible(<FONT ID="True">true</FONT>);
+<FONT ID="LN">309 </FONT><A NAME="309"></A>    }
+<FONT ID="LN">310 </FONT><A NAME="310"></A>    
+<FONT ID="LN">311 </FONT><A NAME="311"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> moveComponents(JComponent compOne, JComponent compTwo, <FONT ID="Int">int</FONT> heightOne, <FONT ID="Int">int</FONT> time){
+<FONT ID="LN">312 </FONT><A NAME="312"></A>        <FONT ID="Int">int</FONT> xOne = compOne.getX();
+<FONT ID="LN">313 </FONT><A NAME="313"></A>        <FONT ID="Int">int</FONT> xTwo = compTwo.getX();
+<FONT ID="LN">314 </FONT><A NAME="314"></A>        <FONT ID="Int">int</FONT> wOne = compOne.getWidth();
+<FONT ID="LN">315 </FONT><A NAME="315"></A>        <FONT ID="Int">int</FONT> wTwo = compTwo.getWidth();
+<FONT ID="LN">316 </FONT><A NAME="316"></A>        <FONT ID="Int">int</FONT> hOne = compOne.getHeight();
+<FONT ID="LN">317 </FONT><A NAME="317"></A>        <FONT ID="Int">int</FONT> hTwo = compTwo.getHeight();
+<FONT ID="LN">318 </FONT><A NAME="318"></A>        
+<FONT ID="LN">319 </FONT><A NAME="319"></A>        compOne.setVisible(<FONT ID="True">true</FONT>);
+<FONT ID="LN">320 </FONT><A NAME="320"></A>        compTwo.setVisible(<FONT ID="True">true</FONT>);
+<FONT ID="LN">321 </FONT><A NAME="321"></A>        
+<FONT ID="LN">322 </FONT><A NAME="322"></A>        layout.putConstraint(n, compTwo, <FONT ID="IntegerLiteral">10</FONT>, s, compOne);
+<FONT ID="LN">323 </FONT><A NAME="323"></A>        
+<FONT ID="LN">324 </FONT><A NAME="324"></A>        <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;<FONT ID="IntegerLiteral">30</FONT>;j++){
+<FONT ID="LN">325 </FONT><A NAME="325"></A>            
+<FONT ID="LN">326 </FONT><A NAME="326"></A>            <FONT ID="Int">int</FONT> yOne = compOne.getY();
+<FONT ID="LN">327 </FONT><A NAME="327"></A>            <FONT ID="Int">int</FONT> yTwo = compTwo.getY();
+<FONT ID="LN">328 </FONT><A NAME="328"></A>            
+<FONT ID="LN">329 </FONT><A NAME="329"></A>            
+<FONT ID="LN">330 </FONT><A NAME="330"></A>            compOne.setPreferredSize(<FONT ID="New">new</FONT> Dimension(wOne, yTwo-yOne + j*(heightOne-hOne)/<FONT ID="IntegerLiteral">30</FONT>));
+<FONT ID="LN">331 </FONT><A NAME="331"></A>            compTwo.setPreferredSize(<FONT ID="New">new</FONT> Dimension(wTwo, hTwo - (yTwo - yOne) - j*(heightOne-hOne)/<FONT ID="IntegerLiteral">30</FONT>));
+<FONT ID="LN">332 </FONT><A NAME="332"></A>            
+<FONT ID="LN">333 </FONT><A NAME="333"></A>            
+<FONT ID="LN">334 </FONT><A NAME="334"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">335 </FONT><A NAME="335"></A>                Thread.sleep((<FONT ID="Int">int</FONT>)((<FONT ID="Double">double</FONT>)time/<FONT ID="FloatPointLiteral">30.0</FONT>));
+<FONT ID="LN">336 </FONT><A NAME="336"></A>                System.out.println(<FONT ID="StringLiteral">"Sleeping"</FONT>);
+<FONT ID="LN">337 </FONT><A NAME="337"></A>            } <FONT ID="Catch">catch</FONT>(InterruptedException e){
+<FONT ID="LN">338 </FONT><A NAME="338"></A>                e.printStackTrace();
+<FONT ID="LN">339 </FONT><A NAME="339"></A>            }
+<FONT ID="LN">340 </FONT><A NAME="340"></A>        }
+<FONT ID="LN">341 </FONT><A NAME="341"></A>    }
+<FONT ID="LN">342 </FONT><A NAME="342"></A>    
+<FONT ID="LN">343 </FONT><A NAME="343"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> moveScrollPane(JComponent comp, <FONT ID="Int">int</FONT> time){
+<FONT ID="LN">344 </FONT><A NAME="344"></A>        <FONT ID="Int">int</FONT> hComp = comp.getHeight();
+<FONT ID="LN">345 </FONT><A NAME="345"></A>        <FONT ID="Int">int</FONT> hScrollPane = scrollPane.getHeight();
+<FONT ID="LN">346 </FONT><A NAME="346"></A>        
+<FONT ID="LN">347 </FONT><A NAME="347"></A>        comp.setVisible(<FONT ID="True">true</FONT>);
+<FONT ID="LN">348 </FONT><A NAME="348"></A>        
+<FONT ID="LN">349 </FONT><A NAME="349"></A>        <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;<FONT ID="IntegerLiteral">30</FONT>;j++){
+<FONT ID="LN">350 </FONT><A NAME="350"></A>            
+<FONT ID="LN">351 </FONT><A NAME="351"></A>            scrollPane.setSize(<FONT ID="New">new</FONT> Dimension(scrollPane.getWidth(),hScrollPane-j*(comp.getY()+hComp-scrollPane.getY())/<FONT ID="IntegerLiteral">30</FONT>));
+<FONT ID="LN">352 </FONT><A NAME="352"></A>            
+<FONT ID="LN">353 </FONT><A NAME="353"></A>            layout.putConstraint(n, scrollPane, <FONT ID="IntegerLiteral">20</FONT> - j*(hComp+comp.getY()-scrollPane.getY())/<FONT ID="IntegerLiteral">30</FONT>, s, comp);
+<FONT ID="LN">354 </FONT><A NAME="354"></A>            
+<FONT ID="LN">355 </FONT><A NAME="355"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">356 </FONT><A NAME="356"></A>                Thread.sleep(time/<FONT ID="IntegerLiteral">30</FONT>);
+<FONT ID="LN">357 </FONT><A NAME="357"></A>            } <FONT ID="Catch">catch</FONT>(InterruptedException e){
+<FONT ID="LN">358 </FONT><A NAME="358"></A>                e.printStackTrace();
+<FONT ID="LN">359 </FONT><A NAME="359"></A>            }
+<FONT ID="LN">360 </FONT><A NAME="360"></A>        }
+<FONT ID="LN">361 </FONT><A NAME="361"></A>    }
+<FONT ID="LN">362 </FONT><A NAME="362"></A>    
+<FONT ID="LN">363 </FONT><A NAME="363"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> moveComponent(JComponent comp, <FONT ID="Int">int</FONT> x, <FONT ID="Int">int</FONT> y){
+<FONT ID="LN">364 </FONT><A NAME="364"></A>        layout.putConstraint(n, comp, y, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">365 </FONT><A NAME="365"></A>        layout.putConstraint(w, comp, x, w, <FONT ID="This">this</FONT>);
+<FONT ID="LN">366 </FONT><A NAME="366"></A>    }
+<FONT ID="LN">367 </FONT><A NAME="367"></A>    
+<FONT ID="LN">368 </FONT><A NAME="368"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> placeLogo(){
+<FONT ID="LN">369 </FONT><A NAME="369"></A>        logoPortrait.setPreferredSize(<FONT ID="New">new</FONT> Dimension(<FONT ID="IntegerLiteral">150</FONT>,<FONT ID="IntegerLiteral">75</FONT>));
+<FONT ID="LN">370 </FONT><A NAME="370"></A>        layout.putConstraint(w, logoPortrait, <FONT ID="IntegerLiteral">20</FONT>, e, playerPortrait);
+<FONT ID="LN">371 </FONT><A NAME="371"></A>        layout.putConstraint(n, logoPortrait, <FONT ID="IntegerLiteral">0</FONT>, n, playerPortrait);
+<FONT ID="LN">372 </FONT><A NAME="372"></A>        layout.putConstraint(w, enemyPortrait, <FONT ID="IntegerLiteral">20</FONT>, e, logoPortrait);
+<FONT ID="LN">373 </FONT><A NAME="373"></A>    }
+<FONT ID="LN">374 </FONT><A NAME="374"></A>    
+<FONT ID="LN">375 </FONT><A NAME="375"></A>    @Override
+<FONT ID="LN">376 </FONT><A NAME="376"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> paintComponent(Graphics g){
+<FONT ID="LN">377 </FONT><A NAME="377"></A>        <FONT ID="Super">super</FONT>.paintComponent(g);
+<FONT ID="LN">378 </FONT><A NAME="378"></A>        <FONT ID="SingleLineComment">//g.drawImage(background, 0, 0,this.getWidth(),this.getHeight(), null);
+<FONT ID="LN">379 </FONT><A NAME="379"></A></FONT>    }
+<FONT ID="LN">380 </FONT><A NAME="380"></A>    
+<FONT ID="LN">381 </FONT><A NAME="381"></A>    <FONT ID="Protected">protected</FONT> <FONT ID="Void">void</FONT> addStylesToDocument(StyledDocument doc) {
+<FONT ID="LN">382 </FONT><A NAME="382"></A>        <FONT ID="SingleLineComment">//Initialize some styles.
+<FONT ID="LN">383 </FONT><A NAME="383"></A></FONT>        Style def = StyleContext.getDefaultStyleContext().
+<FONT ID="LN">384 </FONT><A NAME="384"></A>                        getStyle(StyleContext.DEFAULT_STYLE);
+<FONT ID="LN">385 </FONT><A NAME="385"></A> 
+<FONT ID="LN">386 </FONT><A NAME="386"></A>        Style regular = doc.addStyle(<FONT ID="StringLiteral">"regular"</FONT>, def);
+<FONT ID="LN">387 </FONT><A NAME="387"></A>        StyleConstants.setFontFamily(def, <FONT ID="StringLiteral">"SansSerif"</FONT>);
+<FONT ID="LN">388 </FONT><A NAME="388"></A>        StyleConstants.setFontSize(regular, <FONT ID="IntegerLiteral">18</FONT>);
+<FONT ID="LN">389 </FONT><A NAME="389"></A>        <FONT ID="SingleLineComment">//TODO incorporate options for different text colors
+<FONT ID="LN">390 </FONT><A NAME="390"></A></FONT>        <FONT ID="SingleLineComment">//StyleConstants.setForeground(regular, normalColor);
+<FONT ID="LN">391 </FONT><A NAME="391"></A></FONT> 
+<FONT ID="LN">392 </FONT><A NAME="392"></A>        Style s = doc.addStyle(<FONT ID="StringLiteral">"italic"</FONT>, regular);
+<FONT ID="LN">393 </FONT><A NAME="393"></A>        StyleConstants.setItalic(s, <FONT ID="True">true</FONT>);
+<FONT ID="LN">394 </FONT><A NAME="394"></A> 
+<FONT ID="LN">395 </FONT><A NAME="395"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"bold"</FONT>, regular);
+<FONT ID="LN">396 </FONT><A NAME="396"></A>        StyleConstants.setBold(s, <FONT ID="True">true</FONT>);
+<FONT ID="LN">397 </FONT><A NAME="397"></A> 
+<FONT ID="LN">398 </FONT><A NAME="398"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"small"</FONT>, regular);
+<FONT ID="LN">399 </FONT><A NAME="399"></A>        StyleConstants.setFontSize(s, <FONT ID="IntegerLiteral">10</FONT>);
+<FONT ID="LN">400 </FONT><A NAME="400"></A> 
+<FONT ID="LN">401 </FONT><A NAME="401"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"large"</FONT>, regular);
+<FONT ID="LN">402 </FONT><A NAME="402"></A>        StyleConstants.setFontSize(s, <FONT ID="IntegerLiteral">16</FONT>);
+<FONT ID="LN">403 </FONT><A NAME="403"></A>        
+<FONT ID="LN">404 </FONT><A NAME="404"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"red"</FONT>, regular);
+<FONT ID="LN">405 </FONT><A NAME="405"></A>        StyleConstants.setForeground(s, <FONT ID="New">new</FONT> Color(<FONT ID="IntegerLiteral">196</FONT>,<FONT ID="IntegerLiteral">7</FONT>,<FONT ID="IntegerLiteral">7</FONT>));
+<FONT ID="LN">406 </FONT><A NAME="406"></A>        
+<FONT ID="LN">407 </FONT><A NAME="407"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"redbold"</FONT>, regular);
+<FONT ID="LN">408 </FONT><A NAME="408"></A>        StyleConstants.setForeground(s, <FONT ID="New">new</FONT> Color(<FONT ID="IntegerLiteral">196</FONT>,<FONT ID="IntegerLiteral">7</FONT>,<FONT ID="IntegerLiteral">7</FONT>));
+<FONT ID="LN">409 </FONT><A NAME="409"></A>        StyleConstants.setBold(s, <FONT ID="True">true</FONT>);
+<FONT ID="LN">410 </FONT><A NAME="410"></A>        
+<FONT ID="LN">411 </FONT><A NAME="411"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"green"</FONT>, regular);
+<FONT ID="LN">412 </FONT><A NAME="412"></A>        StyleConstants.setForeground(s, <FONT ID="New">new</FONT> Color(<FONT ID="IntegerLiteral">44</FONT>,<FONT ID="IntegerLiteral">173</FONT>,<FONT ID="IntegerLiteral">14</FONT>));
+<FONT ID="LN">413 </FONT><A NAME="413"></A>        
+<FONT ID="LN">414 </FONT><A NAME="414"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"greenbold"</FONT>, regular);
+<FONT ID="LN">415 </FONT><A NAME="415"></A>        StyleConstants.setForeground(s, <FONT ID="New">new</FONT> Color(<FONT ID="IntegerLiteral">44</FONT>,<FONT ID="IntegerLiteral">173</FONT>,<FONT ID="IntegerLiteral">14</FONT>));
+<FONT ID="LN">416 </FONT><A NAME="416"></A>        StyleConstants.setBold(s, <FONT ID="True">true</FONT>);
+<FONT ID="LN">417 </FONT><A NAME="417"></A>        
+<FONT ID="LN">418 </FONT><A NAME="418"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"sienna"</FONT>, regular);
+<FONT ID="LN">419 </FONT><A NAME="419"></A>        StyleConstants.setForeground(s, <FONT ID="New">new</FONT> Color(<FONT ID="IntegerLiteral">247</FONT>,<FONT ID="IntegerLiteral">175</FONT>,<FONT ID="IntegerLiteral">2</FONT>));
+<FONT ID="LN">420 </FONT><A NAME="420"></A>        
+<FONT ID="LN">421 </FONT><A NAME="421"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"darkblue"</FONT>, regular);
+<FONT ID="LN">422 </FONT><A NAME="422"></A>        StyleConstants.setForeground(s, <FONT ID="New">new</FONT> Color(<FONT ID="IntegerLiteral">16</FONT>,<FONT ID="IntegerLiteral">34</FONT>,<FONT ID="IntegerLiteral">128</FONT>));
+<FONT ID="LN">423 </FONT><A NAME="423"></A>        
+<FONT ID="LN">424 </FONT><A NAME="424"></A>        s = doc.addStyle(<FONT ID="StringLiteral">"darkbluebold"</FONT>, regular);
+<FONT ID="LN">425 </FONT><A NAME="425"></A>        StyleConstants.setForeground(s, <FONT ID="New">new</FONT> Color(<FONT ID="IntegerLiteral">16</FONT>,<FONT ID="IntegerLiteral">34</FONT>,<FONT ID="IntegerLiteral">128</FONT>));
+<FONT ID="LN">426 </FONT><A NAME="426"></A>        StyleConstants.setBold(s, <FONT ID="True">true</FONT>);
+<FONT ID="LN">427 </FONT><A NAME="427"></A>    }
+<FONT ID="LN">428 </FONT><A NAME="428"></A>    
+<FONT ID="LN">429 </FONT><A NAME="429"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> printText(String str, String style){
+<FONT ID="LN">430 </FONT><A NAME="430"></A>        StyledDocument doc = textPane.getStyledDocument();
+<FONT ID="LN">431 </FONT><A NAME="431"></A>        <FONT ID="Try">try</FONT> {
+<FONT ID="LN">432 </FONT><A NAME="432"></A>            doc.insertString(textPane.getDocument().getLength(),str,doc.getStyle(style.toLowerCase()));
+<FONT ID="LN">433 </FONT><A NAME="433"></A>            textPane.setCaretPosition(textPane.getDocument().getLength());
+<FONT ID="LN">434 </FONT><A NAME="434"></A>        } <FONT ID="Catch">catch</FONT> (BadLocationException e) {
+<FONT ID="LN">435 </FONT><A NAME="435"></A>            e.printStackTrace();
+<FONT ID="LN">436 </FONT><A NAME="436"></A>        }
+<FONT ID="LN">437 </FONT><A NAME="437"></A>    }
+<FONT ID="LN">438 </FONT><A NAME="438"></A>    
+<FONT ID="LN">439 </FONT><A NAME="439"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> printText(String[] str, String[] style){
+<FONT ID="LN">440 </FONT><A NAME="440"></A>        <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i=<FONT ID="IntegerLiteral">0</FONT>;i&lt;str.length;i++){
+<FONT ID="LN">441 </FONT><A NAME="441"></A>            printText(str[i],style[i]);
+<FONT ID="LN">442 </FONT><A NAME="442"></A>        }
+<FONT ID="LN">443 </FONT><A NAME="443"></A>    }
+<FONT ID="LN">444 </FONT><A NAME="444"></A>    
+<FONT ID="LN">445 </FONT><A NAME="445"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> loadSounds(String fileName){
+<FONT ID="LN">446 </FONT><A NAME="446"></A>        <FONT ID="Try">try</FONT> {
+<FONT ID="LN">447 </FONT><A NAME="447"></A>            AudioInputStream in = AudioSystem.getAudioInputStream(<FONT ID="New">new</FONT> File(fileName));
+<FONT ID="LN">448 </FONT><A NAME="448"></A>            DataLine.Info info = <FONT ID="New">new</FONT> DataLine.Info(Clip.<FONT ID="Class">class</FONT>,in.getFormat());
+<FONT ID="LN">449 </FONT><A NAME="449"></A>            Clip clip = (Clip) AudioSystem.getLine(info);
+<FONT ID="LN">450 </FONT><A NAME="450"></A>            clip.open(in);
+<FONT ID="LN">451 </FONT><A NAME="451"></A>            clips.add(clip);
+<FONT ID="LN">452 </FONT><A NAME="452"></A>        } <FONT ID="Catch">catch</FONT> (UnsupportedAudioFileException e) {
+<FONT ID="LN">453 </FONT><A NAME="453"></A>        } <FONT ID="Catch">catch</FONT> (IOException e) {
+<FONT ID="LN">454 </FONT><A NAME="454"></A>        } <FONT ID="Catch">catch</FONT> (LineUnavailableException e) {
+<FONT ID="LN">455 </FONT><A NAME="455"></A>        }
+<FONT ID="LN">456 </FONT><A NAME="456"></A>    }
+<FONT ID="LN">457 </FONT><A NAME="457"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> playSound(<FONT ID="Int">int</FONT> index,<FONT ID="Int">int</FONT> loop){
+<FONT ID="LN">458 </FONT><A NAME="458"></A>        LOOP = loop;
+<FONT ID="LN">459 </FONT><A NAME="459"></A>        SOUNDINDEX = index;
+<FONT ID="LN">460 </FONT><A NAME="460"></A>        clips.get(index).loop(LOOP);
+<FONT ID="LN">461 </FONT><A NAME="461"></A>    }
+<FONT ID="LN">462 </FONT><A NAME="462"></A> 
+<FONT ID="LN">463 </FONT><A NAME="463"></A>    
+<FONT ID="LN">464 </FONT><A NAME="464"></A><FONT ID="MultiLineComment">/*  public class Mp3Player extends SwingWorker&lt;Void,Void&gt;{
+<FONT ID="LN">465 </FONT><A NAME="465"></A>        
+<FONT ID="LN">466 </FONT><A NAME="466"></A>        private String filename = null;
+<FONT ID="LN">467 </FONT><A NAME="467"></A>            
+<FONT ID="LN">468 </FONT><A NAME="468"></A>        public Mp3Player(String filename){
+<FONT ID="LN">469 </FONT><A NAME="469"></A>            this.filename = filename;
+<FONT ID="LN">470 </FONT><A NAME="470"></A>        }
+<FONT ID="LN">471 </FONT><A NAME="471"></A>            
+<FONT ID="LN">472 </FONT><A NAME="472"></A>        protected Void doInBackground(){
+<FONT ID="LN">473 </FONT><A NAME="473"></A>            playSound(filename);
+<FONT ID="LN">474 </FONT><A NAME="474"></A>            return null;
+<FONT ID="LN">475 </FONT><A NAME="475"></A>        }
+<FONT ID="LN">476 </FONT><A NAME="476"></A>
+<FONT ID="LN">477 </FONT><A NAME="477"></A>        public void playSound(String filename)
+<FONT ID="LN">478 </FONT><A NAME="478"></A>        {
+<FONT ID="LN">479 </FONT><A NAME="479"></A>          try {
+<FONT ID="LN">480 </FONT><A NAME="480"></A>            File file = new File(filename);
+<FONT ID="LN">481 </FONT><A NAME="481"></A>            AudioInputStream in = AudioSystem.getAudioInputStream(file);
+<FONT ID="LN">482 </FONT><A NAME="482"></A>            AudioInputStream din = null;
+<FONT ID="LN">483 </FONT><A NAME="483"></A>            AudioFormat baseFormat = in.getFormat();
+<FONT ID="LN">484 </FONT><A NAME="484"></A>            AudioFormat decodedFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
+<FONT ID="LN">485 </FONT><A NAME="485"></A>                                                                                          baseFormat.getSampleRate(),
+<FONT ID="LN">486 </FONT><A NAME="486"></A>                                                                                          16,
+<FONT ID="LN">487 </FONT><A NAME="487"></A>                                                                                          baseFormat.getChannels(),
+<FONT ID="LN">488 </FONT><A NAME="488"></A>                                                                                          baseFormat.getChannels() * 2,
+<FONT ID="LN">489 </FONT><A NAME="489"></A>                                                                                          baseFormat.getSampleRate(),
+<FONT ID="LN">490 </FONT><A NAME="490"></A>                                                                                          false);
+<FONT ID="LN">491 </FONT><A NAME="491"></A>            din = AudioSystem.getAudioInputStream(decodedFormat, in);
+<FONT ID="LN">492 </FONT><A NAME="492"></A>            // Play now.
+<FONT ID="LN">493 </FONT><A NAME="493"></A>            rawplay(decodedFormat, din);
+<FONT ID="LN">494 </FONT><A NAME="494"></A>            in.close();
+<FONT ID="LN">495 </FONT><A NAME="495"></A>          } catch (Exception e)
+<FONT ID="LN">496 </FONT><A NAME="496"></A>            {
+<FONT ID="LN">497 </FONT><A NAME="497"></A>              e.printStackTrace();
+<FONT ID="LN">498 </FONT><A NAME="498"></A>                //Handle exception.
+<FONT ID="LN">499 </FONT><A NAME="499"></A>            }
+<FONT ID="LN">500 </FONT><A NAME="500"></A>        }
+<FONT ID="LN">501 </FONT><A NAME="501"></A>        @SuppressWarnings("unused")
+<FONT ID="LN">502 </FONT><A NAME="502"></A>        private void rawplay(AudioFormat targetFormat, AudioInputStream din) throws IOException,                                                                                                LineUnavailableException
+<FONT ID="LN">503 </FONT><A NAME="503"></A>        {
+<FONT ID="LN">504 </FONT><A NAME="504"></A>          byte[] data = new byte[4096];
+<FONT ID="LN">505 </FONT><A NAME="505"></A>          DataLine.Info info = new DataLine.Info(SourceDataLine.class, targetFormat);
+<FONT ID="LN">506 </FONT><A NAME="506"></A>          SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
+<FONT ID="LN">507 </FONT><A NAME="507"></A>          if (line != null)
+<FONT ID="LN">508 </FONT><A NAME="508"></A>          {
+<FONT ID="LN">509 </FONT><A NAME="509"></A>            // Start
+<FONT ID="LN">510 </FONT><A NAME="510"></A>            line.open();
+<FONT ID="LN">511 </FONT><A NAME="511"></A>            line.start();
+<FONT ID="LN">512 </FONT><A NAME="512"></A>            int nBytesRead = 0, nBytesWritten = 0;
+<FONT ID="LN">513 </FONT><A NAME="513"></A>            while (nBytesRead != -1 &amp;&amp; soundOn == true)
+<FONT ID="LN">514 </FONT><A NAME="514"></A>            {
+<FONT ID="LN">515 </FONT><A NAME="515"></A>                nBytesRead = din.read(data, 0, data.length);
+<FONT ID="LN">516 </FONT><A NAME="516"></A>                if (nBytesRead != -1) nBytesWritten = line.write(data, 0, nBytesRead);
+<FONT ID="LN">517 </FONT><A NAME="517"></A>            }
+<FONT ID="LN">518 </FONT><A NAME="518"></A>            // Stop
+<FONT ID="LN">519 </FONT><A NAME="519"></A>            line.drain();
+<FONT ID="LN">520 </FONT><A NAME="520"></A>            line.stop();
+<FONT ID="LN">521 </FONT><A NAME="521"></A>            line.close();
+<FONT ID="LN">522 </FONT><A NAME="522"></A>            din.close();
+<FONT ID="LN">523 </FONT><A NAME="523"></A>          }
+<FONT ID="LN">524 </FONT><A NAME="524"></A>        }
+<FONT ID="LN">525 </FONT><A NAME="525"></A>    }*/</FONT>
+<FONT ID="LN">526 </FONT><A NAME="526"></A>}
+<FONT ID="LN">527 </FONT><A NAME="527"></A></pre>
+</BODY>
+</HTML>

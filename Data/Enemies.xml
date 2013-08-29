@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Fri Nov 11 10:22:22 CET 2011 -->
+<Enemies>
+	<Enemy id="0">
+    <name>Orc</name>
+		<level>1</level>
+		<hp>6</hp>
+		<intelligence>2</intelligence>
+		<gold>3</gold>
+		<strength>3</strength>
+		<dexterity>2</dexterity>
+		<intellect>2</intellect>
+		<gear>3;5;-1;-1;-1;-1;2;-1</gear>
+		<invItems>null</invItems>
+		<chance>0;</chance>
+		<spellIDs>0;0</spellIDs>
+		<stationary>false</stationary>
+	</Enemy>
+	<Enemy id="1">
+    <name>Shaman</name>
+		<level>2</level>
+		<hp>9</hp>
+		<intelligence>2</intelligence>
+		<gold>4</gold>
+		<strength>2</strength>
+		<dexterity>3</dexterity>
+		<intellect>4</intellect>
+		<invItems>null</invItems>
+		<chance>60;</chance>
+		<spellIDs>2;4</spellIDs>
+		<defense>1;2;1</defense>
+		<stationary>false</stationary>
+	</Enemy>
+	<!--public Enemy(Integer id, String name, Integer lvl, Integer hp, Integer intelligence, Integer gold, Integer strength, Integer dexterity, Integer intellect, 
+	Integer qItemID,Integer kans,int[] spellIDs,int[] defense, Boolean stationary)-->
+	<Enemy id="2">
+	  <name>Wolf</name>
+	  <level>1</level>
+	  <hp>5</hp>
+	  <intelligence>1</intelligence>
+	  <gold>0</gold>
+	  <strength>3</strength>
+	  <dexterity>4</dexterity>
+	  <intellect>2</intellect>
+	  <invItems>null</invItems>
+	  <chance>0;</chance>
+	  <spellIDs>0;0</spellIDs>
+	  <defense>1;1;1</defense>
+	  <stationary>false</stationary>
+	</Enemy>
+<Enemy id="3">
+<name>Mordú</name>
+<level>2</level>
+<hp>10</hp>
+<intelligence>1</intelligence>
+<gold>0</gold>
+<strength>4</strength>
+<dexterity>3</dexterity>
+<intellect>2</intellect>
+<invItems>null</invItems>
+<chance>0;</chance>
+<spellIDs>0;0</spellIDs>
+<defense>2;1;2</defense>
+<stationary>true</stationary>
+</Enemy>
+<Enemy id="4">
+<name>Bear Cub</name>
+<level>1</level>
+<hp>5</hp>
+<intelligence>1</intelligence>
+<gold>0</gold>
+<strength>3</strength>
+<dexterity>2</dexterity>
+<intellect>2</intellect>
+<invItems>null</invItems>
+<chance>0;</chance>
+<spellIDs>0;0</spellIDs>
+<defense>1;1;1</defense>
+<stationary>true</stationary>
+</Enemy>
+<Enemy id="5">
+<name>Brown Bear</name>
+<level>2</level>
+<hp>10</hp>
+<intelligence>2</intelligence>
+<gold>0</gold>
+<strength>5</strength>
+<dexterity>3</dexterity>
+<intellect>3</intellect>
+<invItems>null</invItems>
+<chance>0;</chance>
+<spellIDs>0;0</spellIDs>
+<defense>2;2;2</defense>
+<stationary>false</stationary>
+</Enemy>
+</Enemies>

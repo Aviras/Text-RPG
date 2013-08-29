@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<QuestSummary>
+  <quest id="0" name="Missing Brother">
+    <startdialog>
+      <text_all>Dear playerName, you seem like quite the adventurer. I... I need your help.</text_all>
+      <reply value="1">
+        <text_all>What is the trouble?</text_all>
+        <node>
+          <text_all>For some time now, a fierce bear by the name of Mordú has been terrorizing our village. A few days ago, my mother was attacked by Mordú while gathering herbs in Mirkwood. She didn't survive the attack. My brother Darius went mad with rage, and strode into the forest to seeking revenge.</text_all>
+          <reply value="1">
+            <text_all>So, did he find him?</text_all>
+            <node>
+              <text_all>He returned after a day. He had located the bear and briefly fought with it. He managed to wound it, but as darkness was falling he deemed it safer to return later. He went back the next day, and hasn't returned still. I'm becoming desperate, as you can see. He spoke of a cave close to the northern edge of Mirkwood, west of the river arm. If you see any sign of him, could you let me know?</text_all>
+              <reply value="1" emo="hopeful:1.0">
+                <text_all>I'll see what I can do.</text_all>
+              </reply>
+            </node>
+          </reply>
+        </node>
+      </reply>
+      <reply value="2" interrupt="true">
+        <text_all>Find someone else to do your bidding, I'm busy.</text_all>
+      </reply>
+    </startdialog>
+    <enddialog>
+      <text_all>No! My dear brother..I had come to expect it, but hope is a fierce thing. Both my brother and mother gone, what am I to do? Did you find Mordú, the one who did this to me?</text_all>
+      <reply value="1" emo="hopeful:1.0">
+        <text_all>I was able to slay the bear. I hope that brings some comfort to you.</text_all>
+      </reply>
+    </enddialog>
+    <busydialog>
+      <text_all>Any word of my brother?</text_all>
+    </busydialog>
+    <infodialog>
+    </infodialog>
+    <summary>Find out what happened to William's brother, Darius. He went into Mirkwood a few days ago to locate and kill Mordú, the bear that killed his mother, and has been terrorizing the village. He hasn't returned still. He mentioned something about a cave close to the northern edge of Mirkwood, west of the river arm.</summary>
+  </quest>
+  
+  <quest id="1" name="Unidentified Scroll">
+    <startdialog>
+      <text_all>What is this? Some scroll he was holding in his hands? It is still sealed with wax. I dare not open it.</text_all>
+    </startdialog>
+    <enddialog>
+      <text_all></text_all>
+    </enddialog>
+  </quest>
+</QuestSummary>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<HEAD>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="../stylesheet.css" TITLE="Style">
+<META NAME="GENERATOR" CONTENT="Java2HTML Version 1.5">
+<TITLE>game.Portrait (Java2HTML)</TITLE>
+</HEAD>
+<BODY><TABLE id="Header" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td colspan="2" width="33%">&nbsp;</td>
+<td align="center" colspan="2" width="33%">
+<font size="4">Portrait.java</font>
+</td>
+<td align="right" colspan="2" width="33%">&nbsp;</td>
+</tr>
+</TABLE>
+<pre ID="Classes">
+<FONT ID="LN">1   </FONT><A NAME="1"></A><FONT ID="Package">package</FONT> game;
+<FONT ID="LN">2   </FONT><A NAME="2"></A><FONT ID="Import">import</FONT> java.awt.Color;
+<FONT ID="LN">3   </FONT><A NAME="3"></A><FONT ID="Import">import</FONT> java.awt.Dimension;
+<FONT ID="LN">4   </FONT><A NAME="4"></A><FONT ID="Import">import</FONT> java.awt.Graphics;
+<FONT ID="LN">5   </FONT><A NAME="5"></A><FONT ID="Import">import</FONT> java.awt.Image;
+<FONT ID="LN">6   </FONT><A NAME="6"></A><FONT ID="Import">import</FONT> java.awt.MediaTracker;
+<FONT ID="LN">7   </FONT><A NAME="7"></A><FONT ID="Import">import</FONT> java.awt.Toolkit;
+<FONT ID="LN">8   </FONT><A NAME="8"></A><FONT ID="Import">import</FONT> java.io.File;
+<FONT ID="LN">9   </FONT><A NAME="9"></A><FONT ID="Import">import</FONT> java.io.IOException;
+<FONT ID="LN">10  </FONT><A NAME="10"></A>
+<FONT ID="LN">11  </FONT><A NAME="11"></A><FONT ID="Import">import</FONT> javax.imageio.ImageIO;
+<FONT ID="LN">12  </FONT><A NAME="12"></A><FONT ID="Import">import</FONT> javax.swing.*;
+<FONT ID="LN">13  </FONT><A NAME="13"></A>
+<FONT ID="LN">14  </FONT><A NAME="14"></A><FONT ID="Public">public</FONT> <FONT ID="Class">class</FONT> Portrait <FONT ID="Extends">extends</FONT> JPanel {
+<FONT ID="LN">15  </FONT><A NAME="15"></A>    
+<FONT ID="LN">16  </FONT><A NAME="16"></A>    <FONT ID="FormalComment">/**
+<FONT ID="LN">17  </FONT><A NAME="17"></A>     * 
+<FONT ID="LN">18  </FONT><A NAME="18"></A>     */</FONT>
+<FONT ID="LN">19  </FONT><A NAME="19"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> <FONT ID="Final">final</FONT> <FONT ID="Long">long</FONT> serialVersionUID = <FONT ID="IntegerLiteral">8024272791774030091L</FONT>;
+<FONT ID="LN">20  </FONT><A NAME="20"></A>    <FONT ID="Private">private</FONT> Image portraitImage;
+<FONT ID="LN">21  </FONT><A NAME="21"></A>    Dimension fullDim,imgDim;
+<FONT ID="LN">22  </FONT><A NAME="22"></A>    <FONT ID="Private">private</FONT> <FONT ID="Int">int</FONT> maxBarLength,barLength;
+<FONT ID="LN">23  </FONT><A NAME="23"></A>    <FONT ID="Private">private</FONT> <FONT ID="Int">int</FONT> hunger,thirst,fitness;
+<FONT ID="LN">24  </FONT><A NAME="24"></A>    <FONT ID="Private">private</FONT> <FONT ID="Boolean">boolean</FONT> showStats = <FONT ID="False">false</FONT>;
+<FONT ID="LN">25  </FONT><A NAME="25"></A>    
+<FONT ID="LN">26  </FONT><A NAME="26"></A>    <FONT ID="Public">public</FONT> Portrait(String fileName,Dimension fullDim,Dimension imgDim){
+<FONT ID="LN">27  </FONT><A NAME="27"></A>        <FONT ID="Try">try</FONT> {
+<FONT ID="LN">28  </FONT><A NAME="28"></A>            portraitImage = ImageIO.read(<FONT ID="New">new</FONT> File(fileName));
+<FONT ID="LN">29  </FONT><A NAME="29"></A>        } <FONT ID="Catch">catch</FONT> (IOException e) {
+<FONT ID="LN">30  </FONT><A NAME="30"></A>            e.printStackTrace();
+<FONT ID="LN">31  </FONT><A NAME="31"></A>        }
+<FONT ID="LN">32  </FONT><A NAME="32"></A>        <FONT ID="This">this</FONT>.fullDim = fullDim;
+<FONT ID="LN">33  </FONT><A NAME="33"></A>        <FONT ID="This">this</FONT>.imgDim = imgDim;
+<FONT ID="LN">34  </FONT><A NAME="34"></A>        maxBarLength= fullDim.width - imgDim.width -<FONT ID="IntegerLiteral">10</FONT>;
+<FONT ID="LN">35  </FONT><A NAME="35"></A>        barLength = maxBarLength;
+<FONT ID="LN">36  </FONT><A NAME="36"></A>        setPreferredSize(fullDim);
+<FONT ID="LN">37  </FONT><A NAME="37"></A>        setOpaque(<FONT ID="False">false</FONT>);
+<FONT ID="LN">38  </FONT><A NAME="38"></A>        repaint();
+<FONT ID="LN">39  </FONT><A NAME="39"></A>    }
+<FONT ID="LN">40  </FONT><A NAME="40"></A>    
+<FONT ID="LN">41  </FONT><A NAME="41"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setBarLength(<FONT ID="Float">float</FONT> percent){
+<FONT ID="LN">42  </FONT><A NAME="42"></A>        barLength=(<FONT ID="Int">int</FONT>)(percent*maxBarLength);
+<FONT ID="LN">43  </FONT><A NAME="43"></A>        repaint();
+<FONT ID="LN">44  </FONT><A NAME="44"></A>    }
+<FONT ID="LN">45  </FONT><A NAME="45"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setShowStats(<FONT ID="Boolean">boolean</FONT> b){
+<FONT ID="LN">46  </FONT><A NAME="46"></A>        showStats = b;
+<FONT ID="LN">47  </FONT><A NAME="47"></A>    }
+<FONT ID="LN">48  </FONT><A NAME="48"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setHunger(<FONT ID="Int">int</FONT> x){
+<FONT ID="LN">49  </FONT><A NAME="49"></A>        hunger = x;
+<FONT ID="LN">50  </FONT><A NAME="50"></A>        repaint();
+<FONT ID="LN">51  </FONT><A NAME="51"></A>    }
+<FONT ID="LN">52  </FONT><A NAME="52"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setThirst(<FONT ID="Int">int</FONT> x){
+<FONT ID="LN">53  </FONT><A NAME="53"></A>        thirst = x;
+<FONT ID="LN">54  </FONT><A NAME="54"></A>        repaint();
+<FONT ID="LN">55  </FONT><A NAME="55"></A>    }
+<FONT ID="LN">56  </FONT><A NAME="56"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setFitness(<FONT ID="Int">int</FONT> x){
+<FONT ID="LN">57  </FONT><A NAME="57"></A>        fitness = x;
+<FONT ID="LN">58  </FONT><A NAME="58"></A>        repaint();
+<FONT ID="LN">59  </FONT><A NAME="59"></A>    }
+<FONT ID="LN">60  </FONT><A NAME="60"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> paintComponent(Graphics g){
+<FONT ID="LN">61  </FONT><A NAME="61"></A>        <FONT ID="Super">super</FONT>.paintComponent(g);
+<FONT ID="LN">62  </FONT><A NAME="62"></A>        
+<FONT ID="LN">63  </FONT><A NAME="63"></A>        g.drawImage(portraitImage, <FONT ID="IntegerLiteral">0</FONT>, <FONT ID="IntegerLiteral">0</FONT>,imgDim.width,imgDim.height, <FONT ID="Null">null</FONT>);
+<FONT ID="LN">64  </FONT><A NAME="64"></A>        g.setColor(Color.red);<FONT ID="SingleLineComment">//background HP bar
+<FONT ID="LN">65  </FONT><A NAME="65"></A></FONT>        g.fillRect(imgDim.width + <FONT ID="IntegerLiteral">10</FONT>, imgDim.height/<FONT ID="IntegerLiteral">5</FONT>, maxBarLength, <FONT ID="IntegerLiteral">7</FONT>);
+<FONT ID="LN">66  </FONT><A NAME="66"></A>        g.setColor(Color.green); <FONT ID="SingleLineComment">//green HP bar
+<FONT ID="LN">67  </FONT><A NAME="67"></A></FONT>        g.fillRect(imgDim.width + <FONT ID="IntegerLiteral">10</FONT>, imgDim.height/<FONT ID="IntegerLiteral">5</FONT>, barLength, <FONT ID="IntegerLiteral">7</FONT>);
+<FONT ID="LN">68  </FONT><A NAME="68"></A>        <FONT ID="If">if</FONT>(showStats){
+<FONT ID="LN">69  </FONT><A NAME="69"></A>            g.setColor(Color.orange);
+<FONT ID="LN">70  </FONT><A NAME="70"></A>            g.drawString(<FONT ID="StringLiteral">"H:"</FONT> + hunger + <FONT ID="StringLiteral">"%"</FONT>, imgDim.width + <FONT ID="IntegerLiteral">10</FONT>, <FONT ID="IntegerLiteral">5</FONT>*imgDim.height/<FONT ID="IntegerLiteral">8</FONT>);
+<FONT ID="LN">71  </FONT><A NAME="71"></A>            g.setColor(Color.cyan);
+<FONT ID="LN">72  </FONT><A NAME="72"></A>            g.drawString(<FONT ID="StringLiteral">"T:"</FONT> + thirst + <FONT ID="StringLiteral">"%"</FONT>, imgDim.width + <FONT ID="IntegerLiteral">70</FONT>, <FONT ID="IntegerLiteral">5</FONT>*imgDim.height/<FONT ID="IntegerLiteral">8</FONT>);
+<FONT ID="LN">73  </FONT><A NAME="73"></A>            g.setColor(Color.pink);
+<FONT ID="LN">74  </FONT><A NAME="74"></A>            g.drawString(<FONT ID="StringLiteral">"F:"</FONT> + fitness + <FONT ID="StringLiteral">"%"</FONT>, imgDim.width + <FONT ID="IntegerLiteral">10</FONT>, <FONT ID="IntegerLiteral">7</FONT>*imgDim.height/<FONT ID="IntegerLiteral">8</FONT>);
+<FONT ID="LN">75  </FONT><A NAME="75"></A>        }
+<FONT ID="LN">76  </FONT><A NAME="76"></A>    }
+<FONT ID="LN">77  </FONT><A NAME="77"></A>    
+<FONT ID="LN">78  </FONT><A NAME="78"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> changeImage(String fileName){
+<FONT ID="LN">79  </FONT><A NAME="79"></A>        <FONT ID="Try">try</FONT> {
+<FONT ID="LN">80  </FONT><A NAME="80"></A>            portraitImage = ImageIO.read(<FONT ID="New">new</FONT> File(fileName));
+<FONT ID="LN">81  </FONT><A NAME="81"></A>        } <FONT ID="Catch">catch</FONT> (IOException e) {
+<FONT ID="LN">82  </FONT><A NAME="82"></A>            e.printStackTrace();
+<FONT ID="LN">83  </FONT><A NAME="83"></A>        }
+<FONT ID="LN">84  </FONT><A NAME="84"></A>        repaint();
+<FONT ID="LN">85  </FONT><A NAME="85"></A>    }
+<FONT ID="LN">86  </FONT><A NAME="86"></A>
+<FONT ID="LN">87  </FONT><A NAME="87"></A>}
+<FONT ID="LN">88  </FONT><A NAME="88"></A></pre>
+</BODY>
+</HTML>

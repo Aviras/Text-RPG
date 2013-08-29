@@ -1,0 +1,2 @@
+RPGMain.printEnvironmentInfo(true,"This is a test for the fire event.","redbold");
+Global.pauseProg(2000);

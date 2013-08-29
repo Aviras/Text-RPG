@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Fri Nov 11 02:29:14 CET 2011 -->
+
+<NPCs>
+	<NPC id="0">
+		<name>William</name>
+		<gender>male</gender>
+		<conversation_tree_id>0</conversation_tree_id>
+		<soundGreet>m00_hello.mp3</soundGreet>
+		<soundFarewell>m00_goodbye.mp3</soundFarewell>
+		<mentalstate>frightened</mentalstate>
+		<Quests>
+		  <starts>0;1</starts>
+		  <ends>0</ends>
+		</Quests>
+	</NPC>
+	<NPC id="1">
+	  <name>Theresa</name>
+	  <gender>female</gender>
+	  <conversation_tree_id>0</conversation_tree_id>
+	  <soundGreet>f00_hello_there.mp3</soundGreet>
+	  <soundFarewell>f00_goodbye.mp3</soundFarewell>
+	</NPC>
+	<NPC id="2">
+	  <name>Alec</name>
+	  <gender>male</gender>
+	  <conversation_tree_id>0</conversation_tree_id>
+	  <soundGreet>m00_hi.mp3</soundGreet>
+	  <soundFarewell>m00_see_ya.mp3</soundFarewell>
+	</NPC>
+	<NPC id="3">
+	  <name>Mary</name>
+	  <gender>female</gender>
+	  <conversation_tree_id>0</conversation_tree_id>
+	  <soundGreet>f02_hello.mp3</soundGreet>
+	  <soundFarewell>f02_goodbye.mp3</soundFarewell>
+	  <Quests>
+	    <ends>1</ends>
+	  </Quests>
+	</NPC>
+	<NPC id="4">
+	  <name>Talec</name>
+	  <gender>male</gender>
+	  <conversation_tree_id>0</conversation_tree_id>
+	  <soundGreet>m03_hi.mp3</soundGreet>
+	  <soundFarewell>m04_goodbye.mp3</soundFarewell>
+	</NPC>
+  <NPC id="5">
+	  <name>Darius</name>
+	  <gender>male</gender>
+	  <conversation_tree_id>0</conversation_tree_id>
+	  <soundGreet>m02_hi_2.mp3</soundGreet>
+	  <soundFarewell>m04_goodbye.mp3</soundFarewell>
+	</NPC>
+	<NPC id="6">
+	  <name>Aviras</name>
+	  <gender>female</gender>
+	  <conversation_tree_id>0</conversation_tree_id>
+	  <soundGreet>f01_hey_sweetness.mp3</soundGreet>
+	  <soundFarewell>f02_bye_bye.mp3</soundFarewell>
+	</NPC>
+	<NPC id="7">
+	  <name>Chapelin Roosevelt</name>
+	  <gender>male</gender>
+	  <conversation_tree_id>0</conversation_tree_id>
+	  <soundGreet>m00_welcome.mp3</soundGreet>
+	  <soundFarewell>m00_goodbye.mp3</soundFarewell>
+	</NPC>
+</NPCs>

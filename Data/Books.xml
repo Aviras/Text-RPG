@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Books>
+  <book id="0">
+    <name>The Great Test Story</name>
+    <author>Captain Obvious</author>
+    <Content>
+      <text>
+        This is a great book, you should read it sometime.
+      </text>
+      <text>
+        No, seriously.
+      </text>
+    </Content>
+    <Log>
+      <path>Lore/Books/The Great Test Story</path>
+      <summary>1;You read The Great Test Story by Captain Obvious, and learned absolutely nothing from it. Such a piece of garbage.</summary>
+    </Log>
+  </book>
+  <book id="1">
+    <name>Regulations following The Great Discovery</name>
+    <author>Magistrate L. Pontius</author>
+    <Content>
+      <text>
+        Following this are the new regulations after The Great Discovery. Scientists have deciphered the messages, and have extracted an incredible amount of insight into life itself, together with a prophecy of how to live life the way it was meant to be. Our ancient ancestors have given us this information so that we might one day find it and use it to its fullest. Even though they did not succeed in diverting the challenge that faces us as a civilization, as a race and as a people with a responsability, it would be a fool's errand to start anew and throw away all the knowledge that was gathered before our time by those who preceded us. In the interest of the welbeing of society and the further existence of our species, we hereby declare these new regulations as to be followed by every person that considers itself part of this society and picks up his or her responsability in the conservation of this planet.
+      </text>
+      <text>
+        1) It is as of now forbidden to adhere to what is referred to as 'the old religions'. This includes false gods such as Mudan, and Heras, among many others. There is only one god, whose presence has been justified with The Great Discovery. Any form of religious adoration other than the Almighty is to be punished. Every civilian has the responsibility of reporting suspicions to the local officer. Failing to do so results in being considered an accomplice in an act of heresy, and will be punished as seen fit.
+      </text>
+      <text>
+        2) In order to increase efficiency in communication, an officer will be appointed to every village. All officers will have specific directions and duties, appropriate to their current location. Civilians are obliged to aid the research of said officer, and [part of the page and the rest of the book appear to have been ripped out.]
+      </text>
+    </Content>
+    <Log>
+      <path>Lore/Books/Regulations following The Great Discovery</path>
+      <summary>1;The new reglations written by Magistrate L. Pontius come off quite strong, prohibiting any adoration of god other than 'the Almighty'. Also, an officer is to appointed to every village. The next pages appear to have been ripped out. It might be interesting to see if you could find out who did this.</summary>
+    </Log>
+  </book>
+  <book id="2">
+    <name>The story of our ancestors: Volume I</name>
+    <author>Felix Deritry</author>
+    <Content>
+      <text>
+        In this work I will attempt to formulate what is known of our ancestors, taking The Great Discovery as a major source of inspiration, now 15 years ago. In no way should this be considered as a complete chronicle of the rich history of our ancestors, rather as a resumen of recent findings for the layman, and the impact it has on our society.
+      </text>
+      <text>
+        Our story as a new rising civilation starts after a period of more than 200 years after the demise of our most recent ancestors. Every man is aware of the changing environmental conditions that our world is facing, be them good or bad. A now proven fact is that this change in climate was not the first one, nor will it be the last one, unless we as a people are able to divert the apocalypse that is heading towards us. Many cycles of increase and decrease in temperatures have caused the rise and fall of many civilations before our current one. However, as recent studies have shown, this series of events is converging to a situation in which life as we know it is not sustainable anymore. This puts a great deal of pressure on scientist and normal civilian alike, as we are together reponsible for the fate of this world. This is either directly in case we as a people unite and find a solution for the cataclysmic problems that are heading our way, or in the least gather as much knowledge as is possible to pass on to the next 'generation', so to speak.
+      </text>
+      <text>
+        In the latter case, it is our hope that we are able to provide them with enough information so that they, like we are now, are in a position to rid them of their woes. However, this work does not aim to provide motivation for the task that is facing us. The question at hand here is: 'How did our ancestors live, and how can we learn from them?'. 
+      </text>
+      <text>
+        In a history similar as to our own, our ancestors started from nomadic tribes grouping up to form a coherent society once the ice started retreating. They went back to reclaim the fertile areas that were taken from them when the global temperature dropped, and built on them as the foundation of a newly emerging society. They were as much as we aware of the challenge that was facing them, and even though they had their cultural problems, tried to surmount them and become the best they could be. It was, however, not enough as the ice once again caught up with them. People fled to warmer regions, but only the very few were able to outrun it.  Those that did remained in a slumbered state driven by survival insticts for over 200 years. Those survivors were the people that made up the starting point of our current society. Together with them came the legends of lost cities, lost knowledge and the sense of purpose. What exactly was that lost knowledge?
+      </text>
+      <text>
+        Over the course of time, they developed new technological tools, and searched for a deeping meaning to what was happening to them. A partial answer was found in the form of the socalled discovery of the Almighty, the one god responsible for life itself. Though not a direct solution to the global challenges, the power of the Almighty was recognised as one not to be taken lightly, and continued to influence to development of both cultural and scientific research.
+      </text>
+      <text>
+        Temples built for the Almighty became both centers of religious activity as well as scientific gathering places, serving both parts of society that were most important during the last phases before the fall. Feverishly, links were sought between the scientific and religious, as to establish a connection between the divine and the human. This way, scientific research went by another route, actively looking for this connection. Once this connection was established, they believed, diverting the nearing cataclysm was only a matter of time.
+      </text>
+      <text>
+        This, however, did not succeed. A true link was never found. Perhaps it is a test of the Almighty. A test of our faith, the price being our lives. We can never be certain, though must not give up our attempts to solve our situation. Volume two will discuss archeological findings and written sources that reflect the daily lives of our ancestors.
+      </text>
+    </Content>
+    <Log>
+      <path>Lore/Books/The story of our ancestors</path>
+      <summary>1;The history of our ancestors goes much like ours. When the ice started retreating they went back to the same areas to rebuild a civilization in a joint attempt to solve the cosmic problems. Doing so, faith in the Almighty started, and all other religious activity was considered idolatry. As a solution to their problems, they sought for a divine connection through which they could ask the Almighty to help them. The ice returned however before any connection was found, and blinded the survivors for such things for over 200 years.</summary>
+    </Log>
+  </book>
+<!--  <book id="1">
+    <name>Varkentje</name>
+    <author>Leendert</author>
+    <Content>
+      <text>
+        Er was eens een varkentje met een lange snuit, en toen was het verhaaltje uit!
+      </text>
+    </Content>
+        <Log>
+      <path>Lore/World/Books/The Great Test Story</path>
+      <summary>1;You read The Great Test Story by Captain Obvious, and learned absolutely nothing from it. Such a piece of garbage.</summary>
+    </Log>
+  </book>
+  <book id="2">
+    <name>Dikke ouwe malle beer</name>
+    <author>Leendert</author>
+    <Content>
+      <text>
+        Er was eens een dikke ouwe malle beer. Hij at te veel honing. Toen was zijn verhaaltje uit.
+      </text>
+    </Content>
+      <Log>
+      <path>Lore/World/Books/The Great Test Story</path>
+      <summary>1;You read The Great Test Story by Captain Obvious, and learned absolutely nothing from it. Such a piece of garbage.</summary>
+    </Log>
+  </book>
+  <book id="3">
+    <name>Kortverhaal</name>
+    <author>Leendert</author>
+    <Content>
+      <text>
+        Dag. Nacht.
+      </text>
+    </Content>
+        <Log>
+      <path>Lore/World/Books/The Great Test Story</path>
+      <summary>1;You read The Great Test Story by Captain Obvious, and learned absolutely nothing from it. Such a piece of garbage.</summary>
+    </Log>
+  </book>
+  <book id="4">
+    <name>Ken je de mop van de duizend druppeltjes?</name>
+    <author>Ellen</author>
+    <Content>
+      <text>
+        Ken je de mop van de duizend druppeltjes?
+        Nee? 
+        Ik ook niet.
+        Ja?
+        Goed voor jou.
+      </text>
+    </Content>
+        <Log>
+      <path>Lore/World/Books/The Great Test Story</path>
+      <summary>1;You read The Great Test Story by Captain Obvious, and learned absolutely nothing from it. Such a piece of garbage.</summary>
+    </Log>
+  </book>-->
+</Books>

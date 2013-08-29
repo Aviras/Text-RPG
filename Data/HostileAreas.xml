@@ -1,0 +1,1046 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<HostileAreas>
+<Dolor_Woods id="0">
+<name>Dolor Woods</name>
+<category>Forest</category>
+<type>Loofbos</type>
+<dungeonMap>
+<heightMap>
+122222222211100000000000000000
+224333333211111111100000000000
+235444544321111111110000000000
+234455443221111123110000000000
+234554333211111122111000000000
+234654332211111222111000000000
+235543332211112222111000000000
+235433322211112332111000000000
+233322222111112432111000000000
+222222221111112221110000000000
+222211111111111111110000000000
+232111111111111111100000000000
+232111111111111111100000000000
+111111111112111111000000000000
+011001111111111000000000000000
+000001111111111000000000000000
+000001111121111000000000000000
+000011111221111111111000000000
+000011111222111111111100000000
+000001111222111111111100000000
+000001111222211111111100000000
+000011111123221111111110000000
+000111111123222111111111000000
+000111111122222112221111100000
+001111111112222222222111110000
+001121111112222222332221110000
+011232111112222233443322110000
+001232111222333334343433111000
+001122111222222233333432111000
+001111111111222222222221110000
+</heightMap>
+<layer level="-2" name="Deep Down">
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+ooooooo--ooooooooooooooooooooo
+oooooooo---ooooooooooooooooooo
+oooooooooo---ooooooooooooooooo
+oooooooooooo-ooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+ooooo----oo-oooooooooooooooooo
+ooooo-oo----oooooooooooooooooo
+oo----oo-ooooooooooooooooooooo
+oo-ooooo--oooooooooooooooooooo
+oo-ooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+</layer>
+<layer level="-1" name="Underground">
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooo------oooooooo
+oooooooooooooooo-oooo-oooooooo
+ooooooooooooooooooooo-oooooooo
+oooooooooooo-oooooooo-oooooooo
+oooooooooooo-oooooo---oooooooo
+oooooooooooo---ooo--oooooooooo
+oooooooooooooo--------oooooooo
+ooooooooooooooo--oooo-oooooooo
+ooooooooooooooo-oooooooooooooo
+oooooooooooooo---ooooooooooooo
+oooooooooooooo-o---ooooooooooo
+ooooooooooo----ooo--oooooooooo
+ooooooooooo-ooooooo-oooooooooo
+ooooooooooooooooooo-oooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oo---ooooooooooooooooooooooooo
+ooooo-oooooooooooooooooooooooo
+ooooo----ooooooooooooooooooooo
+oooooooo---ooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooo
+</layer>
+</dungeonMap>
+<extra>
+<enemy x="19" y="11" z="0">3</enemy>
+<enemy x="21" y="7" z="0">3</enemy>
+<enemy x="19" y="1" z="0">3</enemy>
+<enemy x="12" y="2" z="0">3</enemy>
+<enemy x="12" y="4" z="0">3</enemy>
+<enemy x="7" y="21" z="0">3</enemy>
+<enemy x="8" y="24" z="0">3</enemy>
+<enemy x="25" y="15" z="0">2</enemy>
+<enemy x="25" y="23" z="0">2</enemy>
+<enemy x="17" y="25" z="0">2</enemy>
+<enemy x="1" y="9" z="0">2</enemy>
+<enemy x="2" y="25" z="0">0</enemy>
+<enemy x="8" y="14" z="0">0</enemy>
+<enemy x="14" y="19" z="0">0</enemy>
+<enemy x="17" y="11" z="-1">1</enemy>
+<enemy x="6" y="17" z="-2">1</enemy>
+<lake x="29" y="19" z="0">0</lake>
+<lake x="28" y="19" z="0">0</lake>
+<lake x="27" y="18" z="0">0</lake>
+<lake x="26" y="18" z="0">0</lake>
+<lake x="25" y="18" z="0">0</lake>
+<lake x="24" y="18" z="0">0</lake>
+<lake x="23" y="18" z="0">0</lake>
+<lake x="22" y="17" z="0">0</lake>
+<lake x="21" y="17" z="0">0</lake>
+<lake x="20" y="16" z="0">0</lake>
+<lake x="19" y="16" z="0">0</lake>
+<lake x="19" y="15" z="0">0</lake>
+<lake x="18" y="15" z="0">0</lake>
+<lake x="17" y="15" z="0">0</lake>
+<lake x="16" y="15" z="0">0</lake>
+<lake x="15" y="14" z="0">0</lake>
+<lake x="15" y="13" z="0">0</lake>
+<lake x="14" y="13" z="0">0</lake>
+<lake x="13" y="13" z="0">0</lake>
+<lake x="12" y="13" z="0">0</lake>
+<lake x="11" y="12" z="0">0</lake>
+<lake x="10" y="12" z="0">0</lake>
+<lake x="10" y="10" z="0">0</lake>
+<lake x="9" y="9" z="0">0</lake>
+<lake x="8" y="8" z="0">0</lake>
+<lake x="7" y="7" z="0">0</lake>
+<lake x="10" y="11" z="0">0</lake>
+<lake x="6" y="6" z="0">0</lake>
+<lake x="6" y="5" z="0">0</lake>
+<lake x="5" y="5" z="0">0</lake>
+<lake x="5" y="6" z="0">0</lake>
+<lake x="5" y="7" z="0">0</lake>
+<lake x="5" y="8" z="0">0</lake>
+<lake x="4" y="8" z="0">0</lake>
+<lake x="4" y="9" z="0">0</lake>
+<lake x="4" y="10" z="0">0</lake>
+<lake x="4" y="11" z="0">0</lake>
+<lake x="4" y="12" z="0">0</lake>
+<lake x="3" y="13" z="0">0</lake>
+<lake x="3" y="14" z="0">0</lake>
+<lake x="3" y="15" z="0">0</lake>
+<lake x="2" y="16" z="0">0</lake>
+<lake x="2" y="17" z="0">0</lake>
+<lake x="2" y="18" z="0">0</lake>
+<lake x="1" y="19" z="0">0</lake>
+<lake x="1" y="20" z="0">0</lake>
+<lake x="0" y="21" z="0">0</lake>
+<lake x="0" y="22" z="0">0</lake>
+<event x="4" y="10" z="0" type="Surprise Consumable:2">You find an energy drink. And it hasn't even expired! This must be your lucky day. It was even cooled by the river.</event>
+<event x="21" y="6" z="-1" type="Text encounter:-1" path="Lore/World/Dolor Woods/No Way José">There are some inscriptions on the wall. It was crudely carved in the stone. It reads: "Not cool, José, not cool".</event>
+<event x="17" y="5" z="0" type="Surprise Consumable:2">You find an energy drink. And it hasn't even expired! This must be your lucky day.</event>
+<event x="23" y="13" z="0" type="Text encounter:-1" path="Lore/World/Dolor Woods/Tombstone">You find a tombstone. Time has weathered the inscription, but you can read: Here li..s Fre..r..ic Ma.. May he find more luck in the afterlife. Last words: "Oh, hi, cute bunny".</event>
+<entrance x="7" y="5" z1="0" z2="-2">
+	<text z="0">There's a steep descent and it's looking petty dark.</text>
+	<text z="-2">Light trickles through and you see the sound of water nearby.</text>
+</entrance>
+<entrance x="11" y="17" z1="-1" z2="-2">
+	<text z="-1">There's some low hanging roots, and some bugs crawling around. There's a dark in front of you.</text>
+	<text z="-2">You shake off the bugs and whatever else was creeping up on you, and you enter a more lit tunnel.</text>
+</entrance>
+<entrance x="16" y="6" z1="0" z2="-1">
+	<text z="0">There's a cave in the side of the hill.</text>
+	<text z="-1">You smell the fresh air, and you have a nice view of the surroundings.</text>
+</entrance>
+<entrance x="12" y="8" z1="-1" z2="-2">
+	<text z="-1">It goes even further down, and the sound of the river is getting fainter with every step.</text>
+	<text z="-2">You're not out of this place yet. The air is damp and silent. At least you're going back up.</text>
+</entrance>
+<entrance x="2" y="21" z1="-1" z2="-2">
+	<text z="-1">It goes even further down, and the air is damp.</text>
+	<text z="-2">You feel a little more confident now that it's rising again.</text>
+</entrance>
+</extra>
+<img>Baelin Forest.jpeg</img>
+</Dolor_Woods>
+
+
+<Baelin_Woods id="1">
+<name>Baelin Woods</name>
+<category>forest</category>
+<type>Loofbos</type>
+<dungeonMap>
+<heightMap>
+000000000000011111111111110000
+000000000000111111111111111000
+000000000001111112221111111100
+000000000011111122322211111100
+000000001111111123433222111110
+000000111111111223654322211111
+000001111111122233565433221111
+000111111122222233455543322111
+011111122222222333454554322211
+111111222222223333444444322211
+111112222222333333344544322211
+111122222223333333344454332221
+111222233333333333444544332222
+111223333333344444444445433322
+112234433333344444444444433322
+122235444444444444444444433332
+122334544444444444444444443332
+222334554455455555555544443333
+222334555565555555555555444333
+222344566666665555556765544433
+222344676687776666666776555443
+223355666677877666667886666543
+223456766666778666777786666544
+223466665566666666777776666654
+223455555556555566676665566765
+222344445555555555566555566786
+122333344444455555555555567997
+122223333334455555555655578998
+112222233333465555455555579998
+111222222333444554444444567776
+</heightMap>
+</dungeonMap>
+<extra>
+<enemy x="1" y="16" z="0">0</enemy>
+<enemy x="1" y="16" z="0">0</enemy>
+<enemy x="2" y="8" z="0">0</enemy>
+<enemy x="11" y="8" z="0">0</enemy>
+<enemy x="19" y="13" z="0">0</enemy>
+<enemy x="24" y="7" z="0">0</enemy>
+<enemy x="18" y="15" z="0">0</enemy>
+<enemy x="12" y="20" z="0">0</enemy>
+<enemy x="5" y="19" z="0">0</enemy>
+<enemy x="5" y="23" z="0">0</enemy>
+<enemy x="15" y="23" z="0">0</enemy>
+<enemy x="24" y="18" z="0">0</enemy>
+<enemy x="24" y="21" z="0">0</enemy>
+<enemy x="19" y="22" z="0">0</enemy>
+<enemy x="22" y="17" z="0">0</enemy>
+<enemy x="27" y="11" z="0">0</enemy>
+<enemy x="17" y="19" z="0">0</enemy>
+<enemy x="12" y="14" z="0">0</enemy>
+<enemy x="14" y="16" z="0">0</enemy>
+<enemy x="9" y="26" z="0">0</enemy>
+<enemy x="4" y="10" z="0">0</enemy>
+<enemy x="9" y="13" z="0">0</enemy>
+<enemy x="16" y="8" z="0">0</enemy>
+<enemy x="9" y="6" z="0">0</enemy>
+<lake x="10" y="2" z="0">0</lake>
+<lake x="9" y="1" z="0">0</lake>
+<lake x="8" y="1" z="0">0</lake>
+<lake x="7" y="1" z="0">0</lake>
+<lake x="7" y="0" z="0">0</lake>
+<lake x="6" y="0" z="0">0</lake>
+<lake x="8" y="0" z="0">0</lake>
+<lake x="9" y="0" z="0">0</lake>
+<lake x="10" y="1" z="0">0</lake>
+<lake x="11" y="1" z="0">0</lake>
+<lake x="11" y="2" z="0">0</lake>
+<lake x="11" y="3" z="0">0</lake>
+<lake x="10" y="3" z="0">0</lake>
+<lake x="9" y="2" z="0">0</lake>
+<lake x="8" y="2" z="0">0</lake>
+<lake x="6" y="1" z="0">0</lake>
+<lake x="5" y="0" z="0">0</lake>
+<lake x="4" y="0" z="0">0</lake>
+<lake x="3" y="0" z="0">0</lake>
+<lake x="5" y="1" z="0">0</lake>
+<lake x="7" y="2" z="0">0</lake>
+<lake x="8" y="3" z="0">0</lake>
+<lake x="9" y="3" z="0">0</lake>
+<lake x="10" y="0" z="0">0</lake>
+<lake x="11" y="0" z="0">0</lake>
+<lake x="12" y="0" z="0">0</lake>
+<lake x="12" y="1" z="0">0</lake>
+<lake x="12" y="2" z="0">0</lake>
+<lake x="13" y="0" z="0">0</lake>
+<event x="7" y="4" z="0" type="Surprise Equipment:0">Greetings traveller. What brings you to this place of evil? Dark secrets lurk here, which no man should ever lay their gaze on.</event>
+<event x="10" y="4" z="0" type="Lost:-1">A heavy storm comes up, and you get lost in the sounds of thunder. You must've wandered off course.</event>
+</extra>
+<img>Baelin Forest.jpeg</img>
+</Baelin_Woods>
+
+
+<BarrenHills id="2">
+<name>Barren Hills</name>
+<category>Forest</category>
+<type>Loofbos</type>
+<dungeonMap>
+<heightMap>
+00000000000000001110
+00000000000000111110
+00000000000011112311
+00000000000111112211
+00000000000111112211
+00000000000112112211
+00000000011122111211
+00000000112111111110
+00000000121111111000
+00000000111111000000
+00000000010000000000
+00000000000000000000
+00000000000000000000
+00000000000000000000
+00000000000000000000
+00000000000000000000
+00000000000000000000
+00000000000000000000
+00000000000000000000
+00000000000000000000
+</heightMap>
+<layer level="-2" name="Really Deep">
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+ooooooooooooooooo-oo
+ooooooooooooooooo-oo
+oooooooooooooooo--oo
+oooooooooooooooo-ooo
+oooooooooooooooo-ooo
+oooooooooooooooo-ooo
+oooooooooooooooo-ooo
+ooooooooooooooo--ooo
+oooooooooooooo--oooo
+ooo-ooooooooo--ooooo
+ooo-----------oooooo
+oooooooooooooooooooo
+</layer>
+<layer level="-1" name="Underground">
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+ooooooooo-oooooooooo
+ooooooooo-oooooooooo
+ooooooo---oooooooooo
+ooooooo-oooooooooooo
+ooooo---oooooooooooo
+oooo--oooooooooooooo
+ooo--ooooooooooooooo
+oooooooooooooooooooo
+oooooooooooooooooooo
+</layer>
+</dungeonMap>
+<extra>
+<enemy x="16" y="9" z="0">1</enemy>
+<enemy x="6" y="11" z="0">1</enemy>
+<entrance x="9" y="11" z1="0" z2="-1">
+	<text z="0">You see a cave.</text>
+	<text z="-1">The light hurts your eyes.</text>
+</entrance>
+<entrance x="3" y="17" z1="-1" z2="-2">
+	<text z="-1">You see that it goes even deeper.</text>
+	<text z="-2">You recognise this. Almost there.</text>
+</entrance>
+<entrance x="17" y="8" z1="0" z2="-2">
+	<text z="0">This is a cave entrance</text>
+	<text z="-2">You come out of the cave</text>
+</entrance>
+</extra>
+<img>Baelin Forest.jpeg</img>
+</BarrenHills>
+
+
+<Worlds_Schism id="3">
+<name>World's Schism</name>
+<category>Forest</category>
+<type>Loofbos</type>
+<dungeonMap>
+<heightMap>
+4444444444444433333333333333333334444444
+3333333444444433333333333333333334444444
+4333333455444433333233333223222333333333
+4334445445554444333444444332111222333333
+5335455534566444344555554433211112333333
+7544323221355444344567765433321001322333
+6533211121234444444567876543321100222233
+6644311123113554445577887654432200012233
+7754311112411455444567788654433211112233
+5654443211313355444567777655443322111233
+5655556421143134444567676666544332112333
+3333345431112124555455566555555433223334
+2222234431111213565445555556666543333334
+1210123321134111356554444456677654433334
+0101221010123311135654444455677765444444
+1022010201001110124554343345687765444444
+2111211211111111012344332235577776544444
+2222222222222221011354320034567876544444
+4433333333333322120344200034456777655544
+4444444444444433210023000034455677666654
+4333333344444433321011000023445566777754
+4333333344444433321000000013444456887654
+4333333344444443332100000002344455677654
+3223333444444444443200000001344445555544
+3223344444444444443210000000234444455433
+3223444445554433333210000000233444443213
+3334446556655433333320000000133344443223
+3333445567765433333320000000123344443323
+3323445567765422334321000000022334444322
+2123445578754433344321000111012233444322
+0013445667654433544310003551001233334433
+0003455666654434444300005651000123334444
+1002456676665544444200004440000002333334
+2013456676665544444300001100011102332234
+2113456766665554343320000000122212222124
+2101245555555564233441000001233322211123
+3200144555555444333331000001433322222223
+3200013344444444333332000001344333322233
+3322100133334433333332000001344433333334
+3333210123334444444432100012334433333334
+</heightMap>
+<layer level="-2" name="Really Deep">
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooo--ooooooooooooooooooooooo
+ooooooooooooooo-oooooooooooooooooooooooo
+ooooooooooooooo--ooooooooooooooooooooooo
+oooooooooooooooo-ooooooooooooooooooooooo
+oooooooooooooo---ooooooooooooooooooooooo
+ooooooooooooo--ooooooooooooooooooooooooo
+oooooooooooo--oooooooooooooooooo-ooooooo
+oooooooooooo-oooooooooooooooooo--ooooooo
+oooooooooooo-ooooooooooooooooo--oooooooo
+oooooooooooooooooooooooooooooo-ooooooooo
+oooooooooooooooooooooooooooooo-ooooooooo
+ooooooooooooooooooooooooooooo--ooooooooo
+ooooooooooooooooooooooooooooo-oooooooooo
+oooooooooooooooooooooooooooo--oooooooooo
+ooooooooooooooooooooooooooooo-oooooooooo
+ooooooooooooooooooooooooooooo-oooooooooo
+ooooooooooooooooooooooooooooo--ooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+</layer>
+<layer level="-3" name="Third level">
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooooooooooooooooo-oooooooooo
+ooooooooooooooooooooooooooooo-oooooooooo
+ooooooooooooooooooooooooooooo-oooooooooo
+ooooooooooooooooooooooooooooo-oooooooooo
+oooooooooooooooooooooooooo----oooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+</layer>
+<layer level="-1" name="Underground">
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooo--oooooooooooooooooooo
+oooooooooooooooooo-ooooooooooooooooooooo
+ooooooooooooooooo-oooooooooooooooooooooo
+ooooooooooooooooo--ooooooooooooooooooooo
+oooooooooooooooooo-ooooooooooooooooooooo
+oooooooooooooooo---ooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooo-ooooooo
+oooooooooooooooooooooooooooooooo-ooooooo
+oooooooooooooooooooooooooooooooo-ooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooo-ooooooooooooooooooooooooooo
+oooooooooooo-ooooooooooooooooooooooooooo
+oooooooooooo-ooooooooooooooooooooooooooo
+oooooooooooo-ooooooooooooooooooooooooooo
+ooooooooooo--ooooooooooooooooooooooooooo
+ooooooooooo--ooooooooooooooooooooooooooo
+oooooooooooo--oooooooooooooooooooooooooo
+ooooooooooooo-oooooooooooooooooooooooooo
+oooooooooooo--oooooooooooooooooooooooooo
+ooooooooooooo-oooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooooooooooooo--ooooooooooooo
+ooooooooooooooooooooooooo-oooooooooooooo
+ooooooooooooooooooooooooo-oooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+</layer>
+</dungeonMap>
+<extra>
+<enemy x="15" y="22" z="0">3</enemy>
+<enemy x="7" y="22" z="0">3</enemy>
+<enemy x="3" y="33" z="0">3</enemy>
+<enemy x="8" y="37" z="0">3</enemy>
+<enemy x="3" y="7" z="0">3</enemy>
+<enemy x="5" y="2" z="0">3</enemy>
+<enemy x="7" y="14" z="0">3</enemy>
+<enemy x="34" y="24" z="0">2</enemy>
+<enemy x="28" y="20" z="0">2</enemy>
+<enemy x="30" y="27" z="0">2</enemy>
+<enemy x="23" y="9" z="0">1</enemy>
+<enemy x="23" y="6" z="0">1</enemy>
+<enemy x="27" y="4" z="0">0</enemy>
+<enemy x="36" y="1" z="0">0</enemy>
+<enemy x="37" y="7" z="0">0</enemy>
+<lake x="25" y="14" z="0">0</lake>
+<lake x="25" y="15" z="0">0</lake>
+<lake x="24" y="16" z="0">0</lake>
+<lake x="24" y="17" z="0">0</lake>
+<lake x="23" y="18" z="0">0</lake>
+<lake x="23" y="20" z="0">0</lake>
+<lake x="23" y="22" z="0">0</lake>
+<lake x="22" y="23" z="0">0</lake>
+<lake x="23" y="19" z="0">0</lake>
+<lake x="24" y="19" z="0">0</lake>
+<lake x="25" y="19" z="0">0</lake>
+<lake x="25" y="18" z="0">0</lake>
+<lake x="24" y="18" z="0">0</lake>
+<lake x="25" y="17" z="0">0</lake>
+<lake x="22" y="21" z="0">0</lake>
+<lake x="22" y="22" z="0">0</lake>
+<lake x="23" y="23" z="0">0</lake>
+<lake x="23" y="21" z="0">0</lake>
+<lake x="22" y="19" z="0">0</lake>
+<lake x="21" y="20" z="0">0</lake>
+<lake x="21" y="21" z="0">0</lake>
+<lake x="21" y="22" z="0">0</lake>
+<lake x="20" y="24" z="0">0</lake>
+<lake x="20" y="25" z="0">0</lake>
+<lake x="20" y="27" z="0">0</lake>
+<lake x="24" y="25" z="0">0</lake>
+<lake x="25" y="24" z="0">0</lake>
+<lake x="25" y="25" z="0">0</lake>
+<lake x="25" y="26" z="0">0</lake>
+<lake x="26" y="25" z="0">0</lake>
+<lake x="23" y="25" z="0">0</lake>
+<lake x="24" y="24" z="0">0</lake>
+<lake x="24" y="26" z="0">0</lake>
+<lake x="23" y="24" z="0">0</lake>
+<lake x="24" y="23" z="0">0</lake>
+<lake x="24" y="22" z="0">0</lake>
+<lake x="25" y="21" z="0">0</lake>
+<lake x="25" y="22" z="0">0</lake>
+<lake x="25" y="23" z="0">0</lake>
+<lake x="26" y="22" z="0">0</lake>
+<lake x="24" y="21" z="0">0</lake>
+<lake x="25" y="20" z="0">0</lake>
+<lake x="26" y="21" z="0">0</lake>
+<lake x="24" y="20" z="0">0</lake>
+<lake x="22" y="20" z="0">0</lake>
+<lake x="21" y="23" z="0">0</lake>
+<lake x="22" y="24" z="0">0</lake>
+<lake x="21" y="24" z="0">0</lake>
+<lake x="22" y="25" z="0">0</lake>
+<lake x="21" y="26" z="0">0</lake>
+<lake x="22" y="26" z="0">0</lake>
+<lake x="22" y="27" z="0">0</lake>
+<lake x="23" y="26" z="0">0</lake>
+<lake x="23" y="27" z="0">0</lake>
+<lake x="23" y="28" z="0">0</lake>
+<lake x="24" y="27" z="0">0</lake>
+<lake x="24" y="28" z="0">0</lake>
+<lake x="24" y="29" z="0">0</lake>
+<lake x="25" y="28" z="0">0</lake>
+<lake x="25" y="27" z="0">0</lake>
+<lake x="26" y="26" z="0">0</lake>
+<lake x="26" y="23" z="0">0</lake>
+<lake x="26" y="24" z="0">0</lake>
+<lake x="27" y="23" z="0">0</lake>
+<lake x="27" y="25" z="0">0</lake>
+<lake x="26" y="27" z="0">0</lake>
+<lake x="27" y="26" z="0">0</lake>
+<lake x="23" y="36" z="0">0</lake>
+<lake x="24" y="35" z="0">0</lake>
+<lake x="24" y="36" z="0">0</lake>
+<lake x="24" y="37" z="0">0</lake>
+<lake x="25" y="36" z="0">0</lake>
+<lake x="22" y="35" z="0">0</lake>
+<lake x="23" y="34" z="0">0</lake>
+<lake x="23" y="35" z="0">0</lake>
+<lake x="21" y="33" z="0">0</lake>
+<lake x="22" y="32" z="0">0</lake>
+<lake x="22" y="33" z="0">0</lake>
+<lake x="22" y="34" z="0">0</lake>
+<lake x="23" y="33" z="0">0</lake>
+<lake x="21" y="32" z="0">0</lake>
+<lake x="22" y="31" z="0">0</lake>
+<lake x="23" y="32" z="0">0</lake>
+<lake x="21" y="31" z="0">0</lake>
+<lake x="22" y="30" z="0">0</lake>
+<lake x="23" y="31" z="0">0</lake>
+<lake x="23" y="29" z="0">0</lake>
+<lake x="23" y="30" z="0">0</lake>
+<lake x="24" y="30" z="0">0</lake>
+<lake x="22" y="29" z="0">0</lake>
+<lake x="22" y="28" z="0">0</lake>
+<lake x="20" y="31" z="0">0</lake>
+<lake x="21" y="30" z="0">0</lake>
+<lake x="20" y="32" z="0">0</lake>
+<lake x="20" y="33" z="0">0</lake>
+<lake x="21" y="34" z="0">0</lake>
+<lake x="24" y="34" z="0">0</lake>
+<lake x="24" y="33" z="0">0</lake>
+<lake x="25" y="34" z="0">0</lake>
+<lake x="26" y="33" z="0">0</lake>
+<lake x="26" y="34" z="0">0</lake>
+<lake x="26" y="35" z="0">0</lake>
+<lake x="27" y="34" z="0">0</lake>
+<lake x="27" y="32" z="0">0</lake>
+<lake x="28" y="33" z="0">0</lake>
+<lake x="27" y="33" z="0">0</lake>
+<lake x="28" y="32" z="0">0</lake>
+<lake x="29" y="32" z="0">0</lake>
+<lake x="28" y="31" z="0">0</lake>
+<lake x="28" y="30" z="0">0</lake>
+<lake x="28" y="29" z="0">0</lake>
+<lake x="27" y="29" z="0">0</lake>
+<lake x="26" y="28" z="0">0</lake>
+<lake x="27" y="28" z="0">0</lake>
+<lake x="27" y="27" z="0">0</lake>
+<lake x="21" y="27" z="0">0</lake>
+<lake x="21" y="25" z="0">0</lake>
+<lake x="27" y="24" z="0">0</lake>
+<lake x="28" y="28" z="0">0</lake>
+<lake x="29" y="31" z="0">0</lake>
+<lake x="29" y="30" z="0">0</lake>
+<lake x="25" y="35" z="0">0</lake>
+<lake x="25" y="37" z="0">0</lake>
+<lake x="26" y="37" z="0">0</lake>
+<lake x="26" y="36" z="0">0</lake>
+<lake x="26" y="38" z="0">0</lake>
+<lake x="25" y="38" z="0">0</lake>
+<lake x="24" y="38" z="0">0</lake>
+<lake x="23" y="37" z="0">0</lake>
+<lake x="22" y="37" z="0">0</lake>
+<lake x="22" y="36" z="0">0</lake>
+<lake x="23" y="38" z="0">0</lake>
+<lake x="22" y="38" z="0">0</lake>
+<lake x="24" y="39" z="0">0</lake>
+<lake x="25" y="39" z="0">0</lake>
+<lake x="23" y="39" z="0">0</lake>
+<lake x="25" y="16" z="0">0</lake>
+<lake x="25" y="13" z="0">0</lake>
+<lake x="24" y="14" z="0">0</lake>
+<lake x="24" y="13" z="0">0</lake>
+<lake x="24" y="12" z="0">0</lake>
+<lake x="24" y="11" z="0">0</lake>
+<lake x="27" y="16" z="0">0</lake>
+<lake x="28" y="16" z="0">0</lake>
+<lake x="28" y="15" z="0">0</lake>
+<lake x="26" y="16" z="0">0</lake>
+<lake x="30" y="31" z="0">0</lake>
+<lake x="30" y="32" z="0">0</lake>
+<lake x="20" y="22" z="0">0</lake>
+<lake x="20" y="21" z="0">0</lake>
+<lake x="20" y="23" z="0">0</lake>
+<lake x="19" y="21" z="0">0</lake>
+<lake x="19" y="19" z="0">0</lake>
+<lake x="19" y="20" z="0">0</lake>
+<lake x="19" y="22" z="0">0</lake>
+<lake x="18" y="19" z="0">0</lake>
+<event x="28" y="30" z="-3" type="Surprise enemy:3">You feel you are nearing something important. The air is full with it. All of a sudden, you are besieged by a bunny possessed with anger, its eyes engulfed in flame, and mouth frothing.</event>
+<event x="25" y="31" z="0" type="Surprise equipment:7" path="Lore/Weapons/Hail Bunny!">In the magnificent view of where you're standing, you see a shiny blade, redirecting the sunlight into your eyes. It is a magnificent blade indeed, and it tingles are you fit your hand around it. It has the symbol of a bunny with fiery eyes engraved in it.</event>
+<entrance x="16" y="10" z1="-1" z2="-2">
+	<text z="-1">The cave suddenly takes a steep descent, and the sound of the water gives you an estimate of how far down the rabbit hole goes.</text>
+	<text z="-2">There's a steep slippery slope, it'll be tricky getting up there.</text>
+</entrance>
+<entrance x="32" y="14" z1="0" z2="-1">
+	<text z="0">Covered by some dead leaves and dirt, you discover a tunnel leading into darkness.</text>
+	<text z="-1">You try not to think about all the insects squirming in the barrier of dirt and rotting leaves separating you from fresh air.</text>
+</entrance>
+<entrance x="32" y="16" z1="-2" z2="-1">
+	<text z="-2">You are under the mountain now. The stones are cold, the silence broken only by the water escaping from the stalagtites.</text>
+	<text z="-1">It's cold here, and the puddles make it tricky to walk.</text>
+</entrance>
+<entrance x="29" y="26" z1="-2" z2="-3">
+	<text z="-2">There's water in some spots, and the air smells foul.</text>
+	<text z="-3">It's a little less scary than where you came from.</text>
+</entrance>
+<entrance x="12" y="18" z1="-1" z2="-2">
+	<text z="-1">Gradually it goes further down, and you see the difference in stone layer.</text>
+	<text z="-2">Ahead is a straight tunnel, more of what you've seen previously.</text>
+</entrance>
+<entrance x="26" y="30" z1="-3" z2="-1">
+	<text z="-3">There's a steep ascent, and you hear the soft rumbling of water nearby.</text>
+	<text z="-1">It's a dark, damp hole back down, but it's your only option.</text>
+</entrance>
+<entrance x="25" y="32" z1="0" z2="-1">
+	<text z="0">There's little other option but go back down here.</text>
+	<text z="-1">The light at the end of the tunnel hurts your eyes, but it makes you happy nonetheless.</text>
+</entrance>
+<entrance x="19" y="5" z1="0" z2="-1">
+	<text z="0">You fall through a hole and end up in a natural cave.</text>
+	<text z="-1">There are some roots you can pull yourself back up with through the hole.</text>
+</entrance>
+</extra>
+<img>Baelin Forest.jpeg</img>
+</Worlds_Schism>
+
+
+<Upper_Mirkwood id="4">
+<name>Upper Mirkwood</name>
+<category>Forest</category>
+<type>Naaldbos</type>
+<dungeonMap>
+<heightMap>
+1111111112222222222222222222222211111111
+1111111222222233333333322232232221111111
+1111112223333235335333322233333222222222
+0111112233332222333333322233333222222233
+0011123232223222222222222333332222222233
+0011112222222222222112222333332222222233
+0001111122222222222111222322333322222223
+0000111111112222222112222222222222211222
+0000001111111222222122222222222221111111
+0000000001111122221122222222222211111111
+0000000000011111121122222111122111111111
+0000000000001111121222221111111111111111
+0000000000000011121111111111111111111111
+0000000000000001111111111111111111111111
+0000000000000001111111111111111111111000
+0000000000000001111111111111111100100000
+0000000000000001111111111110000000000000
+1111111111111111111111111100000000000000
+1111111111111111111111111100000000000000
+1111111111111111110111111000000000000000
+1111122222211111111111110000000000000000
+2222222222222222211211100000000000000000
+2222222222222222222110000000000000000000
+2233333223322333322110000000000000000000
+3345433333333443222111101100000000000000
+3344443334434333222111110000000000000000
+4444444444443332222111110000000000000000
+6655555555654332222211110000000000000000
+9876666667765433322221111000000000000000
+9987777888996443322221111000000000011110
+8888888998876543332221111110000000111111
+9998899999976543332221111110000011111111
+9999999999886544332221111110000011111211
+9999999998876554332221111100000111112321
+9999999988875544332221111000000111123431
+9999998888865543322221111000011111222332
+9999999988876544332221111000111111222221
+9999999998876554433221110000112111233211
+9999999998876665443221111010112111122111
+9999999977765544332211110000011111111111
+</heightMap>
+<layer level="-1" name="SmallCaves">
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooo---ooooooooooooooooooooo
+oooooooooooooo---o-o---ooooooooooooooooo
+oooooooooooooooooo-----ooooooooooooooooo
+ooooooooooooooooooo----ooooooooooooooooo
+ooooooooooooooooooo------ooooooooooooooo
+oooooooooooooooooooo---o-ooooooooooooooo
+oooooooooooooooooooooooo-ooooooooooooooo
+ooooooooooooooooooooooo--ooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooo-ooooooooooooooooooooooooooooooooooo
+ooo---oooooooooooooooooooooooooooooooooo
+oooo-ooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+</layer>
+<layer level="1" name="Treetops">
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooooooooo-oooooooooooooooooo
+oooooooooooooooooooo---ooooooooooooooooo
+ooooooooooooooooooooo-oooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooo
+</layer>
+</dungeonMap>
+<extra>
+<enemy x="22" y="3" z="-1">3</enemy>
+<enemy x="18" y="6" z="0">5</enemy>
+<enemy x="16" y="8" z="0">5</enemy>
+<enemy x="24" y="7" z="0">5</enemy>
+<enemy x="8" y="2" z="0">5</enemy>
+<enemy x="12" y="19" z="0">2</enemy>
+<enemy x="11" y="19" z="0">2</enemy>
+<enemy x="12" y="20" z="0">2</enemy>
+<enemy x="34" y="16" z="0">2</enemy>
+<enemy x="33" y="16" z="0">2</enemy>
+<enemy x="33" y="15" z="0">2</enemy>
+<enemy x="32" y="33" z="0">2</enemy>
+<enemy x="32" y="32" z="0">2</enemy>
+<enemy x="31" y="32" z="0">2</enemy>
+<enemy x="30" y="33" z="0">2</enemy>
+<npc x="21" y="25" z="1">3</npc>
+<lake x="17" y="19" z="0">0</lake>
+<lake x="18" y="18" z="0">0</lake>
+<lake x="18" y="19" z="0">0</lake>
+<lake x="18" y="20" z="0">0</lake>
+<lake x="19" y="19" z="0">0</lake>
+<lake x="19" y="17" z="0">0</lake>
+<lake x="19" y="18" z="0">0</lake>
+<lake x="20" y="18" z="0">0</lake>
+<lake x="4" y="31" z="0">0</lake>
+<lake x="5" y="30" z="0">0</lake>
+<lake x="6" y="29" z="0">0</lake>
+<lake x="7" y="28" z="0">0</lake>
+<lake x="8" y="28" z="0">0</lake>
+<lake x="8" y="27" z="0">0</lake>
+<lake x="9" y="27" z="0">0</lake>
+<lake x="9" y="26" z="0">0</lake>
+<lake x="10" y="26" z="0">0</lake>
+<lake x="11" y="26" z="0">0</lake>
+<lake x="11" y="25" z="0">0</lake>
+<lake x="12" y="25" z="0">0</lake>
+<lake x="13" y="25" z="0">0</lake>
+<lake x="13" y="24" z="0">0</lake>
+<lake x="14" y="23" z="0">0</lake>
+<lake x="15" y="23" z="0">0</lake>
+<lake x="15" y="22" z="0">0</lake>
+<lake x="16" y="21" z="0">0</lake>
+<lake x="16" y="20" z="0">0</lake>
+<lake x="17" y="20" z="0">0</lake>
+<lake x="19" y="20" z="0">0</lake>
+<lake x="20" y="19" z="0">0</lake>
+<lake x="20" y="20" z="0">0</lake>
+<lake x="18" y="17" z="0">0</lake>
+<lake x="17" y="18" z="0">0</lake>
+<lake x="16" y="19" z="0">0</lake>
+<lake x="17" y="16" z="0">0</lake>
+<lake x="17" y="15" z="0">0</lake>
+<lake x="16" y="15" z="0">0</lake>
+<lake x="16" y="14" z="0">0</lake>
+<lake x="15" y="14" z="0">0</lake>
+<lake x="14" y="14" z="0">0</lake>
+<lake x="12" y="14" z="0">0</lake>
+<lake x="11" y="14" z="0">0</lake>
+<lake x="11" y="12" z="0">0</lake>
+<lake x="9" y="13" z="0">0</lake>
+<lake x="8" y="12" z="0">0</lake>
+<lake x="7" y="12" z="0">0</lake>
+<lake x="5" y="11" z="0">0</lake>
+<lake x="4" y="11" z="0">0</lake>
+<lake x="13" y="14" z="0">0</lake>
+<lake x="10" y="14" z="0">0</lake>
+<lake x="11" y="13" z="0">0</lake>
+<lake x="10" y="13" z="0">0</lake>
+<lake x="10" y="12" z="0">0</lake>
+<lake x="9" y="12" z="0">0</lake>
+<lake x="7" y="11" z="0">0</lake>
+<lake x="6" y="11" z="0">0</lake>
+<lake x="3" y="10" z="0">0</lake>
+<lake x="2" y="9" z="0">0</lake>
+<lake x="1" y="8" z="0">0</lake>
+<lake x="0" y="8" z="0">0</lake>
+<lake x="0" y="7" z="0">0</lake>
+<lake x="20" y="21" z="0">0</lake>
+<lake x="21" y="22" z="0">0</lake>
+<lake x="22" y="23" z="0">0</lake>
+<lake x="23" y="23" z="0">0</lake>
+<lake x="23" y="24" z="0">0</lake>
+<lake x="24" y="24" z="0">0</lake>
+<lake x="24" y="25" z="0">0</lake>
+<lake x="25" y="26" z="0">0</lake>
+<lake x="26" y="27" z="0">0</lake>
+<lake x="27" y="27" z="0">0</lake>
+<lake x="28" y="27" z="0">0</lake>
+<lake x="29" y="26" z="0">0</lake>
+<lake x="30" y="26" z="0">0</lake>
+<lake x="31" y="26" z="0">0</lake>
+<lake x="31" y="25" z="0">0</lake>
+<lake x="32" y="25" z="0">0</lake>
+<lake x="33" y="24" z="0">0</lake>
+<lake x="34" y="24" z="0">0</lake>
+<lake x="35" y="23" z="0">0</lake>
+<lake x="36" y="23" z="0">0</lake>
+<lake x="36" y="22" z="0">0</lake>
+<lake x="37" y="22" z="0">0</lake>
+<lake x="38" y="21" z="0">0</lake>
+<lake x="39" y="21" z="0">0</lake>
+<lake x="20" y="5" z="0">0</lake>
+<lake x="20" y="6" z="0">0</lake>
+<lake x="19" y="7" z="0">0</lake>
+<lake x="19" y="8" z="0">0</lake>
+<lake x="19" y="9" z="0">0</lake>
+<lake x="18" y="10" z="0">0</lake>
+<lake x="18" y="11" z="0">0</lake>
+<lake x="18" y="12" z="0">0</lake>
+<lake x="18" y="13" z="0">0</lake>
+<lake x="18" y="14" z="0">0</lake>
+<lake x="17" y="14" z="0">0</lake>
+<lake x="18" y="16" z="0">0</lake>
+<lake x="18" y="15" z="0">0</lake>
+<lake x="17" y="17" z="0">0</lake>
+<lake x="16" y="17" z="0">0</lake>
+<lake x="16" y="16" z="0">0</lake>
+<lake x="16" y="18" z="0">0</lake>
+<event x="3" y="21" z="-1" type="Surprise Consumable:1">Someone seems to have used this as a shelter. You find a flask of water.</event>
+<event x="23" y="9" z="-1" type="Surprise enemy:4">There is a silhouette visible in the corner, and a slight snorting.</event>
+<event x="17" y="2" z="-1" type="Text encounter:-1">There are some cloven bones lying around. Some are more fresh than others.</event>
+<event x="18" y="3" z="-1" type="Text encounter:-1">A trail of dried blood is visible in the murky sand. Vague footprints reveal only three legs. A wounded predator is all the more dangerous..</event>
+<event x="21" y="7" z="-1" type="Surprise Item:0">This seems to be the remaining skeleton of a fallen warrior. This must be Darius. He seems to be holding a Paper Scroll, still tightly gripped is his hand.</event>
+<entrance x="4" y="20" z1="0" z2="-1">
+	<text z="0">A small hollowed out cave appears in the side of the hill.</text>
+	<text z="-1">As you exit the cave you have a nice view of the river flowing beneath you.</text>
+</entrance>
+<entrance x="21" y="23" z1="0" z2="1">
+	<text z="0">Suddenly a ladder is lowered next to you, and the friendly face of a woman greets you.</text>
+	<text z="1">You are carefully inspecting the ladder, trying to find a way not to fall down.</text>
+</entrance>
+<entrance x="14" y="3" z1="0" z2="-1">
+	<text z="0">You see a small cavern, whose entrance is shrouded by moss and overhanging leaves.</text>
+	<text z="-1">Faint light is able to pierce through twigs and leaves. You feel some fresh air blowing inwards.</text>
+</entrance>
+</extra>
+<img>Baelin Forest.jpeg</img>
+</Upper_Mirkwood>
+</HostileAreas>

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Fri Nov 11 10:14:04 CET 2011 -->
+
+<CityDialog>
+	
+	<Dolorem>
+		<entrance>
+		  <person>Welcome to Dolorem, playerName. May your visit be a fortunate one.</person>
+    </entrance>
+		<History>
+      <history>
+        Dolorem started out as a small fishing village.
+        Basic supplies were within reach, giving the city the chance to grow.
+        Villagers would get wood out of Baelin forest, while extracting
+        minerals from the quarries in the grey mountains.
+        
+        Trade routes were set up, making Dolorem an important trade center,
+        while staying self-supporting through fishing and agriculture.
+      </history>
+      <history>
+        Due to its coastal location however, defences from attackers
+        coming from the seas were low. The city was sacked when the
+        Vitharr landed on the coasts in the year 135 of the second era.
+        Buildings were set ablaze, men were enslaved, children were 
+        slaughtered and left to die in the streets. The once great 
+        trade routes were one by one abandoned.
+        
+        The Vitharr occupied the most of the territory west of the grey
+        mountains in a matter of weeks. Led by a wizard, shrouded in mystery,
+        they left nothing but burning cinders and despair in their wake.
+      </history>
+      <history>
+        However, one day upon the other, they had disappeared.
+        Spectators told of an incoming message, magical of sort some said,
+        coming from overseas. Moving at the speed of the wind,
+        they had departed just before the break of dawn.
+        
+        Until this day, over 200 years later, not one can tell exactly
+        what had driven the Vitharr away. It has been a tough recovery
+        for Dolorem, however.
+      </history>
+    </History>
+    <Conversation>
+      <district name="Trade Quarter">
+        <person name="John" delay="2000">Say Thomas, have you heard the story about Baelin Woods?</person>
+        <person name="Thomas" delay="2000">I don't believe so, what happened?</person>
+		<person name="John" delay="3000">My oldest son was playing in the woods at the edge closest to the city, and saw some men seemingly guarding something.</person>
+		<person name="Thomas" delay="2000">Must've been something precious to put guards in the woods that close to the city.</person>
+		<person name="John" delay="2000">Exactly what I was thinking. To be honest though, I don't have the guts to check it out.</person>
+		<person name="Thomas" delay="2000">Might get you into some serious trouble. My curiosity's having a hard time convincing me. Better just leave it be.</person>
+      </district>
+      <district name="Main Square">
+        You hear birds whistling and the river flow in the background.
+      </district>
+    </Conversation>
+	</Dolorem>
+	
+	<Ferlain>
+		<entrance>
+		  <person>Ferlain bids you welcome, playerName. I'd like to welcome you in better times, I'm afraid.</person>
+		</entrance>
+  <History>
+		<history>
+			Where Dolorem gained profit out of fishing, Ferlain's 
+			agricultural strength lies in grain farming.
+			The fertile lands between the Western Sea and the grey mountains
+			were an ideal foundation for what became the central granary
+			for the entire province.
+			
+			When the Vitharr sweeped the lands,
+			the achievements of generations evaporated like water on a hot plate.
+			Robbed of its largest source of essential nutrients,
+			malnutrition hit the population like a sledgehammer.
+		</history>
+		<history>
+			Although it was quickly contained, insufficient hygiene
+			led to disease. The few survivors that were able to escape their
+			city's raid, had been hiding in underground crypts.
+			During the years preceding the attack, wealthy tradesfamilies
+			had built a vast network of tunnels throughout the city.
+			
+			Quite soon in the early years, competition between kins had evolved 
+			into rivalry as Ferlain flourished. Letting a business deal
+			slip through their hands, could mean loss of credibility, 
+			thereby paving the way for failure, be it on long or short term.
+		</history>
+		<history>
+			Families were in a state of secret war, hiring mercenaries
+			to clean up their mess. As personal raids became more frequent,
+			escape routes were excavated. Pathways from rivalling kins
+			could be as close as a few feet without them even knowing.
+			
+			When the western lands had turned into an occupied wasteland,
+			those tunnels were one of the few chances at survival.
+			The owning family would let people in,
+			knowing that when it would all be over, the people would be
+			one of the most powerful tools in the quest for power.
+		</history>
+		<history>
+			After the destruction, politics were no easy matter.
+			Kinships all wanted a piece of the cake of power,
+			with rising tensions frequently ending in bloodshed.
+			
+			However, time is short and work is abundant.
+			Should you inquire more information,
+			the capital city of Alberin has an extensive library.
+		</history>
+		</History>
+	</Ferlain>
+</CityDialog>

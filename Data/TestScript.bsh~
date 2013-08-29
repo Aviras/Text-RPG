@@ -1,0 +1,103 @@
+int aimFor = 0;
+int damage = 0;
+int chargeModifier = 1;
+int heightModifier = 1;
+String prediction;
+try{
+	// parameters influencing probability: +weapon Skill, +dexterity player, -dexterity enemy, target aimed at, -shield
+	if(actionTarget.equalsIgnoreCase("head")){
+	  probability = Math.min(0.7, 0.2 + 0.7*actor.getMeleeWeaponSkill()*actor.getDexterity()/target.getDexterity() - 0.1*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+	}
+	else if(actionTarget.equalsIgnoreCase("body")){
+	  aimFor = 1;
+	  probability = Math.min(0.9, 0.6 + 0.5*actor.getMeleeWeaponSkill()*actor.getDexterity()/target.getDexterity() - 0.3*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+	}
+	else if(actionTarget[1].equalsIgnoreCase("legs")){
+	  aimFor = 2;
+	  probability = Math.min(0.8, 0.5 + 0.5*actor.getMeleeWeaponSkill()*actor.getDexterity()/target.getDexterity() - 0.15*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+	  }
+	else{
+	  RPGMain.printText(true, "\"" + actionContent[1] + "\" is not a valid target (head/body/legs).");
+	  return;
+	}
+}catch(ArrayIndexOutOfBoundsException exc){
+	RPGMain.printText(true, "You must specify your target (head/body/legs).");
+return;
+}
+
+// see if enemy predicted player's attack
+if(actor.getClass().getName().equalsIgnoreCase("Avatar")){
+	prediction = target.predictAction(playerCoord, enemyCoords.get(mobIndex));
+	System.out.println("Prediction: " + prediction);
+	RPGMain.speler.addMeleeAction(actionTarget);
+	hasActed = true;
+	if(prediction.equalsIgnoreCase(actionTarget)){
+	  probability-=0.5;
+	  RPGMain.printText(true, "It anticipated your move!");
+	}
+}
+
+System.out.println("Probability: " + probability);
+//TODO correct if enemies are not carrying weapons
+// parameters influencing damage: +player strength, +weapon strength, -weapon durability, -enemy defense,+heightModifier
+// 0.4*pStrength^(sPow+0.03*(pStrength-eDefense))*wStrength^(1.1)/(eDefense^sPow)*(dur/maxDur+0.5)
+
+damage = (int) (Math.round(chargeModifier*heightModifier*0.4*Math.pow(actor.getStrength(),1.5+0.03*(actor.getStrength()-target.getDefense(aimFor)))*Math.pow(actor.getWapen().getStrength(),1.1)/Math.pow(target.getDefense(aimFor), 1.5)*(actor.getWapen().getKwaliteit()/actor.getWapen().getMaxKwaliteit() + 0.5)));
+System.err.println("Damage = " + damage);
+damage = (int)(damage*actor.getStanceAttackModifier());
+damage = (int)(target.getStanceDefenseModifier());
+System.err.println("Damage = " + damage);
+boolean b = executeAction(aimFor,actor,target);
+if(generator.nextDouble() > 0.2){
+actor.getWapen().addKwaliteit(-1);
+}
+
+
+
+public boolean executeAction(int aimFor, Wezen actor, Wezen target){
+	//TODO diminish damage because of tiredness/hunger?
+	// kans kleiner dat speler raakt, verschil in snelheid van moe worden tss bv hele dag niks doen of hele dag vechten
+	// wordt behandeld bij maken van Ability-class
+	
+	//successful hit
+	double hit = generator.nextDouble();
+	boolean b = false;
+	System.out.println(hit);
+	if(hit < probability){
+		target.addHP(-damage);
+		if(damage > 0){
+			RPGMain.printText(true, actor.getName() + " hits " + target.getName() + " for " + damage + " damage.");
+			if(aimFor == 2){
+				System.out.println("Diminishing movement");
+				if(actor.getClass().equals(Enemy.class))
+					RPGMain.printText(true, actor.getName() + " aimed for the legs, and hurt your leg. You'll have trouble running away if the time should come.");
+				else
+					RPGMain.printText(true, target.getName() + " was hit in its leg, and it seemingly has problems moving as swiftly as it did before.");
+				target.dimMovement(0.1*(double)damage/(double)target.getDefense(2));
+				System.out.println("movement: " + target.getMovement());
+			}
+		}
+		else{
+			RPGMain.printText(false, actor.getName() + " cannot penetrate into flesh, and deals no damage");
+		}
+		target.wearOut(damage, aimFor);
+		b = true;
+	}
+	// miss
+	else if(hit < (probability + actor.getArchery()) && target.getSchild().getStrength() > 0){
+		RPGMain.printText(false, actor.getName() + " blow struck its shield");
+		target.getSchild().addKwaliteit(-(int)(damage/(target.getSchild().getStrength()+0.01)));
+		if(target.getSchild().getKwaliteit() <= 0){
+			RPGMain.printText(true, ", shattering it and leaving your opponent unprotected.");
+		}
+		else{
+			RPGMain.printText(true, ".");
+		}
+		b = true;
+	}
+	else{
+		RPGMain.printText(true, actor.getName() + " missed.");
+	}
+	return b;
+}
+

@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<HEAD>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="../stylesheet.css" TITLE="Style">
+<META NAME="GENERATOR" CONTENT="Java2HTML Version 1.5">
+<TITLE>game.Inn (Java2HTML)</TITLE>
+</HEAD>
+<BODY><TABLE id="Header" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td colspan="2" width="33%">&nbsp;</td>
+<td align="center" colspan="2" width="33%">
+<font size="4">Inn.java</font>
+</td>
+<td align="right" colspan="2" width="33%">&nbsp;</td>
+</tr>
+</TABLE>
+<pre ID="Classes">
+<FONT ID="LN">1   </FONT><A NAME="1"></A><FONT ID="Package">package</FONT> game;
+<FONT ID="LN">2   </FONT><A NAME="2"></A><FONT ID="Import">import</FONT> java.io.*;
+<FONT ID="LN">3   </FONT><A NAME="3"></A>
+<FONT ID="LN">4   </FONT><A NAME="4"></A><FONT ID="Import">import</FONT> org.apache.log4j.Logger;
+<FONT ID="LN">5   </FONT><A NAME="5"></A><FONT ID="Public">public</FONT> <FONT ID="Class">class</FONT> Inn <FONT ID="Extends">extends</FONT> <A HREF="../game/DistrictLocation.java.html">DistrictLocation</A> <FONT ID="Implements">implements</FONT> Serializable {
+<FONT ID="LN">6   </FONT><A NAME="6"></A>    <FONT ID="FormalComment">/**
+<FONT ID="LN">7   </FONT><A NAME="7"></A>     * 
+<FONT ID="LN">8   </FONT><A NAME="8"></A>     */</FONT>
+<FONT ID="LN">9   </FONT><A NAME="9"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> <FONT ID="Final">final</FONT> <FONT ID="Long">long</FONT> serialVersionUID = -<FONT ID="IntegerLiteral">4843765633893197943L</FONT>;
+<FONT ID="LN">10  </FONT><A NAME="10"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> Logger logger = Logger.getLogger(<A HREF="../game/Inn.java.html">Inn</A>.<FONT ID="Class">class</FONT>);
+<FONT ID="LN">11  </FONT><A NAME="11"></A>    <FONT ID="FormalComment">/**
+<FONT ID="LN">12  </FONT><A NAME="12"></A>     * 
+<FONT ID="LN">13  </FONT><A NAME="13"></A>     */</FONT>
+<FONT ID="LN">14  </FONT><A NAME="14"></A>    <FONT ID="Private">private</FONT> <A HREF="../game/NPC.java.html">NPC</A> innkeeper;
+<FONT ID="LN">15  </FONT><A NAME="15"></A>    
+<FONT ID="LN">16  </FONT><A NAME="16"></A>    <FONT ID="Public">public</FONT> Inn(String name, String description, String innkeeperID){
+<FONT ID="LN">17  </FONT><A NAME="17"></A>        <FONT ID="This">this</FONT>.name = name;
+<FONT ID="LN">18  </FONT><A NAME="18"></A>        <FONT ID="This">this</FONT>.description = description;
+<FONT ID="LN">19  </FONT><A NAME="19"></A>        
+<FONT ID="LN">20  </FONT><A NAME="20"></A>        <FONT ID="Try">try</FONT>{
+<FONT ID="LN">21  </FONT><A NAME="21"></A>            innkeeper = Data.NPCs.get(Integer.parseInt(innkeeperID));
+<FONT ID="LN">22  </FONT><A NAME="22"></A>        } <FONT ID="Catch">catch</FONT>(NumberFormatException e){
+<FONT ID="LN">23  </FONT><A NAME="23"></A>        }
+<FONT ID="LN">24  </FONT><A NAME="24"></A>    }
+<FONT ID="LN">25  </FONT><A NAME="25"></A>    <FONT ID="Public">public</FONT> Inn(String name, String description, String innkeeperID, String npcIDs){
+<FONT ID="LN">26  </FONT><A NAME="26"></A>        <FONT ID="This">this</FONT>.name = name;
+<FONT ID="LN">27  </FONT><A NAME="27"></A>        <FONT ID="This">this</FONT>.description = description;
+<FONT ID="LN">28  </FONT><A NAME="28"></A>        
+<FONT ID="LN">29  </FONT><A NAME="29"></A>        <FONT ID="Try">try</FONT>{
+<FONT ID="LN">30  </FONT><A NAME="30"></A>            innkeeper = Data.NPCs.get(Integer.parseInt(innkeeperID));
+<FONT ID="LN">31  </FONT><A NAME="31"></A>        }<FONT ID="Catch">catch</FONT>(NumberFormatException e){
+<FONT ID="LN">32  </FONT><A NAME="32"></A>        }
+<FONT ID="LN">33  </FONT><A NAME="33"></A>        
+<FONT ID="LN">34  </FONT><A NAME="34"></A>        String[] parts = npcIDs.split(<FONT ID="StringLiteral">" "</FONT>);
+<FONT ID="LN">35  </FONT><A NAME="35"></A>        <FONT ID="For">for</FONT>(String s: parts){
+<FONT ID="LN">36  </FONT><A NAME="36"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">37  </FONT><A NAME="37"></A>                npcs.add(Data.NPCs.get(Integer.parseInt(s)));
+<FONT ID="LN">38  </FONT><A NAME="38"></A>            } <FONT ID="Catch">catch</FONT>(NumberFormatException e){
+<FONT ID="LN">39  </FONT><A NAME="39"></A>            }
+<FONT ID="LN">40  </FONT><A NAME="40"></A>        }
+<FONT ID="LN">41  </FONT><A NAME="41"></A>    }
+<FONT ID="LN">42  </FONT><A NAME="42"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> enter() <FONT ID="Throws">throws</FONT> InterruptedException{
+<FONT ID="LN">43  </FONT><A NAME="43"></A>        RPGMain.printText(<FONT ID="True">true</FONT>, description);
+<FONT ID="LN">44  </FONT><A NAME="44"></A>        Global.pauseProg();
+<FONT ID="LN">45  </FONT><A NAME="45"></A>        <FONT ID="If">if</FONT>(npcs != <FONT ID="Null">null</FONT> &amp;&amp; !npcs.isEmpty()){
+<FONT ID="LN">46  </FONT><A NAME="46"></A>            <FONT ID="While">while</FONT>(<FONT ID="True">true</FONT>){
+<FONT ID="LN">47  </FONT><A NAME="47"></A>                <FONT ID="For">for</FONT>(<A HREF="../game/NPC.java.html">NPC</A> n: npcs){
+<FONT ID="LN">48  </FONT><A NAME="48"></A>                    RPGMain.printText(<FONT ID="True">true</FONT>, <FONT ID="New">new</FONT> String[]{<FONT ID="StringLiteral">"* "</FONT>, <FONT ID="StringLiteral">"Talk to "</FONT>, n.getName()}, <FONT ID="New">new</FONT> String[]{<FONT ID="StringLiteral">"regular"</FONT>,<FONT ID="StringLiteral">"bold"</FONT>,<FONT ID="StringLiteral">"regular"</FONT>});
+<FONT ID="LN">49  </FONT><A NAME="49"></A>                }
+<FONT ID="LN">50  </FONT><A NAME="50"></A>                RPGMain.printText(<FONT ID="False">false</FONT>, <FONT ID="New">new</FONT> String[]{<FONT ID="StringLiteral">"* "</FONT>, <FONT ID="StringLiteral">"Visit "</FONT>, <FONT ID="StringLiteral">" the bar\n* Cancel\n&gt;"</FONT>}, <FONT ID="New">new</FONT> String[]{<FONT ID="StringLiteral">"regular"</FONT>,<FONT ID="StringLiteral">"bold"</FONT>,<FONT ID="StringLiteral">"regular"</FONT>});
+<FONT ID="LN">51  </FONT><A NAME="51"></A>                
+<FONT ID="LN">52  </FONT><A NAME="52"></A>                String input = RPGMain.waitForMessage().toLowerCase();
+<FONT ID="LN">53  </FONT><A NAME="53"></A>                <FONT ID="If">if</FONT>(input.startsWith(<FONT ID="StringLiteral">"talk to"</FONT>)){
+<FONT ID="LN">54  </FONT><A NAME="54"></A>                    String name = RPGMain.upperCaseSingle(input.split(<FONT ID="StringLiteral">" "</FONT>)[<FONT ID="IntegerLiteral">2</FONT>],<FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">55  </FONT><A NAME="55"></A>                    
+<FONT ID="LN">56  </FONT><A NAME="56"></A>                    <FONT ID="For">for</FONT>(<A HREF="../game/NPC.java.html">NPC</A> n: npcs){
+<FONT ID="LN">57  </FONT><A NAME="57"></A>                        <FONT ID="If">if</FONT>(n.getName().equalsIgnoreCase(name)){
+<FONT ID="LN">58  </FONT><A NAME="58"></A>                            logger.debug(<FONT ID="StringLiteral">"talking to "</FONT> + name);
+<FONT ID="LN">59  </FONT><A NAME="59"></A>                            n.talk();
+<FONT ID="LN">60  </FONT><A NAME="60"></A>                            <FONT ID="Break">break</FONT>;
+<FONT ID="LN">61  </FONT><A NAME="61"></A>                        }
+<FONT ID="LN">62  </FONT><A NAME="62"></A>                    }
+<FONT ID="LN">63  </FONT><A NAME="63"></A>                }
+<FONT ID="LN">64  </FONT><A NAME="64"></A>                <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(input.startsWith(<FONT ID="StringLiteral">"visit"</FONT>)){
+<FONT ID="LN">65  </FONT><A NAME="65"></A>                    bar();
+<FONT ID="LN">66  </FONT><A NAME="66"></A>                }
+<FONT ID="LN">67  </FONT><A NAME="67"></A>                <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(input.equalsIgnoreCase(<FONT ID="StringLiteral">"cancel"</FONT>)){
+<FONT ID="LN">68  </FONT><A NAME="68"></A>                    RPGMain.printText(<FONT ID="True">true</FONT>, <FONT ID="StringLiteral">"You walk out of the "</FONT> + name + <FONT ID="StringLiteral">"."</FONT>);
+<FONT ID="LN">69  </FONT><A NAME="69"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">70  </FONT><A NAME="70"></A>                }
+<FONT ID="LN">71  </FONT><A NAME="71"></A>            }
+<FONT ID="LN">72  </FONT><A NAME="72"></A>        }
+<FONT ID="LN">73  </FONT><A NAME="73"></A>        <FONT ID="Else">else</FONT>{
+<FONT ID="LN">74  </FONT><A NAME="74"></A>            bar();
+<FONT ID="LN">75  </FONT><A NAME="75"></A>        }
+<FONT ID="LN">76  </FONT><A NAME="76"></A>    }
+<FONT ID="LN">77  </FONT><A NAME="77"></A>    
+<FONT ID="LN">78  </FONT><A NAME="78"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> bar() <FONT ID="Throws">throws</FONT> InterruptedException{
+<FONT ID="LN">79  </FONT><A NAME="79"></A>        <FONT ID="Int">int</FONT> actie = <FONT ID="IntegerLiteral">0</FONT>;
+<FONT ID="LN">80  </FONT><A NAME="80"></A>        <FONT ID="While">while</FONT>(<FONT ID="True">true</FONT>){
+<FONT ID="LN">81  </FONT><A NAME="81"></A>            RPGMain.printText(<FONT ID="False">false</FONT>,<FONT ID="StringLiteral">"Can I offer you a drink, or a bed perhaps to stay for the night?\n"</FONT> +
+<FONT ID="LN">82  </FONT><A NAME="82"></A>                                    <FONT ID="StringLiteral">"1: Have a drink (1 gold piece)\n"</FONT> +
+<FONT ID="LN">83  </FONT><A NAME="83"></A>                                    <FONT ID="StringLiteral">"2: Stay for the night (5 gold pieces)\n"</FONT> +
+<FONT ID="LN">84  </FONT><A NAME="84"></A>                                    <FONT ID="StringLiteral">"3: Ask for a warm meal (3 gold pieces)\n"</FONT> +
+<FONT ID="LN">85  </FONT><A NAME="85"></A>                                    <FONT ID="StringLiteral">"4: Talk to "</FONT> + innkeeper.getName() + <FONT ID="StringLiteral">", the Innkeeper\n"</FONT> +
+<FONT ID="LN">86  </FONT><A NAME="86"></A>                                    <FONT ID="StringLiteral">"5: Go back out\n"</FONT> +
+<FONT ID="LN">87  </FONT><A NAME="87"></A>                                    <FONT ID="StringLiteral">"Your gold: "</FONT> + RPGMain.speler.getGoud() + <FONT ID="StringLiteral">"\n&gt;"</FONT>);
+<FONT ID="LN">88  </FONT><A NAME="88"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">89  </FONT><A NAME="89"></A>                actie = Integer.parseInt(RPGMain.waitForMessage());
+<FONT ID="LN">90  </FONT><A NAME="90"></A>            }<FONT ID="Catch">catch</FONT>(NumberFormatException e){
+<FONT ID="LN">91  </FONT><A NAME="91"></A>                RPGMain.printText(<FONT ID="True">true</FONT>,<FONT ID="StringLiteral">"Not a valid option."</FONT>);
+<FONT ID="LN">92  </FONT><A NAME="92"></A>                Global.pauseProg();
+<FONT ID="LN">93  </FONT><A NAME="93"></A>                <FONT ID="Continue">continue</FONT>;
+<FONT ID="LN">94  </FONT><A NAME="94"></A>            }
+<FONT ID="LN">95  </FONT><A NAME="95"></A>            <FONT ID="Switch">switch</FONT>(actie){
+<FONT ID="LN">96  </FONT><A NAME="96"></A>            <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">1</FONT>: <FONT ID="If">if</FONT>(RPGMain.speler.getGoud()&gt;<FONT ID="IntegerLiteral">0</FONT>){
+<FONT ID="LN">97  </FONT><A NAME="97"></A>                        RPGMain.printText(<FONT ID="True">true</FONT>,<FONT ID="StringLiteral">"Beer tastes like heaven after a hard days work, or even without."</FONT>);
+<FONT ID="LN">98  </FONT><A NAME="98"></A>                        RPGMain.speler.addThirst(-<FONT ID="IntegerLiteral">10</FONT>);
+<FONT ID="LN">99  </FONT><A NAME="99"></A>                        RPGMain.speler.addGoud(-<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">100 </FONT><A NAME="100"></A>                        <FONT ID="Int">int</FONT> dronken = <FONT ID="IntegerLiteral">0</FONT>;
+<FONT ID="LN">101 </FONT><A NAME="101"></A>                        String[] drunkText = {<FONT ID="StringLiteral">"Beer has no effect on you, you're such a beast."</FONT>,<FONT ID="StringLiteral">"People are looking at you strangely, but you don't care."</FONT>,<FONT ID="StringLiteral">"You are a master of tabledancing, or so the beergoggles tell you."</FONT>};
+<FONT ID="LN">102 </FONT><A NAME="102"></A>                        <FONT ID="While">while</FONT>(<FONT ID="True">true</FONT>){
+<FONT ID="LN">103 </FONT><A NAME="103"></A>                            <FONT ID="If">if</FONT>(RPGMain.speler.getGoud()&gt;<FONT ID="IntegerLiteral">0</FONT>){
+<FONT ID="LN">104 </FONT><A NAME="104"></A>                                RPGMain.printText(<FONT ID="False">false</FONT>,<FONT ID="StringLiteral">"Have another? [y/n]\n&gt;"</FONT>);
+<FONT ID="LN">105 </FONT><A NAME="105"></A>                                String keuze = RPGMain.waitForMessage();
+<FONT ID="LN">106 </FONT><A NAME="106"></A>                                <FONT ID="If">if</FONT>(keuze.equalsIgnoreCase(<FONT ID="StringLiteral">"y"</FONT>) &amp;&amp; dronken &lt; <FONT ID="IntegerLiteral">3</FONT>){
+<FONT ID="LN">107 </FONT><A NAME="107"></A>                                    RPGMain.printText(<FONT ID="True">true</FONT>,drunkText[dronken]);
+<FONT ID="LN">108 </FONT><A NAME="108"></A>                                    RPGMain.speler.addGoud(-<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">109 </FONT><A NAME="109"></A>                                    RPGMain.speler.addThirst(-<FONT ID="IntegerLiteral">10</FONT>);
+<FONT ID="LN">110 </FONT><A NAME="110"></A>                                    dronken++;
+<FONT ID="LN">111 </FONT><A NAME="111"></A>                                }
+<FONT ID="LN">112 </FONT><A NAME="112"></A>                                <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(keuze.equalsIgnoreCase(<FONT ID="StringLiteral">"n"</FONT>)){
+<FONT ID="LN">113 </FONT><A NAME="113"></A>                                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">114 </FONT><A NAME="114"></A>                                }
+<FONT ID="LN">115 </FONT><A NAME="115"></A>                                <FONT ID="If">if</FONT>(dronken &gt; <FONT ID="IntegerLiteral">2</FONT>){
+<FONT ID="LN">116 </FONT><A NAME="116"></A>                                    Global.pauseProg();
+<FONT ID="LN">117 </FONT><A NAME="117"></A>                                    RPGMain.printText(<FONT ID="True">true</FONT>,<FONT ID="StringLiteral">"Passed out on your barstool, the innkeeper carries you upstairs.\nHe leaves you on a room, taking 6 gold pieces with him, for the crap you pulled."</FONT>);
+<FONT ID="LN">118 </FONT><A NAME="118"></A>                                    RPGMain.printText(<FONT ID="True">true</FONT>,<FONT ID="StringLiteral">"HP set to 75% of maximum HP due to hangover."</FONT>);
+<FONT ID="LN">119 </FONT><A NAME="119"></A>                                    RPGMain.speler.addGoud(-<FONT ID="IntegerLiteral">6</FONT>);
+<FONT ID="LN">120 </FONT><A NAME="120"></A>                                    RPGMain.speler.setHP((<FONT ID="Int">int</FONT>)Math.floor(<FONT ID="FloatPointLiteral">0.75</FONT>*RPGMain.speler.getMaxHP()));
+<FONT ID="LN">121 </FONT><A NAME="121"></A>                                    <FONT ID="If">if</FONT>(RPGMain.speler.getGoud() &lt; <FONT ID="IntegerLiteral">0</FONT>){
+<FONT ID="LN">122 </FONT><A NAME="122"></A>                                        RPGMain.printText(<FONT ID="True">true</FONT>,<FONT ID="StringLiteral">"You now owe the innkeeper "</FONT> + -RPGMain.speler.getGoud() + <FONT ID="StringLiteral">" gold pieces."</FONT>);
+<FONT ID="LN">123 </FONT><A NAME="123"></A>                                    }
+<FONT ID="LN">124 </FONT><A NAME="124"></A>                                    Global.pauseProg();
+<FONT ID="LN">125 </FONT><A NAME="125"></A>                                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">126 </FONT><A NAME="126"></A>                                }
+<FONT ID="LN">127 </FONT><A NAME="127"></A>                            }
+<FONT ID="LN">128 </FONT><A NAME="128"></A>                            <FONT ID="Else">else</FONT>{
+<FONT ID="LN">129 </FONT><A NAME="129"></A>                                RPGMain.printText(<FONT ID="True">true</FONT>,<FONT ID="StringLiteral">"You don't have enough gold pieces."</FONT>);
+<FONT ID="LN">130 </FONT><A NAME="130"></A>                                <FONT ID="Break">break</FONT>;
+<FONT ID="LN">131 </FONT><A NAME="131"></A>                            }
+<FONT ID="LN">132 </FONT><A NAME="132"></A>                        }
+<FONT ID="LN">133 </FONT><A NAME="133"></A>                    }
+<FONT ID="LN">134 </FONT><A NAME="134"></A>                    <FONT ID="Else">else</FONT>{
+<FONT ID="LN">135 </FONT><A NAME="135"></A>                        RPGMain.printText(<FONT ID="True">true</FONT>,<FONT ID="StringLiteral">"You don't have enough gold pieces."</FONT>);
+<FONT ID="LN">136 </FONT><A NAME="136"></A>                    }
+<FONT ID="LN">137 </FONT><A NAME="137"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">138 </FONT><A NAME="138"></A>                    
+<FONT ID="LN">139 </FONT><A NAME="139"></A>                    
+<FONT ID="LN">140 </FONT><A NAME="140"></A>            <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">2</FONT>: <FONT ID="If">if</FONT>(RPGMain.speler.getGoud()&gt;<FONT ID="IntegerLiteral">4</FONT>){
+<FONT ID="LN">141 </FONT><A NAME="141"></A>                        RPGMain.printText(<FONT ID="True">true</FONT>,<FONT ID="StringLiteral">"You fall asleep, and wake up reborn.\nHP maxed out."</FONT>);
+<FONT ID="LN">142 </FONT><A NAME="142"></A>                        RPGMain.speler.addGoud(-<FONT ID="IntegerLiteral">5</FONT>);
+<FONT ID="LN">143 </FONT><A NAME="143"></A>                        RPGMain.speler.setHP(RPGMain.speler.getMaxHP());
+<FONT ID="LN">144 </FONT><A NAME="144"></A>                        RPGMain.speler.resetFitness();
+<FONT ID="LN">145 </FONT><A NAME="145"></A>                        RPGMain.speler.dimMovement(-<FONT ID="IntegerLiteral">100</FONT>);
+<FONT ID="LN">146 </FONT><A NAME="146"></A>                        DayLightThread.rest(<FONT ID="IntegerLiteral">5</FONT>);
+<FONT ID="LN">147 </FONT><A NAME="147"></A>                        Global.pauseProg();
+<FONT ID="LN">148 </FONT><A NAME="148"></A>                    }
+<FONT ID="LN">149 </FONT><A NAME="149"></A>                    <FONT ID="Else">else</FONT>{
+<FONT ID="LN">150 </FONT><A NAME="150"></A>                        RPGMain.printText(<FONT ID="True">true</FONT>,<FONT ID="StringLiteral">"You don't have enough gold pieces."</FONT>);
+<FONT ID="LN">151 </FONT><A NAME="151"></A>                    }
+<FONT ID="LN">152 </FONT><A NAME="152"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">153 </FONT><A NAME="153"></A>                    
+<FONT ID="LN">154 </FONT><A NAME="154"></A>                    
+<FONT ID="LN">155 </FONT><A NAME="155"></A>            <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">3</FONT>: <FONT ID="If">if</FONT>(RPGMain.speler.getGoud() &gt;= <FONT ID="IntegerLiteral">3</FONT>){
+<FONT ID="LN">156 </FONT><A NAME="156"></A>                        RPGMain.speler.addHunger(-<FONT ID="IntegerLiteral">60</FONT>);
+<FONT ID="LN">157 </FONT><A NAME="157"></A>                        RPGMain.speler.addGoud(-<FONT ID="IntegerLiteral">3</FONT>);
+<FONT ID="LN">158 </FONT><A NAME="158"></A>                        RPGMain.printText(<FONT ID="True">true</FONT>, <FONT ID="StringLiteral">"You enjoy a nice, hot meal. You feel better already."</FONT>);
+<FONT ID="LN">159 </FONT><A NAME="159"></A>                    }
+<FONT ID="LN">160 </FONT><A NAME="160"></A>                    <FONT ID="Else">else</FONT>{
+<FONT ID="LN">161 </FONT><A NAME="161"></A>                        RPGMain.printText(<FONT ID="True">true</FONT>, <FONT ID="StringLiteral">"Sorry, but you can't seem to afford it."</FONT>);
+<FONT ID="LN">162 </FONT><A NAME="162"></A>                    }
+<FONT ID="LN">163 </FONT><A NAME="163"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">164 </FONT><A NAME="164"></A>            <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">4</FONT>: innkeeper.talk();
+<FONT ID="LN">165 </FONT><A NAME="165"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">166 </FONT><A NAME="166"></A>            <FONT ID="Default">default</FONT>: <FONT ID="Break">break</FONT>;
+<FONT ID="LN">167 </FONT><A NAME="167"></A>            }
+<FONT ID="LN">168 </FONT><A NAME="168"></A>            <FONT ID="If">if</FONT>(actie == <FONT ID="IntegerLiteral">5</FONT>){
+<FONT ID="LN">169 </FONT><A NAME="169"></A>                RPGMain.printText(<FONT ID="True">true</FONT>, <FONT ID="StringLiteral">"You walk back out of the "</FONT> + name + <FONT ID="StringLiteral">"."</FONT>);
+<FONT ID="LN">170 </FONT><A NAME="170"></A>                <FONT ID="Break">break</FONT>;
+<FONT ID="LN">171 </FONT><A NAME="171"></A>            }
+<FONT ID="LN">172 </FONT><A NAME="172"></A>        }
+<FONT ID="LN">173 </FONT><A NAME="173"></A>    }
+<FONT ID="LN">174 </FONT><A NAME="174"></A>}
+<FONT ID="LN">175 </FONT><A NAME="175"></A></pre>
+</BODY>
+</HTML>

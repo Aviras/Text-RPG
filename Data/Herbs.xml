@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Herbs>
+  <Herb id="0">
+    <name>Horsetail</name>
+    <description>A herb with a thick stem and an elliptical head, in different shades of brown resembling a horse tail.</description>
+    <effects>
+      <boiling>
+        <description>Prepared horsetail increases coagulation of the blood, and is able to stop bleeding when applied to the wound.</description>
+        <type>Healing</type>
+        <effecttype>remove debuff:Bleeding</effecttype>
+        <effect>0</effect>
+      </boiling>
+    </effects>
+    <weight>0.1</weight>
+    <cost>10</cost>
+    <logbookpath>Lore/Herbalism/Medicinal Herbs/Horsetail</logbookpath>
+    <logbooksummary>A herb with a thick stem and an elliptical head, in different shades of brown resembling a horse tail. Horsetail can be found near farmland, close to rural areas. It needs plenty of sunlight, and will not be found deep in the forests.</logbooksummary>
+  </Herb>
+  <Herb id="1">
+    <name>Comfrey</name>
+    <description>A herb with very rough, hairy leaves about the size of a child's hand. Its purple flowers are hanging downwards from stems in groups of rougly five.</description>
+    <effects>
+      <grinding>
+        <description>Prepared comfrey when grinded and applied to wounds or bruises can greatly increase the rate of their recovery.</description>
+        <type>Healing</type>
+        <effecttype>hp</effecttype>
+        <effect>10</effect>
+      </grinding>
+      <chewing>
+        <description>Prepared comfrey when chewed is not advisable, as it can cause liver damage.</description>
+        <type>Healing</type>
+        <effect>-10</effect>
+        <effecttype>hp</effecttype>
+      </chewing>
+    </effects>
+    <weight>0.1</weight>
+    <cost>15</cost>
+    <logbookpath>Lore/Herbalism/Medicinal Herbs/Comfrey</logbookpath>
+    <logbooksummary>A herb with very rough, hairy leaves about the size of a child's hand. Its purple flowers are hanging downwards from stems in groups of rougly five. Comfrey can be found near water banks, however it is quite rare in mountainous areas. </logbooksummary>
+  </Herb>
+  <Herb id="2">
+    <name>White Baneberry</name>
+    <description>A herb with white tiny flowers, and thick white berries with a black stigma scar. It is because of these berries that the plant is also nicknamed doll's eyes.</description>
+    <effects>
+      <chewing>
+        <description>Ingested White Baneberry causes a sedative effect on the cardiac muscle tissue, often leading to cardiac arrest and death.</description>
+        <type>Healing</type>
+        <effect>-1000</effect>
+        <effecttype>hp</effecttype>
+      </chewing>
+      <grinding>
+        <description>The fruit of the White Baneberry causes a sedative effect on the cardiac muscle tissue, often leading to cardiac arrest and death.</description>
+        <type>Poison</type>
+        <effect>-10</effect>
+        <effecttype>damage</effecttype>
+      </grinding>
+    </effects>
+    <weight>0.2</weight>
+    <cost>100</cost>
+    <logbookpath>Lore/Herbalism/Poisonous Plants/White Baneberry</logbookpath>
+    <logbooksummary>A herb with white tiny flowers, and thick white berries with a black stigma scar. It is because of these berries that the plant is also nicknamed doll's eyes. It is found in foresty areas with a high amount on shade. Birds are immune to its poison, and are its primary seed dispersers.</logbooksummary>
+  </Herb>
+  <Herb id="3">
+    <name>Wound Clover</name>
+    <description>A herb with a long stem, ending in white flowers with dark red tips. A flower consists of many different smaller leaves, while the actual leaves are found near the root.</description>
+    <effects>
+      <grinding>
+        <description>When the ground heads are applied to wounds it has a healing effect, hence the name.</description>
+        <type>Healing</type>
+        <effect>5</effect>
+        <effecttype>hp</effecttype>
+      </grinding>
+      <boiling>
+        <description>When boiled, Wound Clover can be applied as a compress or drunk as a tea. Both result in a similar effect, which is stronger than the one when merely chewed.</description>
+        <type>Healing</type>
+        <effect>10</effect>
+        <effecttype>hp</effecttype>
+      </boiling>
+    </effects>
+    <weight>0.1</weight>
+    <cost>10</cost>
+    <logbookpath>Lore/Herbalism/Medicinal Herbs/Wound Clover</logbookpath>
+    <logbooksummary>A herb with a long stem, ending in white flowers with dark red tips. A flower consists of many different smaller leaves, while the actual leaves are found near the root. Usually found in grassy field near villages, though generally quite rare.</logbooksummary>
+  </Herb>
+  <Herb id="4">
+    <name>Deadly Nightshade</name>
+    <description>A herb with a hairy stem and leaves, showing dark black berries or light purple flowers depending on the season. It looks innocent enough, though you know to suspect otherwise.</description>
+    <effects>
+      <grinding>
+        <description>The sap of the Deadly Nightshade is an extremely potent poison, and you've seen other hunters using it to poison their arrows. In small doses it can cause hallucinations, though it quickly becomes fatal. Ingestion of one leaf is sufficient to kill a man, though the roots are the most powerful part.</description>
+        <type>Debuff</type>
+        <effect>4</effect>
+        <effecttype>strength reduction</effecttype>
+      </grinding>
+    </effects>
+    <weight>0.1</weight>
+    <cost>15</cost>
+    <logbookpath>Lore/Herbalism/Poisonous Plants/Deadly Nightshade</logbookpath>
+    <logbooksummary>A herb with a hairy stem and leaves, showing dark black berries or light purple flowers depending on the season. It looks innocent enough, though you know to suspect otherwise. Deadly Nightshade is found in shadowy and moist areas. You will not found this in plains or mountainous areas.</logbooksummary>
+  </Herb>
+</Herbs>

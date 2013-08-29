@@ -1,0 +1,55 @@
+/* What does it do?
+- chance to knock enemy down 
+- chance to get knocked down yourself
+- able to push into water
+- chance to push enemy back, and thus changes target position, creates distance without moving yourself
+- interactions with the environment, such as tripping over stones, falling on covers hurts so does damage
+
+you push your enemy to create some space, there's a chance he gets knocked down
+use a different skill to knock him down where you stand, perhaps kick?
+*/
+
+double random = Math.random();
+
+if(random > 0.5*(1+(actor.getStrength() - target.getStrength())/(2*Math.max(actor.getStrength(),target.getStrength())))){
+	if(actor.getClass().getName().equalsIgnoreCase("game.Avatar")){	
+		RPGMain.printText(true,new String[]{actor.getName()," pushes ",target.getName()," over, and ",target.getName()," stumbles backward.", new String[]{"greenbold","regular","redbold","regular","redbold","regular"});
+	}
+	else{
+		RPGMain.printText(true,new String[]{actor.getName()," pushes ",target.getName()," over, and ",target.getName()," stumbles backward.", new String[]{"redbold","regular","greenbold","regular","greenbold","regular"});
+	}		
+	int sum = (int)(Math.abs(targetPos[0] - actorPos[0]) + Math.abs(targetPos[1] - actorPos[1]));
+	
+	logger.info("Actor pos: " + actorPos[0] +", " + actorPos[1]);
+	logger.info("Target pos before: " + targetPos[0] + ", " + targetPos[1] + ". Sum : " + sum);
+	logger.info("Ratio X: " + (double)(targetPos[0] - actorPos[0])/sum);
+	logger.info("Ratio Y: " + (double)(targetPos[1] - actorPos[1])/sum);
+
+	targetPos[0]= (int)Math.max(10, Math.min(dungeonMap.getWidth() - 10, targetPos[0] + (double)(targetPos[0] - actorPos[0])/sum*40*(1+actor.getStrength()/(10*target.getStrength()))));
+	targetPos[1]= (int)Math.max(10, Math.min(dungeonMap.getHeight() - 10, targetPos[1] + (double)(targetPos[1] - actorPos[1])/sum*40*(1+actor.getStrength()/(10*target.getStrength()))));
+
+	logger.info("Target pos after: " + targetPos[0] + ", " + targetPos[1]);
+
+	if(random > 0.75){
+		RPGMain.printText(true, target.getName() + " loses its balance and is knocked down.");
+		target.setKnockedDown(true);
+	}
+}
+else if(random > 0.2){
+	if(actor.getClass().getName().equalsIgnoreCase("game.Avatar")){	
+		RPGMain.printText(true, new String[]{actor.getName() ," tries to push ", target.getName(), ", but does not succeed."}, new String[]{"greenbold","regular","redbold","regular"});
+	}
+	else{
+		RPGMain.printText(true, new String[]{actor.getName() ," tries to push ", target.getName(), ", but does not succeed."}, new String[]{"redbold","regular","greenbold","regular"});
+	}
+}
+else{
+	if(actor.getClass().getName().equalsIgnoreCase("game.Avatar")){	
+		RPGMain.printText(true, new String[]{actor.getName(), " tries to push ",target.getName(), ", but fails and is now itself pushed to the ground."}, new String[]{"greenbold","regular","redbold","regular"});
+	}
+	else{
+		RPGMain.printText(true, new String[]{actor.getName(), " tries to push ", target.getName(), ", but fails and is now itself pushed to the ground."}, new String[]{"redbold","regular","greenbold","regular"});
+	}
+	actor.setKnockedDown(true); 
+}
+

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Greetings>
+  <greet reputation="-15"></greet>
+  <greet reputation="-10">'I suggest leaving this place, before you won't be able to anymore. Your presence isn't wanted here.', says name. You presume a conversation is no longer an option.</greet>
+  <greet reputation="-5">name sees you approach, but doesn't seem too content once gender recognizes you. gender signals you not to come any closer, for gender has no intention to converse with you. You're not wanted here.</greet>
+  <greet reputation="0">Curiously, name looks at you and beckons you to come closer.</greet>
+  <greet reputation="2">You are met with a friendly face as name recognizes your features.</greet>
+  <greet reputation="5">A sparkle of hope ignites in name's eyes, and you are greeted humbly.</greet>
+  <greet reputation="15"></greet>
+</Greetings>

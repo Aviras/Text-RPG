@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ConversationTrees>
+  <conversationtree id="0">
+    <text_all>How are you doing?</text_all>
+    <reply value="1">
+      <text_all>I'm fine, thank you. The weather is nice, at least.</text_all>
+      <node>
+        <text_all>That it is. If you'll excuse me now, I've got business to take care off.</text_all>
+      </node>
+    </reply>
+    <reply value="2">
+      <text_all>Could be worse. I've got business to do, so no time for chatted I'm afraid.</text_all>
+    </reply>
+  </conversationtree>
+  <conversationtree id="1">
+    <text_quest_0_busy>Have you done what I have asked of you yet?</text_quest_0_busy>
+    <text_all>Hello, how can I help you?</text_all>
+    <text_angry>What do you want?</text_angry>
+    <text_happy>Hi, how can I help you?</text_happy>
+    <reply value="1">
+      <text_all>I wondered if I could ask you some things.</text_all>
+      <text_angry>I'm here just for some information, that's all.</text_angry>
+      <text_happy>I'd like to ask you a few things, if I might.</text_happy>
+      <node>
+        <text_all>I'll do my best answering them.</text_all>
+        <text_angry>Actually, you listen to me. I want you to do something for me.</text_angry>
+        <text_happy>Fire away lad.</text_happy>
+        <reply value="1">
+          <text_all>Test.</text_all>
+          <text_angry>Alright, tell me what you want to say.</text_angry>
+          <text_happy>Test.</text_happy>
+          <node>
+            <text_all>We currently have a problem with communication with neigbouring villages to help each other get the crops from the fields.
+            Since this is a critical time of year, we can't go off ourselves and leave our crops alone.
+            This is where you come in. I need you to get the message to all neighbouring villages that we will start five days from. You'd be a big help.</text_all>
+            <quest>0</quest>
+            <reply value="1" emo="hopeful:0.2">
+              <text_all>Very well, I'll do my best.</text_all>
+            </reply>
+            <reply value="2">
+              <text_all>I don't really like the sound of this, but I'll keep it in the back of my head.</text_all>
+            </reply>
+          </node>
+        </reply>
+        <reply value="2">
+          <text_angry>Not interested, sorry.</text_angry>
+        </reply>
+      </node>
+    </reply>
+    <reply value="2" emo="anger:0.4">
+      <text_all>I changed my mind.</text_all>
+      <text_angry>I don't need this, see you.</text_angry>
+      <text_happy>By quit being such a prick. I've had enough.</text_happy>
+    </reply>
+    <reply value ="3" emo="happy:0.5">
+      <text_all>I love you. Don't judge me. YOU'RE JUDGING ME!</text_all>
+    </reply>
+  </conversationtree>
+</ConversationTrees>

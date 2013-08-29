@@ -1,0 +1,245 @@
+import java.util.LinkedHashMap;
+
+boolean executeAction(int aimFor){
+	
+	message = new LinkedHashMap();
+	String[] targets = {"head","torso","legs"};
+
+	double hit = generator.nextDouble();
+	boolean b = false;
+	logger.info(hit + " " + probability);
+	//successful hit
+	if(hit < probability){
+		if(damage > 0){
+			target.addHP(-damage);
+			logger.info(actor.getName() + " hits " + target.getName() + " for " + damage + " damage at section " + aimFor);
+
+			if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+				message.put(actor.getName(),"redbold");
+				message.put(" aimed for the " + targets[aimFor] + " and hits ", "regular");
+				message.put(target.getName(),"greenbold");
+				message.put(" for ","regular");
+				message.put(damage + " damage.","redbold");
+			}
+			else{
+				message.put(actor.getName(),"greenbold");
+				message.put(" aimed for the " + targets[aimFor] + " and hits ", "regular");
+				message.put(target.getName(),"redbold");
+				message.put(" for ","regular");
+				message.put(damage + " damage.","redbold");
+				
+				double random = Math.random();
+				if(random < 0.5/Math.sqrt(RPGMain.speler.getArchery())){
+					RPGMain.speler.addArchery(1);
+				}
+			}
+			if(aimFor == 2){
+				logger.info("Diminishing movement");
+				if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+					message.put(actor.getName() + " aimed for the legs, and hurt your leg. You'll have trouble running away if the time should come.","regular");
+				}
+				else{
+					message.put(target.getName() + " was hit in its leg, and it seemingly has problems moving as swiftly as it did before.","regular");
+				}
+				target.dimMovement(0.1*(double)damage/(double)target.getDefense(2));
+				logger.info("target movement: " + target.getMovement());
+			}
+			//TODO add debuffs for when poisons are applied to arrows
+		}
+		else{
+			if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+				message.put(actor.getName(),"redbold"); 
+				message.put(" cannot penetrate into flesh, and deals no damage.","regular");
+			}
+			else{
+				message.put(actor.getName(),"greenbold"); 
+				message.put(" cannot penetrate into flesh, and deals no damage.","regular");
+			}
+		}
+		target.wearOut(damage, aimFor);
+		b = true;
+	}
+	// miss
+	else if(hit < (probability + actor.getMeleeWeaponSkill()) && target.getSchild().getStrength() > 0){
+		if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+			message.put(actor.getName(),"redbold");
+			message.put("'s blow struck its shield","regular");
+		}
+		else{
+			message.put(actor.getName(),"greenbold");
+			message.put("'s blow struck its shield","regular");
+		}
+		target.getSchild().addKwaliteit(-(int)(damage/(target.getSchild().getStrength()+0.01)));
+		if(target.getSchild().getKwaliteit() <= 0){
+			message.put(", shattering it and leaving your opponent unprotected.","regular");
+		}
+		else{
+			message.put(".","regular");
+		}
+		b = true;
+	}
+	else{
+		if(actor.getClass().getName().equalsIgnoreCase("game.Enemy")){
+			message.put(actor.getName(),"redbold");
+			message.put(" missed.","regular");
+		}
+		else{
+			message.put(actor.getName(),"greenbold");
+			message.put(" missed.","regular");
+		}
+	}
+	RPGMain.printText(true,message.keySet().toArray(new String[]{}), message.values().toArray(new String[]{}));
+	return b;
+}
+
+/*int aimFor = 0;
+int damage = 0;
+int chargeModifier = 1;
+int heightModifier = 1;
+String prediction;
+
+if(actor.getBoog().getName().equalsIgnoreCase("nothing")){
+	RPGMain.printText(true,"You need to have a ranged weapon equipped.");
+	return;
+}
+
+try{
+	// parameters influencing probability: +weapon Skill, +dexterity player, -dexterity enemy, target aimed at, -shield
+	if(actionTarget.equalsIgnoreCase("head")){
+	  probability = Math.min(0.7, 0.2 + 0.7*actor.getArchery()*actor.getDexterity()/target.getDexterity() - 0.1*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+	}
+	else if(actionTarget.equalsIgnoreCase("torso")){
+	  aimFor = 1;
+	  probability = Math.min(0.9, 0.6 + 0.5*actor.getArchery()*actor.getDexterity()/target.getDexterity() - 0.3*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+	}
+	else if(actionTarget.equalsIgnoreCase("legs")){
+	  aimFor = 2;
+	  probability = Math.min(0.8, 0.5 + 0.5*actor.getArchery()*actor.getDexterity()/target.getDexterity() - 0.15*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+	  }
+	else{
+	  RPGMain.printText(true, "\"" + actionContent + "\" is not a valid target (head/torso/legs).");
+	  return;
+	}
+}catch(NullPointerException exc){
+	RPGMain.printText(true, "You must specify your target (head/torso/legs).");
+	return;
+} catch(Exception e){
+	logger.debug(e);
+}
+
+// see if enemy predicted player's attack
+if(actor.getClass().getName().equalsIgnoreCase("Avatar")){
+	prediction = target.predictAction(playerCoord, enemyCoords.get(mobIndex));
+	System.out.println("Prediction: " + prediction);
+	RPGMain.speler.addRangedAction(actionTarget);
+	hasActed = true;
+	if(prediction.equalsIgnoreCase(actionTarget)){
+	  probability-=0.5;
+	  RPGMain.printText(true, "It anticipated your move!");
+	}
+}
+
+logger.info("Probability: " + probability);
+// parameters influencing damage: +player strength, +weapon strength, -weapon durability, -enemy defense,+heightModifier
+// 0.4*pStrength^(sPow+0.03*(pStrength-eDefense))*wStrength^(1.1)/(eDefense^sPow)*(dur/maxDur+0.5)
+
+if(!actor.getWapen().getName().equalsIgnoreCase("nothing")){
+	damage = (int) (Math.round(chargeModifier*heightModifier*0.4*Math.pow(actor.getStrength(),1.5+0.03*(actor.getStrength()-target.getDefense(aimFor)))*Math.pow(actor.getBoog().getStrength(),1.1)/Math.pow(target.getDefense(aimFor), 1.5)*(actor.getBoog().getKwaliteit()/actor.getBoog().getMaxKwaliteit() + 0.5)));
+}
+else{
+	damage = (int) (Math.round(chargeModifier*heightModifier*0.4*Math.pow(actor.getStrength(),2.6+0.03*(actor.getStrength()-target.getDefense(aimFor)))/Math.pow(target.getDefense(aimFor), 1.5)));
+}
+damage = (int)(damage*actor.getStanceAttackModifier());
+damage = (int)(damage/target.getStanceDefenseModifier());
+logger.info("Damage = " + damage);
+boolean b = executeAction(aimFor);
+if(generator.nextDouble() > 0.2){
+	actor.getWapen().addKwaliteit(-1);
+}*/
+
+int aimFor = 0;
+int damage = 0;
+double heightModifier = coefficients[0];
+double chargeModifier = coefficients[1];
+double probability = 0;
+String prediction;
+
+if(hostA.lineOfSight(actorPos,targetPos,covers)){
+	if(actor.getBoog().getStrength() > 0){
+		if(actor.getArrows() > 0){
+			int aimFor = 0;
+			try{
+				// parameters influencing probability: +weapon Skill, +dexterity player, -dexterity enemy, target aimed at, -shield
+				if(actionTarget.equalsIgnoreCase("head")){
+					probability = Math.min(0.7, 0.2 + 0.7*actor.getArchery()*actor.getDexterity()/target.getDexterity() - 0.1*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+				}
+				else if(actionTarget.equalsIgnoreCase("torso")){
+					aimFor = 1;
+					probability = Math.min(0.9, 0.6 + 0.5*actor.getArchery()*actor.getDexterity()/target.getDexterity() - 0.3*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+				}
+				else if(actionTarget.equalsIgnoreCase("legs")){
+					aimFor = 2;
+					probability = Math.min(0.8, 0.5 + 0.5*actor.getArchery()*actor.getDexterity()/target.getDexterity() - 0.15*target.getSchild().getStrength()/(target.getSchild().getStrength()+0.01));
+				}
+				else{
+					RPGMain.printText(true, "\"" + actionTarget + "\" is not a valid target (head/torso/legs).");
+					return false;
+				}
+			}catch(NullPointerException exc){
+				RPGMain.printText(true, "You must specify your target (head/torso/legs).");
+				return false;
+			}
+			double coverChance = 0;
+			if(actor.getClass().getName().equalsIgnoreCase("game.Avatar")){
+				actor.addRangedAction(actionTarget);
+				actor.addArrows(-1);
+				coverChance = hostA.getCover(actorPos,targetPos,true,covers);
+				System.out.println("Mob cover: " + hostA.getCover(actorPos,targetPos,true,covers));
+				System.out.println("My cover: " + hostA.getCover(targetPos,actorPos,true,covers));
+			}
+			else{
+				coverChance = hostA.getCover(actorPos,targetPos,true,covers);
+			}
+			if(Math.random() < coverChance){
+				RPGMain.printText(true, actor.getName() + "'s shot hit the cover " + target.getName() + " is hiding behind.");
+				return true;
+			}
+			//TODO convert to meter
+			//probability change due to distance
+			probability+=0.002*(180-distance);
+			damage = (int) Math.round(heightModifier*0.4*Math.pow(actor.getStrength(),1.5+0.03*(actor.getStrength()-target.getDefense(aimFor)))*Math.pow(actor.getBoog().getStrength(),1.1)/Math.pow(target.getDefense(aimFor), 1.5)*(actor.getBoog().getKwaliteit()/actor.getBoog().getMaxKwaliteit() + 0.5));
+			damage = (int)(damage*actor.getStanceAttackModifier());
+			damage = (int)(damage/target.getStanceDefenseModifier());
+			
+			//higher chance of hitting when target is knocked down
+			if(target.getKnockedDown()){
+				probability+=0.2;
+			}
+		
+			//higher chance of hitting because of archery skill
+			if(actor.getClass().getName().equalsIgnoreCase("game.Avatar")){
+				probability+=RPGMain.speler.getArchery()/500.0;
+			}
+
+			boolean b = executeAction(aimFor);
+			if(generator.nextDouble() < 0.2 && b){
+				actor.getBoog().addKwaliteit(-1);
+			}
+			if(generator.nextDouble() > 0.7 && b){
+				target.addArrows(1);
+				logger.info("Added arrows");
+			}
+			return true;
+		}
+		else{
+			RPGMain.printText(true, "You are out of arrows!");
+		}
+	}
+	else{
+		RPGMain.printText(true, "You don't have a bow with you.");
+	}
+}
+else{
+	RPGMain.printText(true,"You can't see you target");
+}
+return false;

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Clothing>
+  <item id="0">
+    <name>Green woolen shirt</name>
+    <description>A simple woolen shirt, knit by the ladies in a nearby town.</description>
+    <weight>0.1</weight>
+    <cost>1</cost>
+    <area>Shirt</area>
+    <warmth>3</warmth>
+  </item>
+  <item id="1">
+    <name>Brown woolen pants</name>
+    <description>A simple woolen pants, knit by the ladies in a nearby town.</description>
+    <weight>0.2</weight>
+    <cost>1</cost>
+    <area>Pants</area>
+    <warmth>3</warmth>
+  </item>
+  <item id="2">
+    <name>Woven Woolen Cloak</name>
+    <description>A simple woolen cloak, knit by the ladies in a nearby town.</description>
+    <weight>0.3</weight>
+    <cost>1</cost>
+    <area>Mantle</area>
+    <warmth>3</warmth>
+  </item>
+</Clothing>

@@ -1,0 +1,792 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<HEAD>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="../stylesheet.css" TITLE="Style">
+<META NAME="GENERATOR" CONTENT="Java2HTML Version 1.5">
+<TITLE>game.Logbook (Java2HTML)</TITLE>
+</HEAD>
+<BODY><TABLE id="Header" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td colspan="2" width="33%">&nbsp;</td>
+<td align="center" colspan="2" width="33%">
+<font size="4">Logbook.java</font>
+</td>
+<td align="right" colspan="2" width="33%">&nbsp;</td>
+</tr>
+</TABLE>
+<pre ID="Classes">
+<FONT ID="LN">1   </FONT><A NAME="1"></A><FONT ID="Package">package</FONT> game;
+<FONT ID="LN">2   </FONT><A NAME="2"></A>
+<FONT ID="LN">3   </FONT><A NAME="3"></A><FONT ID="Import">import</FONT> java.awt.Color;
+<FONT ID="LN">4   </FONT><A NAME="4"></A><FONT ID="Import">import</FONT> java.awt.Graphics;
+<FONT ID="LN">5   </FONT><A NAME="5"></A><FONT ID="Import">import</FONT> java.awt.Image;
+<FONT ID="LN">6   </FONT><A NAME="6"></A><FONT ID="Import">import</FONT> java.awt.event.ActionEvent;
+<FONT ID="LN">7   </FONT><A NAME="7"></A><FONT ID="Import">import</FONT> java.awt.event.ActionListener;
+<FONT ID="LN">8   </FONT><A NAME="8"></A><FONT ID="Import">import</FONT> java.awt.event.FocusEvent;
+<FONT ID="LN">9   </FONT><A NAME="9"></A><FONT ID="Import">import</FONT> java.awt.event.MouseEvent;
+<FONT ID="LN">10  </FONT><A NAME="10"></A><FONT ID="Import">import</FONT> java.awt.event.FocusListener;
+<FONT ID="LN">11  </FONT><A NAME="11"></A><FONT ID="Import">import</FONT> java.awt.event.MouseListener;
+<FONT ID="LN">12  </FONT><A NAME="12"></A><FONT ID="Import">import</FONT> java.io.File;
+<FONT ID="LN">13  </FONT><A NAME="13"></A><FONT ID="Import">import</FONT> java.io.IOException;
+<FONT ID="LN">14  </FONT><A NAME="14"></A><FONT ID="Import">import</FONT> java.io.Serializable;
+<FONT ID="LN">15  </FONT><A NAME="15"></A><FONT ID="Import">import</FONT> java.util.ArrayList;
+<FONT ID="LN">16  </FONT><A NAME="16"></A><FONT ID="Import">import</FONT> java.util.Arrays;
+<FONT ID="LN">17  </FONT><A NAME="17"></A><FONT ID="Import">import</FONT> java.util.Collections;
+<FONT ID="LN">18  </FONT><A NAME="18"></A><FONT ID="Import">import</FONT> java.util.HashMap;
+<FONT ID="LN">19  </FONT><A NAME="19"></A><FONT ID="Import">import</FONT> java.util.Iterator;
+<FONT ID="LN">20  </FONT><A NAME="20"></A><FONT ID="Import">import</FONT> java.util.LinkedHashMap;
+<FONT ID="LN">21  </FONT><A NAME="21"></A>
+<FONT ID="LN">22  </FONT><A NAME="22"></A><FONT ID="Import">import</FONT> javax.imageio.ImageIO;
+<FONT ID="LN">23  </FONT><A NAME="23"></A><FONT ID="Import">import</FONT> javax.swing.ImageIcon;
+<FONT ID="LN">24  </FONT><A NAME="24"></A><FONT ID="Import">import</FONT> javax.swing.JButton;
+<FONT ID="LN">25  </FONT><A NAME="25"></A><FONT ID="Import">import</FONT> javax.swing.JFrame;
+<FONT ID="LN">26  </FONT><A NAME="26"></A><FONT ID="Import">import</FONT> javax.swing.JLabel;
+<FONT ID="LN">27  </FONT><A NAME="27"></A><FONT ID="Import">import</FONT> javax.swing.JPanel;
+<FONT ID="LN">28  </FONT><A NAME="28"></A><FONT ID="Import">import</FONT> javax.swing.JTextArea;
+<FONT ID="LN">29  </FONT><A NAME="29"></A><FONT ID="Import">import</FONT> javax.swing.JTextField;
+<FONT ID="LN">30  </FONT><A NAME="30"></A><FONT ID="Import">import</FONT> javax.swing.SpringLayout;
+<FONT ID="LN">31  </FONT><A NAME="31"></A>
+<FONT ID="LN">32  </FONT><A NAME="32"></A><FONT ID="Import">import</FONT> org.apache.log4j.Logger;
+<FONT ID="LN">33  </FONT><A NAME="33"></A>
+<FONT ID="LN">34  </FONT><A NAME="34"></A><FONT ID="Public">public</FONT> <FONT ID="Class">class</FONT> Logbook <FONT ID="Implements">implements</FONT> Serializable{
+<FONT ID="LN">35  </FONT><A NAME="35"></A>    
+<FONT ID="LN">36  </FONT><A NAME="36"></A>    <FONT ID="FormalComment">/**
+<FONT ID="LN">37  </FONT><A NAME="37"></A>     * 
+<FONT ID="LN">38  </FONT><A NAME="38"></A>     */</FONT>
+<FONT ID="LN">39  </FONT><A NAME="39"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> <FONT ID="Final">final</FONT> <FONT ID="Long">long</FONT> serialVersionUID = <FONT ID="IntegerLiteral">1L</FONT>;
+<FONT ID="LN">40  </FONT><A NAME="40"></A>    <FONT ID="FormalComment">/**
+<FONT ID="LN">41  </FONT><A NAME="41"></A>     * 
+<FONT ID="LN">42  </FONT><A NAME="42"></A>     */</FONT>
+<FONT ID="LN">43  </FONT><A NAME="43"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> LogbookNode root;
+<FONT ID="LN">44  </FONT><A NAME="44"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> LogbookPanel panel;
+<FONT ID="LN">45  </FONT><A NAME="45"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> <FONT ID="Boolean">boolean</FONT> initiated;
+<FONT ID="LN">46  </FONT><A NAME="46"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> String logbookPath;
+<FONT ID="LN">47  </FONT><A NAME="47"></A>    
+<FONT ID="LN">48  </FONT><A NAME="48"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> <FONT ID="Final">final</FONT> Logger logger = Logger.getLogger(<A HREF="../game/Logbook.java.html">Logbook</A>.<FONT ID="Class">class</FONT>);
+<FONT ID="LN">49  </FONT><A NAME="49"></A>    
+<FONT ID="LN">50  </FONT><A NAME="50"></A>    <FONT ID="Public">public</FONT> Logbook(){
+<FONT ID="LN">51  </FONT><A NAME="51"></A>        root = <FONT ID="New">new</FONT> LogbookNode(<FONT ID="StringLiteral">"root"</FONT>);
+<FONT ID="LN">52  </FONT><A NAME="52"></A>        panel = <FONT ID="New">new</FONT> LogbookPanel();
+<FONT ID="LN">53  </FONT><A NAME="53"></A>        initiated = <FONT ID="False">false</FONT>;
+<FONT ID="LN">54  </FONT><A NAME="54"></A>    }
+<FONT ID="LN">55  </FONT><A NAME="55"></A>    
+<FONT ID="LN">56  </FONT><A NAME="56"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setLogbook(LogbookNode l){
+<FONT ID="LN">57  </FONT><A NAME="57"></A>        root = l;
+<FONT ID="LN">58  </FONT><A NAME="58"></A>        panel = <FONT ID="New">new</FONT> LogbookPanel();
+<FONT ID="LN">59  </FONT><A NAME="59"></A>        panel.createPageNumbers();
+<FONT ID="LN">60  </FONT><A NAME="60"></A>        initiated = <FONT ID="False">false</FONT>;
+<FONT ID="LN">61  </FONT><A NAME="61"></A>    }
+<FONT ID="LN">62  </FONT><A NAME="62"></A>    
+<FONT ID="LN">63  </FONT><A NAME="63"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> LogbookNode getRootNode(){
+<FONT ID="LN">64  </FONT><A NAME="64"></A>        <FONT ID="Return">return</FONT> root;
+<FONT ID="LN">65  </FONT><A NAME="65"></A>    }
+<FONT ID="LN">66  </FONT><A NAME="66"></A>    
+<FONT ID="LN">67  </FONT><A NAME="67"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> addContent(String path, Integer phase, String content){
+<FONT ID="LN">68  </FONT><A NAME="68"></A>        <FONT ID="If">if</FONT>(path == <FONT ID="Null">null</FONT> || path.equalsIgnoreCase(<FONT ID="StringLiteral">""</FONT>) || content == <FONT ID="Null">null</FONT> || content.equalsIgnoreCase(<FONT ID="StringLiteral">""</FONT>)){
+<FONT ID="LN">69  </FONT><A NAME="69"></A>            <FONT ID="Return">return</FONT>;
+<FONT ID="LN">70  </FONT><A NAME="70"></A>        }
+<FONT ID="LN">71  </FONT><A NAME="71"></A>        logbookPath = path;
+<FONT ID="LN">72  </FONT><A NAME="72"></A>        String[] partialPaths = path.split(<FONT ID="StringLiteral">"/"</FONT>);
+<FONT ID="LN">73  </FONT><A NAME="73"></A>        LogbookNode currentNode = root;
+<FONT ID="LN">74  </FONT><A NAME="74"></A>        <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j = <FONT ID="IntegerLiteral">0</FONT>;j&lt;partialPaths.length;j++){
+<FONT ID="LN">75  </FONT><A NAME="75"></A>            <FONT ID="Boolean">boolean</FONT> mapExists = <FONT ID="False">false</FONT>;
+<FONT ID="LN">76  </FONT><A NAME="76"></A>            String s = partialPaths[j];
+<FONT ID="LN">77  </FONT><A NAME="77"></A>            ArrayList&lt;LogbookNode&gt; currentChildren = currentNode.getChildren();
+<FONT ID="LN">78  </FONT><A NAME="78"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i=<FONT ID="IntegerLiteral">0</FONT>;i&lt;currentChildren.size();i++){
+<FONT ID="LN">79  </FONT><A NAME="79"></A>                <FONT ID="If">if</FONT>(currentChildren.get(i).getName().equalsIgnoreCase(s)){
+<FONT ID="LN">80  </FONT><A NAME="80"></A>                    mapExists = <FONT ID="True">true</FONT>;
+<FONT ID="LN">81  </FONT><A NAME="81"></A>                    currentNode = currentChildren.get(i);
+<FONT ID="LN">82  </FONT><A NAME="82"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">83  </FONT><A NAME="83"></A>                }
+<FONT ID="LN">84  </FONT><A NAME="84"></A>            }
+<FONT ID="LN">85  </FONT><A NAME="85"></A>            <FONT ID="If">if</FONT>(!mapExists){
+<FONT ID="LN">86  </FONT><A NAME="86"></A>                currentNode = currentNode.addChild(s);
+<FONT ID="LN">87  </FONT><A NAME="87"></A>            }
+<FONT ID="LN">88  </FONT><A NAME="88"></A>            <FONT ID="If">if</FONT>(j == partialPaths.length-<FONT ID="IntegerLiteral">1</FONT> &amp;&amp; content != <FONT ID="Null">null</FONT>){
+<FONT ID="LN">89  </FONT><A NAME="89"></A>                <FONT ID="SingleLineComment">//phase = -1 is for shortcut
+<FONT ID="LN">90  </FONT><A NAME="90"></A></FONT>                <FONT ID="If">if</FONT>(phase != -<FONT ID="IntegerLiteral">1</FONT>){
+<FONT ID="LN">91  </FONT><A NAME="91"></A>                    currentNode.addContent(phase,content);
+<FONT ID="LN">92  </FONT><A NAME="92"></A>                }
+<FONT ID="LN">93  </FONT><A NAME="93"></A>                <FONT ID="Else">else</FONT>{
+<FONT ID="LN">94  </FONT><A NAME="94"></A>                    currentNode.addShortcut(content);
+<FONT ID="LN">95  </FONT><A NAME="95"></A>                }
+<FONT ID="LN">96  </FONT><A NAME="96"></A>            }
+<FONT ID="LN">97  </FONT><A NAME="97"></A>        }
+<FONT ID="LN">98  </FONT><A NAME="98"></A>        panel.createPageNumbers();
+<FONT ID="LN">99  </FONT><A NAME="99"></A>
+<FONT ID="LN">100 </FONT><A NAME="100"></A>    }
+<FONT ID="LN">101 </FONT><A NAME="101"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> addContent(String path, String shortcutPath){
+<FONT ID="LN">102 </FONT><A NAME="102"></A>        addContent(path,-<FONT ID="IntegerLiteral">1</FONT>,shortcutPath);
+<FONT ID="LN">103 </FONT><A NAME="103"></A>    }
+<FONT ID="LN">104 </FONT><A NAME="104"></A>    
+<FONT ID="LN">105 </FONT><A NAME="105"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Int">int</FONT> getPhase(String path){
+<FONT ID="LN">106 </FONT><A NAME="106"></A>        <FONT ID="Int">int</FONT> phase = -<FONT ID="IntegerLiteral">1</FONT>;
+<FONT ID="LN">107 </FONT><A NAME="107"></A>        <FONT ID="If">if</FONT>(path == <FONT ID="Null">null</FONT> || path.equalsIgnoreCase(<FONT ID="StringLiteral">""</FONT>)){
+<FONT ID="LN">108 </FONT><A NAME="108"></A>            <FONT ID="Return">return</FONT> phase;
+<FONT ID="LN">109 </FONT><A NAME="109"></A>        }
+<FONT ID="LN">110 </FONT><A NAME="110"></A>        logbookPath = path;
+<FONT ID="LN">111 </FONT><A NAME="111"></A>        String[] partialPaths = path.split(<FONT ID="StringLiteral">"/"</FONT>);
+<FONT ID="LN">112 </FONT><A NAME="112"></A>        LogbookNode currentNode = root;
+<FONT ID="LN">113 </FONT><A NAME="113"></A>        <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j = <FONT ID="IntegerLiteral">0</FONT>;j&lt;partialPaths.length;j++){
+<FONT ID="LN">114 </FONT><A NAME="114"></A>            String s = partialPaths[j];
+<FONT ID="LN">115 </FONT><A NAME="115"></A>            ArrayList&lt;LogbookNode&gt; currentChildren = currentNode.getChildren();
+<FONT ID="LN">116 </FONT><A NAME="116"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i=<FONT ID="IntegerLiteral">0</FONT>;i&lt;currentChildren.size();i++){
+<FONT ID="LN">117 </FONT><A NAME="117"></A>                <FONT ID="If">if</FONT>(currentChildren.get(i).getName().equalsIgnoreCase(s)){
+<FONT ID="LN">118 </FONT><A NAME="118"></A>                    currentNode = currentChildren.get(i);
+<FONT ID="LN">119 </FONT><A NAME="119"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">120 </FONT><A NAME="120"></A>                }
+<FONT ID="LN">121 </FONT><A NAME="121"></A>            }
+<FONT ID="LN">122 </FONT><A NAME="122"></A>        }
+<FONT ID="LN">123 </FONT><A NAME="123"></A>        phase = currentNode.getPhase();
+<FONT ID="LN">124 </FONT><A NAME="124"></A>        <FONT ID="Return">return</FONT> phase;
+<FONT ID="LN">125 </FONT><A NAME="125"></A>    }
+<FONT ID="LN">126 </FONT><A NAME="126"></A>    
+<FONT ID="LN">127 </FONT><A NAME="127"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> showLogbook(){
+<FONT ID="LN">128 </FONT><A NAME="128"></A>        <FONT ID="SingleLineComment">//features:
+<FONT ID="LN">129 </FONT><A NAME="129"></A></FONT>        <FONT ID="SingleLineComment">//works like a book, able to choose chapters, topics, scroll through pages
+<FONT ID="LN">130 </FONT><A NAME="130"></A></FONT>        <FONT ID="SingleLineComment">//search function
+<FONT ID="LN">131 </FONT><A NAME="131"></A></FONT>        <FONT ID="SingleLineComment">//different sections: personal story, own notes, world lore (bestiary, herbs, background on areas), achievements
+<FONT ID="LN">132 </FONT><A NAME="132"></A></FONT>        <FONT ID="SingleLineComment">//has a 'bar' on top that shows what chapter you are in etc, works like hotlinks to maneuver quickly
+<FONT ID="LN">133 </FONT><A NAME="133"></A></FONT>        <FONT ID="SingleLineComment">//use it to show the world map
+<FONT ID="LN">134 </FONT><A NAME="134"></A></FONT>        <FONT ID="SingleLineComment">//some parts are editable
+<FONT ID="LN">135 </FONT><A NAME="135"></A></FONT>        
+<FONT ID="LN">136 </FONT><A NAME="136"></A>        JFrame frame = <FONT ID="New">new</FONT> JFrame(<FONT ID="StringLiteral">"Logbook"</FONT>);
+<FONT ID="LN">137 </FONT><A NAME="137"></A>        
+<FONT ID="LN">138 </FONT><A NAME="138"></A>        frame.setResizable(<FONT ID="False">false</FONT>);
+<FONT ID="LN">139 </FONT><A NAME="139"></A>        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+<FONT ID="LN">140 </FONT><A NAME="140"></A>        
+<FONT ID="LN">141 </FONT><A NAME="141"></A>        <FONT ID="If">if</FONT>(!initiated){
+<FONT ID="LN">142 </FONT><A NAME="142"></A>            panel.init();
+<FONT ID="LN">143 </FONT><A NAME="143"></A>            initiated = <FONT ID="True">true</FONT>;
+<FONT ID="LN">144 </FONT><A NAME="144"></A>        }
+<FONT ID="LN">145 </FONT><A NAME="145"></A>        
+<FONT ID="LN">146 </FONT><A NAME="146"></A>        frame.getContentPane().add(panel);
+<FONT ID="LN">147 </FONT><A NAME="147"></A>        
+<FONT ID="LN">148 </FONT><A NAME="148"></A>        frame.pack();
+<FONT ID="LN">149 </FONT><A NAME="149"></A>        frame.setLocationRelativeTo(<FONT ID="Null">null</FONT>);
+<FONT ID="LN">150 </FONT><A NAME="150"></A>        frame.setVisible(<FONT ID="True">true</FONT>);
+<FONT ID="LN">151 </FONT><A NAME="151"></A>        
+<FONT ID="LN">152 </FONT><A NAME="152"></A>        panel.setContent(<FONT ID="StringLiteral">"Introduction"</FONT>);
+<FONT ID="LN">153 </FONT><A NAME="153"></A>        
+<FONT ID="LN">154 </FONT><A NAME="154"></A>    }
+<FONT ID="LN">155 </FONT><A NAME="155"></A>    
+<FONT ID="LN">156 </FONT><A NAME="156"></A>    <FONT ID="Private">private</FONT> <FONT ID="Class">class</FONT> LogbookPanel <FONT ID="Extends">extends</FONT> JPanel <FONT ID="Implements">implements</FONT> Serializable{
+<FONT ID="LN">157 </FONT><A NAME="157"></A>        <FONT ID="FormalComment">/**
+<FONT ID="LN">158 </FONT><A NAME="158"></A>         * 
+<FONT ID="LN">159 </FONT><A NAME="159"></A>         */</FONT>
+<FONT ID="LN">160 </FONT><A NAME="160"></A>        <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> <FONT ID="Final">final</FONT> <FONT ID="Long">long</FONT> serialVersionUID = <FONT ID="IntegerLiteral">1L</FONT>;
+<FONT ID="LN">161 </FONT><A NAME="161"></A>        <FONT ID="Private">private</FONT> JButton bStory, bNotes, bLore, bAchiev, bNextPage, bPrevPage;
+<FONT ID="LN">162 </FONT><A NAME="162"></A>        <FONT ID="Private">private</FONT> JTextArea textAreaLeft, textAreaRight;
+<FONT ID="LN">163 </FONT><A NAME="163"></A>        <FONT ID="Private">private</FONT> JTextField searchField;
+<FONT ID="LN">164 </FONT><A NAME="164"></A>        <FONT ID="Private">private</FONT> JLabel title,pageNrLeft,pageNrRight;
+<FONT ID="LN">165 </FONT><A NAME="165"></A>        <FONT ID="Private">private</FONT> ArrayList&lt;JButton&gt; subCategories,location;
+<FONT ID="LN">166 </FONT><A NAME="166"></A>        <FONT ID="Private">private</FONT> SpringLayout layout;
+<FONT ID="LN">167 </FONT><A NAME="167"></A>        <FONT ID="Private">private</FONT> LinkedHashMap&lt;Integer,String&gt; pageNumbers;
+<FONT ID="LN">168 </FONT><A NAME="168"></A>        
+<FONT ID="LN">169 </FONT><A NAME="169"></A>        <FONT ID="Private">private</FONT> Image background,imStory,imNotes,imLore,imAchiev,imLeftArrow,imRightArrow;
+<FONT ID="LN">170 </FONT><A NAME="170"></A>        
+<FONT ID="LN">171 </FONT><A NAME="171"></A>        <FONT ID="Private">private</FONT> String w,n,s,e;
+<FONT ID="LN">172 </FONT><A NAME="172"></A>        
+<FONT ID="LN">173 </FONT><A NAME="173"></A>        <FONT ID="Public">public</FONT> LogbookPanel(){
+<FONT ID="LN">174 </FONT><A NAME="174"></A>            
+<FONT ID="LN">175 </FONT><A NAME="175"></A>        }
+<FONT ID="LN">176 </FONT><A NAME="176"></A>        
+<FONT ID="LN">177 </FONT><A NAME="177"></A>        <FONT ID="Private">private</FONT> <FONT ID="Void">void</FONT> init(){
+<FONT ID="LN">178 </FONT><A NAME="178"></A>            
+<FONT ID="LN">179 </FONT><A NAME="179"></A>            <FONT ID="SingleLineComment">//positional strings used
+<FONT ID="LN">180 </FONT><A NAME="180"></A></FONT>            w = SpringLayout.WEST;
+<FONT ID="LN">181 </FONT><A NAME="181"></A>            e = SpringLayout.EAST;
+<FONT ID="LN">182 </FONT><A NAME="182"></A>            n = SpringLayout.NORTH;
+<FONT ID="LN">183 </FONT><A NAME="183"></A>            s = SpringLayout.SOUTH;
+<FONT ID="LN">184 </FONT><A NAME="184"></A>            
+<FONT ID="LN">185 </FONT><A NAME="185"></A>            layout = <FONT ID="New">new</FONT> SpringLayout();
+<FONT ID="LN">186 </FONT><A NAME="186"></A>            setLayout(layout);
+<FONT ID="LN">187 </FONT><A NAME="187"></A>            <FONT ID="SingleLineComment">//load background image
+<FONT ID="LN">188 </FONT><A NAME="188"></A></FONT>            <FONT ID="Try">try</FONT> {
+<FONT ID="LN">189 </FONT><A NAME="189"></A>                background = ImageIO.read(<FONT ID="New">new</FONT> File(<FONT ID="StringLiteral">"Images/open_book_2.jpg"</FONT>));
+<FONT ID="LN">190 </FONT><A NAME="190"></A>                imLeftArrow = ImageIO.read(<FONT ID="New">new</FONT> File(<FONT ID="StringLiteral">"Images/Left_Arrow.png"</FONT>));
+<FONT ID="LN">191 </FONT><A NAME="191"></A>                imRightArrow = ImageIO.read(<FONT ID="New">new</FONT> File(<FONT ID="StringLiteral">"Images/Right_Arrow.png"</FONT>));
+<FONT ID="LN">192 </FONT><A NAME="192"></A>                imStory = ImageIO.read(<FONT ID="New">new</FONT> File(<FONT ID="StringLiteral">""</FONT>));
+<FONT ID="LN">193 </FONT><A NAME="193"></A>                imNotes = ImageIO.read(<FONT ID="New">new</FONT> File(<FONT ID="StringLiteral">""</FONT>));
+<FONT ID="LN">194 </FONT><A NAME="194"></A>                imLore = ImageIO.read(<FONT ID="New">new</FONT> File(<FONT ID="StringLiteral">""</FONT>));
+<FONT ID="LN">195 </FONT><A NAME="195"></A>                imAchiev = ImageIO.read(<FONT ID="New">new</FONT> File(<FONT ID="StringLiteral">""</FONT>));
+<FONT ID="LN">196 </FONT><A NAME="196"></A>            } <FONT ID="Catch">catch</FONT> (IOException e1) {
+<FONT ID="LN">197 </FONT><A NAME="197"></A>            }
+<FONT ID="LN">198 </FONT><A NAME="198"></A>            
+<FONT ID="LN">199 </FONT><A NAME="199"></A>            setBackground(Color.black);
+<FONT ID="LN">200 </FONT><A NAME="200"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">201 </FONT><A NAME="201"></A>                bStory = <FONT ID="New">new</FONT> JButton(<FONT ID="New">new</FONT> ImageIcon(imStory));
+<FONT ID="LN">202 </FONT><A NAME="202"></A>                bNotes = <FONT ID="New">new</FONT> JButton(<FONT ID="New">new</FONT> ImageIcon(imNotes));
+<FONT ID="LN">203 </FONT><A NAME="203"></A>                bLore = <FONT ID="New">new</FONT> JButton(<FONT ID="New">new</FONT> ImageIcon(imLore));
+<FONT ID="LN">204 </FONT><A NAME="204"></A>                bAchiev = <FONT ID="New">new</FONT> JButton(<FONT ID="New">new</FONT> ImageIcon(imAchiev));
+<FONT ID="LN">205 </FONT><A NAME="205"></A>                
+<FONT ID="LN">206 </FONT><A NAME="206"></A>                bNextPage = <FONT ID="New">new</FONT> JButton(<FONT ID="New">new</FONT> ImageIcon(imRightArrow));
+<FONT ID="LN">207 </FONT><A NAME="207"></A>                bPrevPage = <FONT ID="New">new</FONT> JButton(<FONT ID="New">new</FONT> ImageIcon(imLeftArrow));
+<FONT ID="LN">208 </FONT><A NAME="208"></A>                
+<FONT ID="LN">209 </FONT><A NAME="209"></A>            } <FONT ID="Catch">catch</FONT>(NullPointerException exc){
+<FONT ID="LN">210 </FONT><A NAME="210"></A>                bStory = <FONT ID="New">new</FONT> JButton(<FONT ID="StringLiteral">"Story"</FONT>);
+<FONT ID="LN">211 </FONT><A NAME="211"></A>                bNotes = <FONT ID="New">new</FONT> JButton(<FONT ID="StringLiteral">"Notes"</FONT>);
+<FONT ID="LN">212 </FONT><A NAME="212"></A>                bLore = <FONT ID="New">new</FONT> JButton(<FONT ID="StringLiteral">"Lore"</FONT>);
+<FONT ID="LN">213 </FONT><A NAME="213"></A>                bAchiev = <FONT ID="New">new</FONT> JButton(<FONT ID="StringLiteral">"Achievements"</FONT>);
+<FONT ID="LN">214 </FONT><A NAME="214"></A>                
+<FONT ID="LN">215 </FONT><A NAME="215"></A>                bNextPage = <FONT ID="New">new</FONT> JButton(<FONT ID="StringLiteral">"Next"</FONT>);
+<FONT ID="LN">216 </FONT><A NAME="216"></A>                bPrevPage = <FONT ID="New">new</FONT> JButton(<FONT ID="StringLiteral">"Previous"</FONT>);
+<FONT ID="LN">217 </FONT><A NAME="217"></A>            }
+<FONT ID="LN">218 </FONT><A NAME="218"></A>            
+<FONT ID="LN">219 </FONT><A NAME="219"></A>            title = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"Title"</FONT>);
+<FONT ID="LN">220 </FONT><A NAME="220"></A>            pageNrLeft = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"pageLeft"</FONT>);
+<FONT ID="LN">221 </FONT><A NAME="221"></A>            pageNrRight = <FONT ID="New">new</FONT> JLabel(<FONT ID="StringLiteral">"pageRight"</FONT>);
+<FONT ID="LN">222 </FONT><A NAME="222"></A>            
+<FONT ID="LN">223 </FONT><A NAME="223"></A>            textAreaLeft = <FONT ID="New">new</FONT> JTextArea(<FONT ID="IntegerLiteral">20</FONT>,<FONT ID="IntegerLiteral">25</FONT>);
+<FONT ID="LN">224 </FONT><A NAME="224"></A>            textAreaRight = <FONT ID="New">new</FONT> JTextArea(<FONT ID="IntegerLiteral">25</FONT>,<FONT ID="IntegerLiteral">25</FONT>);
+<FONT ID="LN">225 </FONT><A NAME="225"></A>            
+<FONT ID="LN">226 </FONT><A NAME="226"></A>            textAreaLeft.setLineWrap(<FONT ID="True">true</FONT>);
+<FONT ID="LN">227 </FONT><A NAME="227"></A>            textAreaLeft.setWrapStyleWord(<FONT ID="True">true</FONT>);
+<FONT ID="LN">228 </FONT><A NAME="228"></A>            textAreaRight.setLineWrap(<FONT ID="True">true</FONT>);
+<FONT ID="LN">229 </FONT><A NAME="229"></A>            textAreaRight.setWrapStyleWord(<FONT ID="True">true</FONT>);
+<FONT ID="LN">230 </FONT><A NAME="230"></A>            
+<FONT ID="LN">231 </FONT><A NAME="231"></A>            <FONT ID="SingleLineComment">//TODO turned off for testing purposes
+<FONT ID="LN">232 </FONT><A NAME="232"></A></FONT>            <FONT ID="SingleLineComment">//textAreaLeft.setOpaque(false);
+<FONT ID="LN">233 </FONT><A NAME="233"></A></FONT>            <FONT ID="SingleLineComment">//textAreaRight.setOpaque(false);
+<FONT ID="LN">234 </FONT><A NAME="234"></A></FONT>            
+<FONT ID="LN">235 </FONT><A NAME="235"></A>            searchField = <FONT ID="New">new</FONT> JTextField(<FONT ID="IntegerLiteral">20</FONT>);
+<FONT ID="LN">236 </FONT><A NAME="236"></A>            searchField.setText(<FONT ID="StringLiteral">"Search..."</FONT>);
+<FONT ID="LN">237 </FONT><A NAME="237"></A>            
+<FONT ID="LN">238 </FONT><A NAME="238"></A>            searchField.addFocusListener(<FONT ID="New">new</FONT> FocusListener(){
+<FONT ID="LN">239 </FONT><A NAME="239"></A>                <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> focusGained(FocusEvent e) {
+<FONT ID="LN">240 </FONT><A NAME="240"></A>                    searchField.setText(<FONT ID="StringLiteral">""</FONT>);
+<FONT ID="LN">241 </FONT><A NAME="241"></A>                }
+<FONT ID="LN">242 </FONT><A NAME="242"></A>                <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> focusLost(FocusEvent e) {
+<FONT ID="LN">243 </FONT><A NAME="243"></A>                    searchField.setText(<FONT ID="StringLiteral">"Search..."</FONT>);
+<FONT ID="LN">244 </FONT><A NAME="244"></A>                }
+<FONT ID="LN">245 </FONT><A NAME="245"></A>            });
+<FONT ID="LN">246 </FONT><A NAME="246"></A>            searchField.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">247 </FONT><A NAME="247"></A>                <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt) {
+<FONT ID="LN">248 </FONT><A NAME="248"></A>                    String text = searchField.getText().trim();
+<FONT ID="LN">249 </FONT><A NAME="249"></A>                    <FONT ID="If">if</FONT>(!text.isEmpty()){
+<FONT ID="LN">250 </FONT><A NAME="250"></A>                        searchContent(text.toLowerCase());
+<FONT ID="LN">251 </FONT><A NAME="251"></A>                        searchField.setText(<FONT ID="StringLiteral">""</FONT>);
+<FONT ID="LN">252 </FONT><A NAME="252"></A>                    }
+<FONT ID="LN">253 </FONT><A NAME="253"></A>                }
+<FONT ID="LN">254 </FONT><A NAME="254"></A>            });
+<FONT ID="LN">255 </FONT><A NAME="255"></A>            
+<FONT ID="LN">256 </FONT><A NAME="256"></A>            subCategories = <FONT ID="New">new</FONT> ArrayList&lt;JButton&gt;();
+<FONT ID="LN">257 </FONT><A NAME="257"></A>            location = <FONT ID="New">new</FONT> ArrayList&lt;JButton&gt;();
+<FONT ID="LN">258 </FONT><A NAME="258"></A>            
+<FONT ID="LN">259 </FONT><A NAME="259"></A>            <FONT ID="SingleLineComment">//all button actions
+<FONT ID="LN">260 </FONT><A NAME="260"></A></FONT>            bStory.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">261 </FONT><A NAME="261"></A>                <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt){
+<FONT ID="LN">262 </FONT><A NAME="262"></A>                    setContent(<FONT ID="StringLiteral">"Story"</FONT>);
+<FONT ID="LN">263 </FONT><A NAME="263"></A>                }
+<FONT ID="LN">264 </FONT><A NAME="264"></A>            });
+<FONT ID="LN">265 </FONT><A NAME="265"></A>            
+<FONT ID="LN">266 </FONT><A NAME="266"></A>            bNotes.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">267 </FONT><A NAME="267"></A>                <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt){
+<FONT ID="LN">268 </FONT><A NAME="268"></A>                    setContent(<FONT ID="StringLiteral">"Notes"</FONT>);
+<FONT ID="LN">269 </FONT><A NAME="269"></A>                }
+<FONT ID="LN">270 </FONT><A NAME="270"></A>            });
+<FONT ID="LN">271 </FONT><A NAME="271"></A>            bLore.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">272 </FONT><A NAME="272"></A>                <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt){
+<FONT ID="LN">273 </FONT><A NAME="273"></A>                    setContent(<FONT ID="StringLiteral">"Lore"</FONT>);
+<FONT ID="LN">274 </FONT><A NAME="274"></A>                }
+<FONT ID="LN">275 </FONT><A NAME="275"></A>            });
+<FONT ID="LN">276 </FONT><A NAME="276"></A>            bAchiev.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">277 </FONT><A NAME="277"></A>                <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt){
+<FONT ID="LN">278 </FONT><A NAME="278"></A>                    setContent(<FONT ID="StringLiteral">"Achievements"</FONT>);
+<FONT ID="LN">279 </FONT><A NAME="279"></A>                }
+<FONT ID="LN">280 </FONT><A NAME="280"></A>            });
+<FONT ID="LN">281 </FONT><A NAME="281"></A>            bNextPage.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">282 </FONT><A NAME="282"></A>                <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt){
+<FONT ID="LN">283 </FONT><A NAME="283"></A>                    changePage(<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">284 </FONT><A NAME="284"></A>                }
+<FONT ID="LN">285 </FONT><A NAME="285"></A>            });
+<FONT ID="LN">286 </FONT><A NAME="286"></A>            bPrevPage.addActionListener(<FONT ID="New">new</FONT> ActionListener(){
+<FONT ID="LN">287 </FONT><A NAME="287"></A>                <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent evt){
+<FONT ID="LN">288 </FONT><A NAME="288"></A>                    changePage(-<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">289 </FONT><A NAME="289"></A>                }
+<FONT ID="LN">290 </FONT><A NAME="290"></A>            });
+<FONT ID="LN">291 </FONT><A NAME="291"></A>            
+<FONT ID="LN">292 </FONT><A NAME="292"></A>            <FONT ID="SingleLineComment">//add all components to the panel
+<FONT ID="LN">293 </FONT><A NAME="293"></A></FONT>            add(bStory);
+<FONT ID="LN">294 </FONT><A NAME="294"></A>            add(bNotes);
+<FONT ID="LN">295 </FONT><A NAME="295"></A>            add(bLore);
+<FONT ID="LN">296 </FONT><A NAME="296"></A>            add(bAchiev);
+<FONT ID="LN">297 </FONT><A NAME="297"></A>            add(bPrevPage);
+<FONT ID="LN">298 </FONT><A NAME="298"></A>            add(bNextPage);
+<FONT ID="LN">299 </FONT><A NAME="299"></A>            add(title);
+<FONT ID="LN">300 </FONT><A NAME="300"></A>            add(pageNrLeft);
+<FONT ID="LN">301 </FONT><A NAME="301"></A>            add(pageNrRight);
+<FONT ID="LN">302 </FONT><A NAME="302"></A>            add(textAreaLeft);
+<FONT ID="LN">303 </FONT><A NAME="303"></A>            add(textAreaRight);
+<FONT ID="LN">304 </FONT><A NAME="304"></A>            add(searchField);
+<FONT ID="LN">305 </FONT><A NAME="305"></A>            
+<FONT ID="LN">306 </FONT><A NAME="306"></A>            
+<FONT ID="LN">307 </FONT><A NAME="307"></A>            <FONT ID="SingleLineComment">//layout for buttons
+<FONT ID="LN">308 </FONT><A NAME="308"></A></FONT>            layout.putConstraint(n, bStory, <FONT ID="IntegerLiteral">30</FONT>, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">309 </FONT><A NAME="309"></A>            layout.putConstraint(w, bStory, <FONT ID="IntegerLiteral">20</FONT>, w, <FONT ID="This">this</FONT>);
+<FONT ID="LN">310 </FONT><A NAME="310"></A>            layout.putConstraint(n, bNotes, <FONT ID="IntegerLiteral">20</FONT>, s, bStory);
+<FONT ID="LN">311 </FONT><A NAME="311"></A>            layout.putConstraint(w, bNotes, <FONT ID="IntegerLiteral">0</FONT>, w, bStory);
+<FONT ID="LN">312 </FONT><A NAME="312"></A>            layout.putConstraint(n, bLore, <FONT ID="IntegerLiteral">20</FONT>, s, bNotes);
+<FONT ID="LN">313 </FONT><A NAME="313"></A>            layout.putConstraint(w, bLore, <FONT ID="IntegerLiteral">0</FONT>, w, bStory);
+<FONT ID="LN">314 </FONT><A NAME="314"></A>            layout.putConstraint(n, bAchiev, <FONT ID="IntegerLiteral">20</FONT>, s, bLore);
+<FONT ID="LN">315 </FONT><A NAME="315"></A>            layout.putConstraint(w, bAchiev, <FONT ID="IntegerLiteral">0</FONT>, w, bStory);
+<FONT ID="LN">316 </FONT><A NAME="316"></A>            
+<FONT ID="LN">317 </FONT><A NAME="317"></A>            <FONT ID="SingleLineComment">//layout for text
+<FONT ID="LN">318 </FONT><A NAME="318"></A></FONT>            layout.putConstraint(n, title, <FONT ID="IntegerLiteral">70</FONT>, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">319 </FONT><A NAME="319"></A>            layout.putConstraint(w, title, <FONT ID="IntegerLiteral">140</FONT>, w, <FONT ID="This">this</FONT>);
+<FONT ID="LN">320 </FONT><A NAME="320"></A>            layout.putConstraint(n, textAreaLeft, <FONT ID="IntegerLiteral">20</FONT>, s, title);
+<FONT ID="LN">321 </FONT><A NAME="321"></A>            layout.putConstraint(w, textAreaLeft, <FONT ID="IntegerLiteral">0</FONT>, w, title);
+<FONT ID="LN">322 </FONT><A NAME="322"></A>            layout.putConstraint(n, textAreaRight, <FONT ID="IntegerLiteral">0</FONT>, n, title);
+<FONT ID="LN">323 </FONT><A NAME="323"></A>            layout.putConstraint(w, textAreaRight, <FONT ID="IntegerLiteral">80</FONT>, e, textAreaLeft);
+<FONT ID="LN">324 </FONT><A NAME="324"></A>            
+<FONT ID="LN">325 </FONT><A NAME="325"></A>            <FONT ID="SingleLineComment">//layout for stuff concerning pages
+<FONT ID="LN">326 </FONT><A NAME="326"></A></FONT>            layout.putConstraint(w, bPrevPage, -<FONT ID="IntegerLiteral">50</FONT>, w, title);
+<FONT ID="LN">327 </FONT><A NAME="327"></A>            layout.putConstraint(n, bPrevPage, <FONT ID="IntegerLiteral">20</FONT>, s, textAreaLeft);
+<FONT ID="LN">328 </FONT><A NAME="328"></A>            layout.putConstraint(n, bNextPage, <FONT ID="IntegerLiteral">0</FONT>, n, bPrevPage);
+<FONT ID="LN">329 </FONT><A NAME="329"></A>            layout.putConstraint(e, bNextPage, <FONT ID="IntegerLiteral">20</FONT>, e, textAreaRight);
+<FONT ID="LN">330 </FONT><A NAME="330"></A>            layout.putConstraint(n, pageNrLeft, <FONT ID="IntegerLiteral">0</FONT>, n, bPrevPage);
+<FONT ID="LN">331 </FONT><A NAME="331"></A>            layout.putConstraint(w, pageNrLeft, <FONT ID="IntegerLiteral">20</FONT>, e, bPrevPage);
+<FONT ID="LN">332 </FONT><A NAME="332"></A>            layout.putConstraint(n, pageNrRight, <FONT ID="IntegerLiteral">0</FONT>, n, pageNrLeft);
+<FONT ID="LN">333 </FONT><A NAME="333"></A>            layout.putConstraint(e, pageNrRight, -<FONT ID="IntegerLiteral">20</FONT>, w, bNextPage);
+<FONT ID="LN">334 </FONT><A NAME="334"></A>            
+<FONT ID="LN">335 </FONT><A NAME="335"></A>            <FONT ID="SingleLineComment">//layout for search field
+<FONT ID="LN">336 </FONT><A NAME="336"></A></FONT>            layout.putConstraint(n, searchField, <FONT ID="IntegerLiteral">10</FONT>, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">337 </FONT><A NAME="337"></A>            layout.putConstraint(e, searchField, <FONT ID="IntegerLiteral">0</FONT>, e, textAreaRight);
+<FONT ID="LN">338 </FONT><A NAME="338"></A>            
+<FONT ID="LN">339 </FONT><A NAME="339"></A>            <FONT ID="SingleLineComment">//layout for window
+<FONT ID="LN">340 </FONT><A NAME="340"></A></FONT>            layout.putConstraint(e, <FONT ID="This">this</FONT>, <FONT ID="IntegerLiteral">30</FONT>, e, textAreaRight);
+<FONT ID="LN">341 </FONT><A NAME="341"></A>            layout.putConstraint(s, <FONT ID="This">this</FONT>, <FONT ID="IntegerLiteral">30</FONT>, s, pageNrRight);
+<FONT ID="LN">342 </FONT><A NAME="342"></A>            
+<FONT ID="LN">343 </FONT><A NAME="343"></A>        }
+<FONT ID="LN">344 </FONT><A NAME="344"></A>        
+<FONT ID="LN">345 </FONT><A NAME="345"></A>        <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> createPageNumbers(){
+<FONT ID="LN">346 </FONT><A NAME="346"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">347 </FONT><A NAME="347"></A>                pageNumbers.clear();
+<FONT ID="LN">348 </FONT><A NAME="348"></A>            } <FONT ID="Catch">catch</FONT>(NullPointerException exc){
+<FONT ID="LN">349 </FONT><A NAME="349"></A>                <FONT ID="SingleLineComment">//first time
+<FONT ID="LN">350 </FONT><A NAME="350"></A></FONT>                pageNumbers = <FONT ID="New">new</FONT> LinkedHashMap&lt;Integer,String&gt;();
+<FONT ID="LN">351 </FONT><A NAME="351"></A>            }
+<FONT ID="LN">352 </FONT><A NAME="352"></A>            
+<FONT ID="LN">353 </FONT><A NAME="353"></A>            <FONT ID="Int">int</FONT> page = <FONT ID="IntegerLiteral">1</FONT>;
+<FONT ID="LN">354 </FONT><A NAME="354"></A>            
+<FONT ID="LN">355 </FONT><A NAME="355"></A>            <FONT ID="SingleLineComment">//hashmap for the current path, together with the indices for each to know what child to select next
+<FONT ID="LN">356 </FONT><A NAME="356"></A></FONT>            LinkedHashMap&lt;LogbookNode,Integer&gt; posInTree = <FONT ID="New">new</FONT> LinkedHashMap&lt;LogbookNode,Integer&gt;();
+<FONT ID="LN">357 </FONT><A NAME="357"></A>            posInTree.put(root,<FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">358 </FONT><A NAME="358"></A>            <FONT ID="SingleLineComment">//depth first search through tree
+<FONT ID="LN">359 </FONT><A NAME="359"></A></FONT>            <FONT ID="SingleLineComment">//4 is number of categories normally under root dir
+<FONT ID="LN">360 </FONT><A NAME="360"></A></FONT>            <FONT ID="SingleLineComment">//should number change, it will always end because root will then be deleted at the first if, and the loop will end
+<FONT ID="LN">361 </FONT><A NAME="361"></A></FONT>            <FONT ID="While">while</FONT>(posInTree.get(root) &lt; <FONT ID="IntegerLiteral">4</FONT>){
+<FONT ID="LN">362 </FONT><A NAME="362"></A>                Iterator&lt;LogbookNode&gt; i = posInTree.keySet().iterator();
+<FONT ID="LN">363 </FONT><A NAME="363"></A>                LogbookNode currentNode = <FONT ID="Null">null</FONT>;
+<FONT ID="LN">364 </FONT><A NAME="364"></A>                <FONT ID="SingleLineComment">//currentNode is the last LogbookNode added
+<FONT ID="LN">365 </FONT><A NAME="365"></A></FONT>                <FONT ID="While">while</FONT>(i.hasNext()){
+<FONT ID="LN">366 </FONT><A NAME="366"></A>                    currentNode = i.next();
+<FONT ID="LN">367 </FONT><A NAME="367"></A>                }
+<FONT ID="LN">368 </FONT><A NAME="368"></A>                ArrayList&lt;LogbookNode&gt; children = currentNode.getChildren();
+<FONT ID="LN">369 </FONT><A NAME="369"></A>                <FONT ID="SingleLineComment">//end of the chain, remove the lowest level, and increase the index of the level above it
+<FONT ID="LN">370 </FONT><A NAME="370"></A></FONT>                <FONT ID="SingleLineComment">//check is redundant if you just deleted a level, since the upper level obviously has children
+<FONT ID="LN">371 </FONT><A NAME="371"></A></FONT>                <FONT ID="SingleLineComment">//assuming checking if the index is equal to 0 takes as much time as checking if it's empty
+<FONT ID="LN">372 </FONT><A NAME="372"></A></FONT>                <FONT ID="SingleLineComment">//if the index is equal to the size, that means you checked all children, prevents indexoutofboundsexc
+<FONT ID="LN">373 </FONT><A NAME="373"></A></FONT>                <FONT ID="If">if</FONT>(children.isEmpty() || posInTree.get(currentNode) == children.size()){
+<FONT ID="LN">374 </FONT><A NAME="374"></A>                    posInTree.remove(currentNode);
+<FONT ID="LN">375 </FONT><A NAME="375"></A>                    <FONT ID="If">if</FONT>(posInTree.isEmpty()){
+<FONT ID="LN">376 </FONT><A NAME="376"></A>                        <FONT ID="SingleLineComment">//if root gets removed at the end
+<FONT ID="LN">377 </FONT><A NAME="377"></A></FONT>                        <FONT ID="Break">break</FONT>;
+<FONT ID="LN">378 </FONT><A NAME="378"></A>                    }
+<FONT ID="LN">379 </FONT><A NAME="379"></A>                    <FONT ID="Else">else</FONT>{
+<FONT ID="LN">380 </FONT><A NAME="380"></A>                        i = posInTree.keySet().iterator();
+<FONT ID="LN">381 </FONT><A NAME="381"></A>                        LogbookNode dummy = <FONT ID="Null">null</FONT>;
+<FONT ID="LN">382 </FONT><A NAME="382"></A>                        <FONT ID="While">while</FONT>(i.hasNext()){
+<FONT ID="LN">383 </FONT><A NAME="383"></A>                            dummy = i.next();
+<FONT ID="LN">384 </FONT><A NAME="384"></A>                        }
+<FONT ID="LN">385 </FONT><A NAME="385"></A>                        <FONT ID="SingleLineComment">//increase the index of the level above the one you just removed
+<FONT ID="LN">386 </FONT><A NAME="386"></A></FONT>                        posInTree.put(dummy, posInTree.get(dummy)+<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">387 </FONT><A NAME="387"></A>                    }
+<FONT ID="LN">388 </FONT><A NAME="388"></A>                }
+<FONT ID="LN">389 </FONT><A NAME="389"></A>                <FONT ID="Else">else</FONT>{
+<FONT ID="LN">390 </FONT><A NAME="390"></A>                    currentNode = children.get(posInTree.get(currentNode));
+<FONT ID="LN">391 </FONT><A NAME="391"></A>                    <FONT ID="SingleLineComment">//add the lowest lying node to your current pos
+<FONT ID="LN">392 </FONT><A NAME="392"></A></FONT>                    posInTree.put(currentNode, <FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">393 </FONT><A NAME="393"></A>                    
+<FONT ID="LN">394 </FONT><A NAME="394"></A>                    String path = <FONT ID="StringLiteral">""</FONT>;
+<FONT ID="LN">395 </FONT><A NAME="395"></A>                    <FONT ID="For">for</FONT>(LogbookNode l:posInTree.keySet()){
+<FONT ID="LN">396 </FONT><A NAME="396"></A>                        path+=l.getName() + <FONT ID="StringLiteral">"/"</FONT>;
+<FONT ID="LN">397 </FONT><A NAME="397"></A>                    }
+<FONT ID="LN">398 </FONT><A NAME="398"></A>                    <FONT ID="SingleLineComment">//leaves the root/, and cuts the extra / at the end
+<FONT ID="LN">399 </FONT><A NAME="399"></A></FONT>                    path=path.substring(<FONT ID="IntegerLiteral">5</FONT>, path.length()-<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">400 </FONT><A NAME="400"></A>                    pageNumbers.put(page, path);
+<FONT ID="LN">401 </FONT><A NAME="401"></A>                    <FONT ID="SingleLineComment">////System.out.println("Set " + path + " to page " + page);
+<FONT ID="LN">402 </FONT><A NAME="402"></A></FONT>                    page++;
+<FONT ID="LN">403 </FONT><A NAME="403"></A>                    <FONT ID="SingleLineComment">//all pages show two pages
+<FONT ID="LN">404 </FONT><A NAME="404"></A></FONT>                    pageNumbers.put(page, path);
+<FONT ID="LN">405 </FONT><A NAME="405"></A>                    <FONT ID="SingleLineComment">////System.out.println("Set " + path + " to page " + page);
+<FONT ID="LN">406 </FONT><A NAME="406"></A></FONT>                    page++;
+<FONT ID="LN">407 </FONT><A NAME="407"></A>                }
+<FONT ID="LN">408 </FONT><A NAME="408"></A>            }
+<FONT ID="LN">409 </FONT><A NAME="409"></A>            
+<FONT ID="LN">410 </FONT><A NAME="410"></A>            
+<FONT ID="LN">411 </FONT><A NAME="411"></A>        }
+<FONT ID="LN">412 </FONT><A NAME="412"></A>
+<FONT ID="LN">413 </FONT><A NAME="413"></A>        <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> changePage(<FONT ID="Int">int</FONT> amount){
+<FONT ID="LN">414 </FONT><A NAME="414"></A>            <FONT ID="Int">int</FONT> currentPageNumber = <FONT ID="IntegerLiteral">1</FONT>;
+<FONT ID="LN">415 </FONT><A NAME="415"></A>            String currentPath = <FONT ID="StringLiteral">""</FONT>;
+<FONT ID="LN">416 </FONT><A NAME="416"></A>            <FONT ID="For">for</FONT>(JButton j:location){
+<FONT ID="LN">417 </FONT><A NAME="417"></A>                currentPath+=j.getText() + <FONT ID="StringLiteral">"/"</FONT>;
+<FONT ID="LN">418 </FONT><A NAME="418"></A>            }
+<FONT ID="LN">419 </FONT><A NAME="419"></A>            <FONT ID="SingleLineComment">//cuts the last /
+<FONT ID="LN">420 </FONT><A NAME="420"></A></FONT>            currentPath = currentPath.substring(<FONT ID="IntegerLiteral">0</FONT>,currentPath.length()-<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">421 </FONT><A NAME="421"></A>            
+<FONT ID="LN">422 </FONT><A NAME="422"></A>            <FONT ID="SingleLineComment">////System.out.println("Current location: " + currentPath);
+<FONT ID="LN">423 </FONT><A NAME="423"></A></FONT>            
+<FONT ID="LN">424 </FONT><A NAME="424"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i:pageNumbers.keySet()){
+<FONT ID="LN">425 </FONT><A NAME="425"></A>                <FONT ID="If">if</FONT>(pageNumbers.get(i).equalsIgnoreCase(currentPath)){
+<FONT ID="LN">426 </FONT><A NAME="426"></A>                    currentPageNumber = i;
+<FONT ID="LN">427 </FONT><A NAME="427"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">428 </FONT><A NAME="428"></A>                }
+<FONT ID="LN">429 </FONT><A NAME="429"></A>            }
+<FONT ID="LN">430 </FONT><A NAME="430"></A>            <FONT ID="SingleLineComment">//above always searches for the lowest pageNumber, eg the one on the left, while if amount &gt; 0, so nextPage, it should take the number to the right
+<FONT ID="LN">431 </FONT><A NAME="431"></A></FONT>            <FONT ID="If">if</FONT>(amount &gt; <FONT ID="IntegerLiteral">0</FONT>){
+<FONT ID="LN">432 </FONT><A NAME="432"></A>                currentPageNumber++;
+<FONT ID="LN">433 </FONT><A NAME="433"></A>            }
+<FONT ID="LN">434 </FONT><A NAME="434"></A>            String newPath = pageNumbers.get(currentPageNumber + amount);
+<FONT ID="LN">435 </FONT><A NAME="435"></A>            <FONT ID="If">if</FONT>(newPath == <FONT ID="Null">null</FONT>){
+<FONT ID="LN">436 </FONT><A NAME="436"></A>                <FONT ID="Return">return</FONT>;
+<FONT ID="LN">437 </FONT><A NAME="437"></A>            }
+<FONT ID="LN">438 </FONT><A NAME="438"></A>            
+<FONT ID="LN">439 </FONT><A NAME="439"></A>            setContent(newPath);
+<FONT ID="LN">440 </FONT><A NAME="440"></A>            
+<FONT ID="LN">441 </FONT><A NAME="441"></A>        }
+<FONT ID="LN">442 </FONT><A NAME="442"></A>        
+<FONT ID="LN">443 </FONT><A NAME="443"></A>        <FONT ID="Private">private</FONT> <FONT ID="Void">void</FONT> searchContent(String s){
+<FONT ID="LN">444 </FONT><A NAME="444"></A>            <FONT ID="SingleLineComment">//remove all previous search results
+<FONT ID="LN">445 </FONT><A NAME="445"></A></FONT>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">446 </FONT><A NAME="446"></A>                root.getChild(<FONT ID="StringLiteral">"Search Results"</FONT>).removeAllChildren();
+<FONT ID="LN">447 </FONT><A NAME="447"></A>            }<FONT ID="Catch">catch</FONT>(NullPointerException exc){
+<FONT ID="LN">448 </FONT><A NAME="448"></A>                <FONT ID="SingleLineComment">//first time a search is done
+<FONT ID="LN">449 </FONT><A NAME="449"></A></FONT>            }
+<FONT ID="LN">450 </FONT><A NAME="450"></A>            
+<FONT ID="LN">451 </FONT><A NAME="451"></A>            ArrayList&lt;String&gt; possPaths = <FONT ID="New">new</FONT> ArrayList&lt;String&gt;();
+<FONT ID="LN">452 </FONT><A NAME="452"></A>            <FONT ID="SingleLineComment">//hashmap for the current path, together with the indices for each to know what child to select next
+<FONT ID="LN">453 </FONT><A NAME="453"></A></FONT>            LinkedHashMap&lt;LogbookNode,Integer&gt; posInTree = <FONT ID="New">new</FONT> LinkedHashMap&lt;LogbookNode,Integer&gt;();
+<FONT ID="LN">454 </FONT><A NAME="454"></A>            posInTree.put(root,<FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">455 </FONT><A NAME="455"></A>            <FONT ID="SingleLineComment">//depth first search through tree
+<FONT ID="LN">456 </FONT><A NAME="456"></A></FONT>            <FONT ID="SingleLineComment">//4 is number of categories normally under root dir
+<FONT ID="LN">457 </FONT><A NAME="457"></A></FONT>            <FONT ID="SingleLineComment">//should number change, it will always end because root will then be deleted at the first if, and the loop will end
+<FONT ID="LN">458 </FONT><A NAME="458"></A></FONT>            <FONT ID="While">while</FONT>(posInTree.get(root) &lt; <FONT ID="IntegerLiteral">4</FONT>){
+<FONT ID="LN">459 </FONT><A NAME="459"></A>                Iterator&lt;LogbookNode&gt; i = posInTree.keySet().iterator();
+<FONT ID="LN">460 </FONT><A NAME="460"></A>                LogbookNode currentNode = <FONT ID="Null">null</FONT>;
+<FONT ID="LN">461 </FONT><A NAME="461"></A>                <FONT ID="SingleLineComment">//currentNode is the last LogbookNode added
+<FONT ID="LN">462 </FONT><A NAME="462"></A></FONT>                <FONT ID="While">while</FONT>(i.hasNext()){
+<FONT ID="LN">463 </FONT><A NAME="463"></A>                    currentNode = i.next();
+<FONT ID="LN">464 </FONT><A NAME="464"></A>                }
+<FONT ID="LN">465 </FONT><A NAME="465"></A>                ArrayList&lt;LogbookNode&gt; children = currentNode.getChildren();
+<FONT ID="LN">466 </FONT><A NAME="466"></A>                <FONT ID="SingleLineComment">//end of the chain, remove the lowest level, and increase the index of the level above it
+<FONT ID="LN">467 </FONT><A NAME="467"></A></FONT>                <FONT ID="SingleLineComment">//check is redundant if you just deleted a level, since the upper level obviously has children
+<FONT ID="LN">468 </FONT><A NAME="468"></A></FONT>                <FONT ID="SingleLineComment">//assuming checking if the index is equal to 0 takes as much time as checking if it's empty
+<FONT ID="LN">469 </FONT><A NAME="469"></A></FONT>                <FONT ID="SingleLineComment">//if the index is equal to the size, that means you checked all children, prevents indexoutofboundsexc
+<FONT ID="LN">470 </FONT><A NAME="470"></A></FONT>                <FONT ID="If">if</FONT>(children.isEmpty() || posInTree.get(currentNode) == children.size()){
+<FONT ID="LN">471 </FONT><A NAME="471"></A>                    posInTree.remove(currentNode);
+<FONT ID="LN">472 </FONT><A NAME="472"></A>                    <FONT ID="If">if</FONT>(posInTree.isEmpty()){
+<FONT ID="LN">473 </FONT><A NAME="473"></A>                        <FONT ID="Break">break</FONT>;
+<FONT ID="LN">474 </FONT><A NAME="474"></A>                    }
+<FONT ID="LN">475 </FONT><A NAME="475"></A>                    <FONT ID="Else">else</FONT>{
+<FONT ID="LN">476 </FONT><A NAME="476"></A>                        i = posInTree.keySet().iterator();
+<FONT ID="LN">477 </FONT><A NAME="477"></A>                        LogbookNode dummy = <FONT ID="Null">null</FONT>;
+<FONT ID="LN">478 </FONT><A NAME="478"></A>                        <FONT ID="While">while</FONT>(i.hasNext()){
+<FONT ID="LN">479 </FONT><A NAME="479"></A>                            dummy = i.next();
+<FONT ID="LN">480 </FONT><A NAME="480"></A>                        }
+<FONT ID="LN">481 </FONT><A NAME="481"></A>                        <FONT ID="SingleLineComment">//LogbookNode dummy = posInTree.keySet().toArray(new LogbookNode[]{})[posInTree.size()-1];
+<FONT ID="LN">482 </FONT><A NAME="482"></A></FONT>                        posInTree.put(dummy, posInTree.get(dummy)+<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">483 </FONT><A NAME="483"></A>                    }
+<FONT ID="LN">484 </FONT><A NAME="484"></A>                }
+<FONT ID="LN">485 </FONT><A NAME="485"></A>                <FONT ID="Else">else</FONT>{
+<FONT ID="LN">486 </FONT><A NAME="486"></A>                    currentNode = children.get(posInTree.get(currentNode));
+<FONT ID="LN">487 </FONT><A NAME="487"></A>                    <FONT ID="SingleLineComment">//add the lowest lying node to your current pos
+<FONT ID="LN">488 </FONT><A NAME="488"></A></FONT>                    posInTree.put(currentNode, <FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">489 </FONT><A NAME="489"></A>                    <FONT ID="If">if</FONT>(currentNode.getName().toLowerCase().contains(s)){
+<FONT ID="LN">490 </FONT><A NAME="490"></A>                        String path = <FONT ID="StringLiteral">""</FONT>;
+<FONT ID="LN">491 </FONT><A NAME="491"></A>                        <FONT ID="For">for</FONT>(LogbookNode l:posInTree.keySet()){
+<FONT ID="LN">492 </FONT><A NAME="492"></A>                            path+=l.getName() + <FONT ID="StringLiteral">"/"</FONT>;
+<FONT ID="LN">493 </FONT><A NAME="493"></A>                        }
+<FONT ID="LN">494 </FONT><A NAME="494"></A>                        <FONT ID="SingleLineComment">//leaves the root/, and cuts the extra / at the end
+<FONT ID="LN">495 </FONT><A NAME="495"></A></FONT>                        path=path.substring(<FONT ID="IntegerLiteral">5</FONT>, path.length()-<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">496 </FONT><A NAME="496"></A>                        possPaths.add(path);
+<FONT ID="LN">497 </FONT><A NAME="497"></A>                    }
+<FONT ID="LN">498 </FONT><A NAME="498"></A>                }
+<FONT ID="LN">499 </FONT><A NAME="499"></A>            }
+<FONT ID="LN">500 </FONT><A NAME="500"></A>            <FONT ID="For">for</FONT>(String p: possPaths){
+<FONT ID="LN">501 </FONT><A NAME="501"></A>                String[] split = p.split(<FONT ID="StringLiteral">"/"</FONT>);
+<FONT ID="LN">502 </FONT><A NAME="502"></A>                addContent(<FONT ID="StringLiteral">"Search Results/"</FONT> + split[split.length-<FONT ID="IntegerLiteral">1</FONT>], p);
+<FONT ID="LN">503 </FONT><A NAME="503"></A>            }
+<FONT ID="LN">504 </FONT><A NAME="504"></A>            <FONT ID="If">if</FONT>(possPaths.isEmpty()){
+<FONT ID="LN">505 </FONT><A NAME="505"></A>                addContent(<FONT ID="StringLiteral">"Search Results"</FONT>,<FONT ID="IntegerLiteral">1</FONT>,<FONT ID="StringLiteral">"No results were found."</FONT>);
+<FONT ID="LN">506 </FONT><A NAME="506"></A>                
+<FONT ID="LN">507 </FONT><A NAME="507"></A>            }
+<FONT ID="LN">508 </FONT><A NAME="508"></A>            setContent(<FONT ID="StringLiteral">"Search Results"</FONT>);
+<FONT ID="LN">509 </FONT><A NAME="509"></A>            
+<FONT ID="LN">510 </FONT><A NAME="510"></A>        }
+<FONT ID="LN">511 </FONT><A NAME="511"></A>        
+<FONT ID="LN">512 </FONT><A NAME="512"></A>        <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setContent(String path){
+<FONT ID="LN">513 </FONT><A NAME="513"></A>            
+<FONT ID="LN">514 </FONT><A NAME="514"></A>            String currentPath=<FONT ID="StringLiteral">""</FONT>;
+<FONT ID="LN">515 </FONT><A NAME="515"></A>            <FONT ID="For">for</FONT>(JButton j:location){
+<FONT ID="LN">516 </FONT><A NAME="516"></A>                currentPath+=j.getText() + <FONT ID="StringLiteral">"/"</FONT>;
+<FONT ID="LN">517 </FONT><A NAME="517"></A>            }
+<FONT ID="LN">518 </FONT><A NAME="518"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">519 </FONT><A NAME="519"></A>                currentPath=currentPath.substring(<FONT ID="IntegerLiteral">0</FONT>, currentPath.length()-<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">520 </FONT><A NAME="520"></A>                
+<FONT ID="LN">521 </FONT><A NAME="521"></A>                <FONT ID="SingleLineComment">////System.out.println("CurrentPath:" + currentPath);
+<FONT ID="LN">522 </FONT><A NAME="522"></A></FONT>                
+<FONT ID="LN">523 </FONT><A NAME="523"></A>                <FONT ID="If">if</FONT>(currentPath.equalsIgnoreCase(path)){
+<FONT ID="LN">524 </FONT><A NAME="524"></A>                    <FONT ID="SingleLineComment">////System.out.println("Same path.");
+<FONT ID="LN">525 </FONT><A NAME="525"></A></FONT>                    <FONT ID="Return">return</FONT>;
+<FONT ID="LN">526 </FONT><A NAME="526"></A>                }
+<FONT ID="LN">527 </FONT><A NAME="527"></A>            } <FONT ID="Catch">catch</FONT>(StringIndexOutOfBoundsException e){
+<FONT ID="LN">528 </FONT><A NAME="528"></A>            }
+<FONT ID="LN">529 </FONT><A NAME="529"></A>            
+<FONT ID="LN">530 </FONT><A NAME="530"></A>            String[] partialPaths = path.split(<FONT ID="StringLiteral">"/"</FONT>);
+<FONT ID="LN">531 </FONT><A NAME="531"></A>            
+<FONT ID="LN">532 </FONT><A NAME="532"></A>            LogbookNode currentNode = root;
+<FONT ID="LN">533 </FONT><A NAME="533"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i=<FONT ID="IntegerLiteral">0</FONT>;i&lt;partialPaths.length;i++){
+<FONT ID="LN">534 </FONT><A NAME="534"></A>                currentNode = currentNode.getChild(partialPaths[i]);
+<FONT ID="LN">535 </FONT><A NAME="535"></A>            }
+<FONT ID="LN">536 </FONT><A NAME="536"></A>            <FONT ID="If">if</FONT>(currentNode == <FONT ID="Null">null</FONT>){
+<FONT ID="LN">537 </FONT><A NAME="537"></A>                <FONT ID="SingleLineComment">//System.err.println(path + " is not found in the logbook.");
+<FONT ID="LN">538 </FONT><A NAME="538"></A></FONT>                <FONT ID="Return">return</FONT>;
+<FONT ID="LN">539 </FONT><A NAME="539"></A>            }
+<FONT ID="LN">540 </FONT><A NAME="540"></A>            
+<FONT ID="LN">541 </FONT><A NAME="541"></A>            <FONT ID="For">for</FONT>(JButton j: subCategories){
+<FONT ID="LN">542 </FONT><A NAME="542"></A>                remove(j);
+<FONT ID="LN">543 </FONT><A NAME="543"></A>            }
+<FONT ID="LN">544 </FONT><A NAME="544"></A>            <FONT ID="For">for</FONT>(JButton j: location){
+<FONT ID="LN">545 </FONT><A NAME="545"></A>                remove(j);
+<FONT ID="LN">546 </FONT><A NAME="546"></A>            }
+<FONT ID="LN">547 </FONT><A NAME="547"></A>            
+<FONT ID="LN">548 </FONT><A NAME="548"></A>            subCategories.clear();
+<FONT ID="LN">549 </FONT><A NAME="549"></A>            location.clear();
+<FONT ID="LN">550 </FONT><A NAME="550"></A>            
+<FONT ID="LN">551 </FONT><A NAME="551"></A>            
+<FONT ID="LN">552 </FONT><A NAME="552"></A>            <FONT ID="SingleLineComment">//check where you are in the book
+<FONT ID="LN">553 </FONT><A NAME="553"></A></FONT>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i=<FONT ID="IntegerLiteral">0</FONT>;i&lt;partialPaths.length;i++){
+<FONT ID="LN">554 </FONT><A NAME="554"></A>                String s = partialPaths[<FONT ID="IntegerLiteral">0</FONT>];
+<FONT ID="LN">555 </FONT><A NAME="555"></A>                <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">1</FONT>;j&lt;=i;j++){
+<FONT ID="LN">556 </FONT><A NAME="556"></A>                    s+=<FONT ID="StringLiteral">"/"</FONT> + partialPaths[j];
+<FONT ID="LN">557 </FONT><A NAME="557"></A>                }
+<FONT ID="LN">558 </FONT><A NAME="558"></A>                <FONT ID="SingleLineComment">//make buttons for every phase you're in
+<FONT ID="LN">559 </FONT><A NAME="559"></A></FONT>                JButton dummy = <FONT ID="New">new</FONT> JButton(partialPaths[i]);
+<FONT ID="LN">560 </FONT><A NAME="560"></A>                dummy.addActionListener(<FONT ID="New">new</FONT> NewActionListener(s));
+<FONT ID="LN">561 </FONT><A NAME="561"></A>                <FONT ID="MultiLineComment">/*dummy.setFocusPainted(false);
+<FONT ID="LN">562 </FONT><A NAME="562"></A>                dummy.setMargin(new Insets(0, 0, 0, 0));
+<FONT ID="LN">563 </FONT><A NAME="563"></A>                dummy.setContentAreaFilled(false);
+<FONT ID="LN">564 </FONT><A NAME="564"></A>                dummy.setBorderPainted(false);
+<FONT ID="LN">565 </FONT><A NAME="565"></A>                dummy.setOpaque(false);*/</FONT>
+<FONT ID="LN">566 </FONT><A NAME="566"></A>                location.add(dummy);
+<FONT ID="LN">567 </FONT><A NAME="567"></A>            }
+<FONT ID="LN">568 </FONT><A NAME="568"></A>            
+<FONT ID="LN">569 </FONT><A NAME="569"></A>            
+<FONT ID="LN">570 </FONT><A NAME="570"></A>            <FONT ID="SingleLineComment">//add the locations to the UI
+<FONT ID="LN">571 </FONT><A NAME="571"></A></FONT>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i=<FONT ID="IntegerLiteral">0</FONT>;i&lt;location.size();i++){
+<FONT ID="LN">572 </FONT><A NAME="572"></A>                add(location.get(i));
+<FONT ID="LN">573 </FONT><A NAME="573"></A>                layout.putConstraint(n, location.get(i), <FONT ID="IntegerLiteral">20</FONT>, n, <FONT ID="This">this</FONT>);
+<FONT ID="LN">574 </FONT><A NAME="574"></A>                <FONT ID="If">if</FONT>(i==<FONT ID="IntegerLiteral">0</FONT>){
+<FONT ID="LN">575 </FONT><A NAME="575"></A>                    layout.putConstraint(w, location.get(i), <FONT ID="IntegerLiteral">0</FONT>, w, title);
+<FONT ID="LN">576 </FONT><A NAME="576"></A>                }
+<FONT ID="LN">577 </FONT><A NAME="577"></A>                <FONT ID="Else">else</FONT>{
+<FONT ID="LN">578 </FONT><A NAME="578"></A>                    layout.putConstraint(w, location.get(i), <FONT ID="IntegerLiteral">5</FONT>, e, location.get(i-<FONT ID="IntegerLiteral">1</FONT>));
+<FONT ID="LN">579 </FONT><A NAME="579"></A>                }
+<FONT ID="LN">580 </FONT><A NAME="580"></A>            }
+<FONT ID="LN">581 </FONT><A NAME="581"></A>            
+<FONT ID="LN">582 </FONT><A NAME="582"></A>            
+<FONT ID="LN">583 </FONT><A NAME="583"></A>            String content = currentNode.getContents();
+<FONT ID="LN">584 </FONT><A NAME="584"></A>            String name = currentNode.getName();
+<FONT ID="LN">585 </FONT><A NAME="585"></A>            
+<FONT ID="LN">586 </FONT><A NAME="586"></A>            title.setText(name);
+<FONT ID="LN">587 </FONT><A NAME="587"></A>            
+<FONT ID="LN">588 </FONT><A NAME="588"></A>            <FONT ID="SingleLineComment">////System.out.println("Content: " + content);
+<FONT ID="LN">589 </FONT><A NAME="589"></A></FONT>            
+<FONT ID="LN">590 </FONT><A NAME="590"></A>            <FONT ID="If">if</FONT>(content == <FONT ID="Null">null</FONT>){
+<FONT ID="LN">591 </FONT><A NAME="591"></A>                <FONT ID="SingleLineComment">//get the subcategories
+<FONT ID="LN">592 </FONT><A NAME="592"></A></FONT>                ArrayList&lt;LogbookNode&gt; children = currentNode.getChildren();
+<FONT ID="LN">593 </FONT><A NAME="593"></A>                <FONT ID="For">for</FONT>(LogbookNode l: children){
+<FONT ID="LN">594 </FONT><A NAME="594"></A>                    JButton dummy = <FONT ID="New">new</FONT> JButton(l.getName());
+<FONT ID="LN">595 </FONT><A NAME="595"></A>                    <FONT ID="If">if</FONT>(l.getShortcut() != <FONT ID="Null">null</FONT>){
+<FONT ID="LN">596 </FONT><A NAME="596"></A>                        dummy.addActionListener(<FONT ID="New">new</FONT> NewActionListener(l.getShortcut()));
+<FONT ID="LN">597 </FONT><A NAME="597"></A>                    }
+<FONT ID="LN">598 </FONT><A NAME="598"></A>                    <FONT ID="Else">else</FONT>{
+<FONT ID="LN">599 </FONT><A NAME="599"></A>                        dummy.addActionListener(<FONT ID="New">new</FONT> NewActionListener(path + <FONT ID="StringLiteral">"/"</FONT> + l.getName()));
+<FONT ID="LN">600 </FONT><A NAME="600"></A>                    }
+<FONT ID="LN">601 </FONT><A NAME="601"></A>                    <FONT ID="MultiLineComment">/*dummy.setFocusPainted(false);
+<FONT ID="LN">602 </FONT><A NAME="602"></A>                    dummy.setMargin(new Insets(0, 0, 0, 0));
+<FONT ID="LN">603 </FONT><A NAME="603"></A>                    dummy.setContentAreaFilled(false);
+<FONT ID="LN">604 </FONT><A NAME="604"></A>                    dummy.setBorderPainted(false);
+<FONT ID="LN">605 </FONT><A NAME="605"></A>                    dummy.setOpaque(false);*/</FONT>
+<FONT ID="LN">606 </FONT><A NAME="606"></A>                    subCategories.add(dummy);
+<FONT ID="LN">607 </FONT><A NAME="607"></A>                }
+<FONT ID="LN">608 </FONT><A NAME="608"></A>                <FONT ID="SingleLineComment">//add the locations to the UI
+<FONT ID="LN">609 </FONT><A NAME="609"></A></FONT>                <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i=<FONT ID="IntegerLiteral">0</FONT>;i&lt;subCategories.size();i++){
+<FONT ID="LN">610 </FONT><A NAME="610"></A>                    add(subCategories.get(i));
+<FONT ID="LN">611 </FONT><A NAME="611"></A>                    layout.putConstraint(w, subCategories.get(i), <FONT ID="IntegerLiteral">0</FONT>, w, title);
+<FONT ID="LN">612 </FONT><A NAME="612"></A>                    <FONT ID="If">if</FONT>(i==<FONT ID="IntegerLiteral">0</FONT>){
+<FONT ID="LN">613 </FONT><A NAME="613"></A>                        layout.putConstraint(n, subCategories.get(i), <FONT ID="IntegerLiteral">20</FONT>, s, title);
+<FONT ID="LN">614 </FONT><A NAME="614"></A>                    }
+<FONT ID="LN">615 </FONT><A NAME="615"></A>                    <FONT ID="Else">else</FONT>{
+<FONT ID="LN">616 </FONT><A NAME="616"></A>                        layout.putConstraint(n, subCategories.get(i), <FONT ID="IntegerLiteral">15</FONT>, s, subCategories.get(i-<FONT ID="IntegerLiteral">1</FONT>));
+<FONT ID="LN">617 </FONT><A NAME="617"></A>                    }
+<FONT ID="LN">618 </FONT><A NAME="618"></A>                }
+<FONT ID="LN">619 </FONT><A NAME="619"></A>                textAreaLeft.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">620 </FONT><A NAME="620"></A>                textAreaRight.setVisible(<FONT ID="False">false</FONT>);
+<FONT ID="LN">621 </FONT><A NAME="621"></A>                
+<FONT ID="LN">622 </FONT><A NAME="622"></A>            }
+<FONT ID="LN">623 </FONT><A NAME="623"></A>            <FONT ID="Else">else</FONT>{
+<FONT ID="LN">624 </FONT><A NAME="624"></A>                String contentLeft,contentRight;
+<FONT ID="LN">625 </FONT><A NAME="625"></A>                textAreaLeft.setVisible(<FONT ID="True">true</FONT>);
+<FONT ID="LN">626 </FONT><A NAME="626"></A>                textAreaRight.setVisible(<FONT ID="True">true</FONT>);
+<FONT ID="LN">627 </FONT><A NAME="627"></A>                
+<FONT ID="LN">628 </FONT><A NAME="628"></A>                <FONT ID="SingleLineComment">//TODO check how much text fits into one area
+<FONT ID="LN">629 </FONT><A NAME="629"></A></FONT>                <FONT ID="Int">int</FONT> c = textAreaLeft.getColumns();
+<FONT ID="LN">630 </FONT><A NAME="630"></A>                <FONT ID="Int">int</FONT> r = textAreaLeft.getRows();
+<FONT ID="LN">631 </FONT><A NAME="631"></A>                <FONT ID="Try">try</FONT>{
+<FONT ID="LN">632 </FONT><A NAME="632"></A>                    contentLeft = content.substring(<FONT ID="IntegerLiteral">0</FONT>,(<FONT ID="Int">int</FONT>)(textAreaLeft.getColumns()*textAreaLeft.getRows()*<FONT ID="FloatPointLiteral">1.5</FONT>));
+<FONT ID="LN">633 </FONT><A NAME="633"></A>                    contentRight = content.substring((<FONT ID="Int">int</FONT>)(textAreaLeft.getColumns()*textAreaLeft.getRows()*<FONT ID="FloatPointLiteral">1.5</FONT>));
+<FONT ID="LN">634 </FONT><A NAME="634"></A>                } <FONT ID="Catch">catch</FONT>(StringIndexOutOfBoundsException e){
+<FONT ID="LN">635 </FONT><A NAME="635"></A>                    contentLeft = content;
+<FONT ID="LN">636 </FONT><A NAME="636"></A>                    contentRight = <FONT ID="StringLiteral">""</FONT>;
+<FONT ID="LN">637 </FONT><A NAME="637"></A>                }
+<FONT ID="LN">638 </FONT><A NAME="638"></A>                
+<FONT ID="LN">639 </FONT><A NAME="639"></A>                textAreaLeft.setText(contentLeft);
+<FONT ID="LN">640 </FONT><A NAME="640"></A>                textAreaRight.setText(contentRight);
+<FONT ID="LN">641 </FONT><A NAME="641"></A>            }
+<FONT ID="LN">642 </FONT><A NAME="642"></A>            
+<FONT ID="LN">643 </FONT><A NAME="643"></A>            <FONT ID="Int">int</FONT> currentPageNumber = <FONT ID="IntegerLiteral">1</FONT>;
+<FONT ID="LN">644 </FONT><A NAME="644"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i: pageNumbers.keySet()){
+<FONT ID="LN">645 </FONT><A NAME="645"></A>                <FONT ID="If">if</FONT>(pageNumbers.get(i).equalsIgnoreCase(path)){
+<FONT ID="LN">646 </FONT><A NAME="646"></A>                    currentPageNumber = i;
+<FONT ID="LN">647 </FONT><A NAME="647"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">648 </FONT><A NAME="648"></A>                }
+<FONT ID="LN">649 </FONT><A NAME="649"></A>            }
+<FONT ID="LN">650 </FONT><A NAME="650"></A>            
+<FONT ID="LN">651 </FONT><A NAME="651"></A>            pageNrLeft.setText(<FONT ID="StringLiteral">""</FONT> + currentPageNumber);
+<FONT ID="LN">652 </FONT><A NAME="652"></A>            pageNrRight.setText(<FONT ID="StringLiteral">""</FONT> + (currentPageNumber + <FONT ID="IntegerLiteral">1</FONT>));
+<FONT ID="LN">653 </FONT><A NAME="653"></A>            
+<FONT ID="LN">654 </FONT><A NAME="654"></A>        }
+<FONT ID="LN">655 </FONT><A NAME="655"></A>        
+<FONT ID="LN">656 </FONT><A NAME="656"></A>        @Override
+<FONT ID="LN">657 </FONT><A NAME="657"></A>        <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> paintComponent(Graphics g){
+<FONT ID="LN">658 </FONT><A NAME="658"></A>            <FONT ID="Super">super</FONT>.paintComponent(g);
+<FONT ID="LN">659 </FONT><A NAME="659"></A>            g.drawImage(background, <FONT ID="IntegerLiteral">0</FONT>, <FONT ID="IntegerLiteral">0</FONT>,<FONT ID="This">this</FONT>.getWidth(),<FONT ID="This">this</FONT>.getHeight(), <FONT ID="Null">null</FONT>);
+<FONT ID="LN">660 </FONT><A NAME="660"></A>        }
+<FONT ID="LN">661 </FONT><A NAME="661"></A>        
+<FONT ID="LN">662 </FONT><A NAME="662"></A>        <FONT ID="Private">private</FONT> <FONT ID="Class">class</FONT> NewActionListener <FONT ID="Implements">implements</FONT> ActionListener{
+<FONT ID="LN">663 </FONT><A NAME="663"></A>            String path;
+<FONT ID="LN">664 </FONT><A NAME="664"></A>            <FONT ID="Public">public</FONT> NewActionListener(String s){
+<FONT ID="LN">665 </FONT><A NAME="665"></A>                path = s;
+<FONT ID="LN">666 </FONT><A NAME="666"></A>            }
+<FONT ID="LN">667 </FONT><A NAME="667"></A>            @Override
+<FONT ID="LN">668 </FONT><A NAME="668"></A>            <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> actionPerformed(ActionEvent e) {
+<FONT ID="LN">669 </FONT><A NAME="669"></A>                setContent(path);
+<FONT ID="LN">670 </FONT><A NAME="670"></A>            }
+<FONT ID="LN">671 </FONT><A NAME="671"></A>        }
+<FONT ID="LN">672 </FONT><A NAME="672"></A>    }<FONT ID="SingleLineComment">//end of class LogbookPanel
+<FONT ID="LN">673 </FONT><A NAME="673"></A></FONT>    
+<FONT ID="LN">674 </FONT><A NAME="674"></A>    <FONT ID="Public">public</FONT> <FONT ID="Class">class</FONT> LogbookNode <FONT ID="Implements">implements</FONT> Serializable{
+<FONT ID="LN">675 </FONT><A NAME="675"></A>        <FONT ID="FormalComment">/**
+<FONT ID="LN">676 </FONT><A NAME="676"></A>         * 
+<FONT ID="LN">677 </FONT><A NAME="677"></A>         */</FONT>
+<FONT ID="LN">678 </FONT><A NAME="678"></A>        <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> <FONT ID="Final">final</FONT> <FONT ID="Long">long</FONT> serialVersionUID = <FONT ID="IntegerLiteral">1L</FONT>;
+<FONT ID="LN">679 </FONT><A NAME="679"></A>        <FONT ID="Private">private</FONT> String nodeName,shortcut;
+<FONT ID="LN">680 </FONT><A NAME="680"></A>        <FONT ID="Private">private</FONT> ArrayList&lt;LogbookNode&gt; children;
+<FONT ID="LN">681 </FONT><A NAME="681"></A>        <FONT ID="Private">private</FONT> HashMap&lt;Integer,String&gt; contents;
+<FONT ID="LN">682 </FONT><A NAME="682"></A>        <FONT ID="SingleLineComment">//TODO allow for description for every topic?
+<FONT ID="LN">683 </FONT><A NAME="683"></A></FONT>        
+<FONT ID="LN">684 </FONT><A NAME="684"></A>        <FONT ID="Public">public</FONT> LogbookNode(String name){
+<FONT ID="LN">685 </FONT><A NAME="685"></A>            nodeName = name;
+<FONT ID="LN">686 </FONT><A NAME="686"></A>            children = <FONT ID="New">new</FONT> ArrayList&lt;LogbookNode&gt;();
+<FONT ID="LN">687 </FONT><A NAME="687"></A>        }
+<FONT ID="LN">688 </FONT><A NAME="688"></A>        <FONT ID="Public">public</FONT> LogbookNode addChild(String name){
+<FONT ID="LN">689 </FONT><A NAME="689"></A>            LogbookNode l = <FONT ID="New">new</FONT> LogbookNode(name);
+<FONT ID="LN">690 </FONT><A NAME="690"></A>            children.add(l);
+<FONT ID="LN">691 </FONT><A NAME="691"></A>            <FONT ID="Return">return</FONT> l;
+<FONT ID="LN">692 </FONT><A NAME="692"></A>        }
+<FONT ID="LN">693 </FONT><A NAME="693"></A>        <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> addShortcut(String path){
+<FONT ID="LN">694 </FONT><A NAME="694"></A>            shortcut = path;
+<FONT ID="LN">695 </FONT><A NAME="695"></A>        }
+<FONT ID="LN">696 </FONT><A NAME="696"></A>        <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> addContent(Integer phase, String content){
+<FONT ID="LN">697 </FONT><A NAME="697"></A>            <FONT ID="If">if</FONT>(contents == <FONT ID="Null">null</FONT>){
+<FONT ID="LN">698 </FONT><A NAME="698"></A>                contents = <FONT ID="New">new</FONT> HashMap&lt;Integer, String&gt;();
+<FONT ID="LN">699 </FONT><A NAME="699"></A>            }
+<FONT ID="LN">700 </FONT><A NAME="700"></A>            <FONT ID="If">if</FONT>(contents.get(phase) == <FONT ID="Null">null</FONT> || !contents.get(phase).equalsIgnoreCase(content)){
+<FONT ID="LN">701 </FONT><A NAME="701"></A>                <FONT ID="SingleLineComment">//TODO tell player he learned something new
+<FONT ID="LN">702 </FONT><A NAME="702"></A></FONT>                contents.put(phase, content);
+<FONT ID="LN">703 </FONT><A NAME="703"></A>                RPGMain.printText(<FONT ID="True">true</FONT>, <FONT ID="StringLiteral">"Added a new logbook item ("</FONT> + logbookPath + <FONT ID="StringLiteral">")."</FONT>);
+<FONT ID="LN">704 </FONT><A NAME="704"></A>                logger.info(<FONT ID="StringLiteral">"Added logbook content: "</FONT> + logbookPath);
+<FONT ID="LN">705 </FONT><A NAME="705"></A>                <FONT ID="Double">double</FONT> random = Math.random();
+<FONT ID="LN">706 </FONT><A NAME="706"></A>                
+<FONT ID="LN">707 </FONT><A NAME="707"></A>                <FONT ID="If">if</FONT>(random &lt; <FONT ID="FloatPointLiteral">1.0</FONT>/Math.sqrt(RPGMain.speler.getErudition())){
+<FONT ID="LN">708 </FONT><A NAME="708"></A>                    RPGMain.speler.addErudition(<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">709 </FONT><A NAME="709"></A>                }
+<FONT ID="LN">710 </FONT><A NAME="710"></A>            }
+<FONT ID="LN">711 </FONT><A NAME="711"></A>        }
+<FONT ID="LN">712 </FONT><A NAME="712"></A>        <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> removeAllChildren(){
+<FONT ID="LN">713 </FONT><A NAME="713"></A>            <FONT ID="SingleLineComment">//TODO do the children of the children get automatically removed by the garbage collector?
+<FONT ID="LN">714 </FONT><A NAME="714"></A></FONT>            children.clear();
+<FONT ID="LN">715 </FONT><A NAME="715"></A>        }
+<FONT ID="LN">716 </FONT><A NAME="716"></A>        <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> removeChild(<FONT ID="Int">int</FONT> index){
+<FONT ID="LN">717 </FONT><A NAME="717"></A>            children.remove(index);
+<FONT ID="LN">718 </FONT><A NAME="718"></A>        }
+<FONT ID="LN">719 </FONT><A NAME="719"></A>        <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> removeChild(String name){
+<FONT ID="LN">720 </FONT><A NAME="720"></A>            <FONT ID="For">for</FONT>(LogbookNode l:children){
+<FONT ID="LN">721 </FONT><A NAME="721"></A>                <FONT ID="If">if</FONT>(l.getName().equalsIgnoreCase(name)){
+<FONT ID="LN">722 </FONT><A NAME="722"></A>                    children.remove(l);
+<FONT ID="LN">723 </FONT><A NAME="723"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">724 </FONT><A NAME="724"></A>                }
+<FONT ID="LN">725 </FONT><A NAME="725"></A>            }
+<FONT ID="LN">726 </FONT><A NAME="726"></A>        }
+<FONT ID="LN">727 </FONT><A NAME="727"></A>        <FONT ID="Public">public</FONT> String getName(){
+<FONT ID="LN">728 </FONT><A NAME="728"></A>            <FONT ID="Return">return</FONT> nodeName;
+<FONT ID="LN">729 </FONT><A NAME="729"></A>        }
+<FONT ID="LN">730 </FONT><A NAME="730"></A>        <FONT ID="Public">public</FONT> String getShortcut(){
+<FONT ID="LN">731 </FONT><A NAME="731"></A>            <FONT ID="Return">return</FONT> shortcut;
+<FONT ID="LN">732 </FONT><A NAME="732"></A>        }
+<FONT ID="LN">733 </FONT><A NAME="733"></A>        <FONT ID="Public">public</FONT> ArrayList&lt;LogbookNode&gt; getChildren(){
+<FONT ID="LN">734 </FONT><A NAME="734"></A>            <FONT ID="Return">return</FONT> children;
+<FONT ID="LN">735 </FONT><A NAME="735"></A>        }
+<FONT ID="LN">736 </FONT><A NAME="736"></A>        <FONT ID="Public">public</FONT> LogbookNode getChild(String name){
+<FONT ID="LN">737 </FONT><A NAME="737"></A>            <FONT ID="For">for</FONT>(LogbookNode l:children){
+<FONT ID="LN">738 </FONT><A NAME="738"></A>                <FONT ID="If">if</FONT>(l.getName().equalsIgnoreCase(name)){
+<FONT ID="LN">739 </FONT><A NAME="739"></A>                    <FONT ID="Return">return</FONT> l;
+<FONT ID="LN">740 </FONT><A NAME="740"></A>                }
+<FONT ID="LN">741 </FONT><A NAME="741"></A>            }
+<FONT ID="LN">742 </FONT><A NAME="742"></A>            <FONT ID="Return">return</FONT> <FONT ID="Null">null</FONT>;
+<FONT ID="LN">743 </FONT><A NAME="743"></A>        }
+<FONT ID="LN">744 </FONT><A NAME="744"></A>        <FONT ID="Public">public</FONT> String getContents(){
+<FONT ID="LN">745 </FONT><A NAME="745"></A>            String s = <FONT ID="StringLiteral">""</FONT>;
+<FONT ID="LN">746 </FONT><A NAME="746"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">747 </FONT><A NAME="747"></A>                <FONT ID="For">for</FONT>(String t:contents.values()){
+<FONT ID="LN">748 </FONT><A NAME="748"></A>                    s+=t + <FONT ID="StringLiteral">"\n\n"</FONT>;
+<FONT ID="LN">749 </FONT><A NAME="749"></A>                }
+<FONT ID="LN">750 </FONT><A NAME="750"></A>            } <FONT ID="Catch">catch</FONT>(NullPointerException e){
+<FONT ID="LN">751 </FONT><A NAME="751"></A>                <FONT ID="Return">return</FONT> <FONT ID="Null">null</FONT>;
+<FONT ID="LN">752 </FONT><A NAME="752"></A>            }
+<FONT ID="LN">753 </FONT><A NAME="753"></A>            <FONT ID="Return">return</FONT> s;
+<FONT ID="LN">754 </FONT><A NAME="754"></A>        }
+<FONT ID="LN">755 </FONT><A NAME="755"></A>        <FONT ID="Public">public</FONT> <FONT ID="Int">int</FONT> getPhase(){
+<FONT ID="LN">756 </FONT><A NAME="756"></A>            <FONT ID="Int">int</FONT> phase = -<FONT ID="IntegerLiteral">1</FONT>;
+<FONT ID="LN">757 </FONT><A NAME="757"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">758 </FONT><A NAME="758"></A>                <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> i: contents.keySet()){
+<FONT ID="LN">759 </FONT><A NAME="759"></A>                    <FONT ID="If">if</FONT>(i &gt; phase){
+<FONT ID="LN">760 </FONT><A NAME="760"></A>                        phase = i;
+<FONT ID="LN">761 </FONT><A NAME="761"></A>                    }
+<FONT ID="LN">762 </FONT><A NAME="762"></A>                }
+<FONT ID="LN">763 </FONT><A NAME="763"></A>            } <FONT ID="Catch">catch</FONT>(Exception e){
+<FONT ID="LN">764 </FONT><A NAME="764"></A>                e.printStackTrace();
+<FONT ID="LN">765 </FONT><A NAME="765"></A>                logger.error(nodeName,e);
+<FONT ID="LN">766 </FONT><A NAME="766"></A>            }
+<FONT ID="LN">767 </FONT><A NAME="767"></A>            <FONT ID="Return">return</FONT> phase;
+<FONT ID="LN">768 </FONT><A NAME="768"></A>        }
+<FONT ID="LN">769 </FONT><A NAME="769"></A>        
+<FONT ID="LN">770 </FONT><A NAME="770"></A>    }
+<FONT ID="LN">771 </FONT><A NAME="771"></A>
+<FONT ID="LN">772 </FONT><A NAME="772"></A>}
+<FONT ID="LN">773 </FONT><A NAME="773"></A></pre>
+</BODY>
+</HTML>

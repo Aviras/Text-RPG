@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Potions>
+  <potion id="0">
+    <name>Health Potion</name>
+    <effect>-1</effect>
+    <strength>5</strength>
+    <duration>-1</duration>
+    <weight>0.1</weight>
+    <cost>5</cost>
+  </potion>
+  <potion id="1">
+    <name>Strength Potion</name>
+    <effect>0</effect>
+    <strength>2</strength>
+    <duration>5</duration>
+    <weight>0.1</weight>
+    <cost>10</cost>
+  </potion>
+</Potions>

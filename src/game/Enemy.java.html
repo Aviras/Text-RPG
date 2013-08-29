@@ -1,0 +1,466 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<HEAD>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="../stylesheet.css" TITLE="Style">
+<META NAME="GENERATOR" CONTENT="Java2HTML Version 1.5">
+<TITLE>game.Enemy (Java2HTML)</TITLE>
+</HEAD>
+<BODY><TABLE id="Header" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td colspan="2" width="33%">&nbsp;</td>
+<td align="center" colspan="2" width="33%">
+<font size="4">Enemy.java</font>
+</td>
+<td align="right" colspan="2" width="33%">&nbsp;</td>
+</tr>
+</TABLE>
+<pre ID="Classes">
+<FONT ID="LN">1   </FONT><A NAME="1"></A><FONT ID="Package">package</FONT> game;
+<FONT ID="LN">2   </FONT><A NAME="2"></A><FONT ID="Import">import</FONT> java.awt.Point;
+<FONT ID="LN">3   </FONT><A NAME="3"></A><FONT ID="Import">import</FONT> java.io.Serializable;
+<FONT ID="LN">4   </FONT><A NAME="4"></A><FONT ID="Import">import</FONT> java.util.ArrayList;
+<FONT ID="LN">5   </FONT><A NAME="5"></A><FONT ID="Import">import</FONT> java.util.HashMap;
+<FONT ID="LN">6   </FONT><A NAME="6"></A><FONT ID="Import">import</FONT> java.util.Random;
+<FONT ID="LN">7   </FONT><A NAME="7"></A>
+<FONT ID="LN">8   </FONT><A NAME="8"></A><FONT ID="Import">import</FONT> org.apache.log4j.Logger;
+<FONT ID="LN">9   </FONT><A NAME="9"></A>
+<FONT ID="LN">10  </FONT><A NAME="10"></A><FONT ID="Public">public</FONT> <FONT ID="Class">class</FONT> Enemy <FONT ID="Extends">extends</FONT> <A HREF="../game/Wezen.java.html">Wezen</A> <FONT ID="Implements">implements</FONT> Serializable {
+<FONT ID="LN">11  </FONT><A NAME="11"></A>    
+<FONT ID="LN">12  </FONT><A NAME="12"></A>    <FONT ID="FormalComment">/**
+<FONT ID="LN">13  </FONT><A NAME="13"></A>     * 
+<FONT ID="LN">14  </FONT><A NAME="14"></A>     */</FONT>
+<FONT ID="LN">15  </FONT><A NAME="15"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> <FONT ID="Final">final</FONT> <FONT ID="Long">long</FONT> serialVersionUID = -<FONT ID="IntegerLiteral">5177406482505521159L</FONT>;
+<FONT ID="LN">16  </FONT><A NAME="16"></A>    <FONT ID="Private">private</FONT> <FONT ID="Int">int</FONT> ID;
+<FONT ID="LN">17  </FONT><A NAME="17"></A>    <FONT ID="Private">private</FONT> <FONT ID="Int">int</FONT> intelligence;
+<FONT ID="LN">18  </FONT><A NAME="18"></A>    <FONT ID="Private">private</FONT> <FONT ID="Boolean">boolean</FONT> stationary = <FONT ID="False">false</FONT>,uniqueGear = <FONT ID="False">false</FONT>;
+<FONT ID="LN">19  </FONT><A NAME="19"></A>    <FONT ID="Private">private</FONT> <FONT ID="Int">int</FONT> pursuitIndex = -<FONT ID="IntegerLiteral">1</FONT>;
+<FONT ID="LN">20  </FONT><A NAME="20"></A>    <FONT ID="Private">private</FONT> <FONT ID="Static">static</FONT> Logger logger = Logger.getLogger(<A HREF="../game/Enemy.java.html">Enemy</A>.<FONT ID="Class">class</FONT>);
+<FONT ID="LN">21  </FONT><A NAME="21"></A>    
+<FONT ID="LN">22  </FONT><A NAME="22"></A>    <FONT ID="SingleLineComment">// constructor with no gear specified, 3 defense values for head - body - legs
+<FONT ID="LN">23  </FONT><A NAME="23"></A></FONT>    <FONT ID="Public">public</FONT> Enemy(Integer id, String name, Integer lvl, Integer hp, Integer intelligence, Integer gold, Integer strength, Integer dexterity, Integer intellect, String invItemIDs, <FONT ID="Int">int</FONT>[] probabilities,<FONT ID="Int">int</FONT>[] spellIDs, <FONT ID="Int">int</FONT>[] defense, Boolean stationary){
+<FONT ID="LN">24  </FONT><A NAME="24"></A>        <FONT ID="Super">super</FONT>(lvl.intValue(),name,hp.intValue(),gold.intValue(),strength.intValue(),dexterity.intValue(),intellect.intValue(),<FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">25  </FONT><A NAME="25"></A>        ID = id.intValue();
+<FONT ID="LN">26  </FONT><A NAME="26"></A>        
+<FONT ID="LN">27  </FONT><A NAME="27"></A>        <FONT ID="This">this</FONT>.intelligence = intelligence.intValue();
+<FONT ID="LN">28  </FONT><A NAME="28"></A>        
+<FONT ID="LN">29  </FONT><A NAME="29"></A>        <FONT ID="This">this</FONT>.stationary = stationary.booleanValue();
+<FONT ID="LN">30  </FONT><A NAME="30"></A>        
+<FONT ID="LN">31  </FONT><A NAME="31"></A>        wapen = nothing;
+<FONT ID="LN">32  </FONT><A NAME="32"></A>        schild = nothing;
+<FONT ID="LN">33  </FONT><A NAME="33"></A>        boog = nothing;
+<FONT ID="LN">34  </FONT><A NAME="34"></A>        helm = nothing;
+<FONT ID="LN">35  </FONT><A NAME="35"></A>        harnas = nothing;
+<FONT ID="LN">36  </FONT><A NAME="36"></A>        handschoenen = nothing;
+<FONT ID="LN">37  </FONT><A NAME="37"></A>        broek = nothing;
+<FONT ID="LN">38  </FONT><A NAME="38"></A>        schoenen = nothing;
+<FONT ID="LN">39  </FONT><A NAME="39"></A>        
+<FONT ID="LN">40  </FONT><A NAME="40"></A>        <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;<FONT ID="This">this</FONT>.defense.length;j++){
+<FONT ID="LN">41  </FONT><A NAME="41"></A>            <FONT ID="This">this</FONT>.defense[j] = defense[j];
+<FONT ID="LN">42  </FONT><A NAME="42"></A>        }
+<FONT ID="LN">43  </FONT><A NAME="43"></A>        <FONT ID="If">if</FONT>(!invItemIDs.equalsIgnoreCase(<FONT ID="StringLiteral">"null"</FONT>)){
+<FONT ID="LN">44  </FONT><A NAME="44"></A>            String[] parts = invItemIDs.split(<FONT ID="StringLiteral">";"</FONT>);
+<FONT ID="LN">45  </FONT><A NAME="45"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;parts.length;j++){
+<FONT ID="LN">46  </FONT><A NAME="46"></A>                String[] info = parts[j].split(<FONT ID="StringLiteral">":"</FONT>);
+<FONT ID="LN">47  </FONT><A NAME="47"></A>                
+<FONT ID="LN">48  </FONT><A NAME="48"></A>                <FONT ID="Int">int</FONT> random = Global.generator.nextInt(<FONT ID="IntegerLiteral">100</FONT>);
+<FONT ID="LN">49  </FONT><A NAME="49"></A>                random++;
+<FONT ID="LN">50  </FONT><A NAME="50"></A>                <FONT ID="Try">try</FONT>{
+<FONT ID="LN">51  </FONT><A NAME="51"></A>                    <FONT ID="If">if</FONT>(random &lt;= probabilities[j]){
+<FONT ID="LN">52  </FONT><A NAME="52"></A>                        <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"equipment"</FONT>)){
+<FONT ID="LN">53  </FONT><A NAME="53"></A>                            addInventoryItem(Data.equipment.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">54  </FONT><A NAME="54"></A>                        }
+<FONT ID="LN">55  </FONT><A NAME="55"></A>                        <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"consumable"</FONT>)){
+<FONT ID="LN">56  </FONT><A NAME="56"></A>                            addInventoryItem(Data.consumables.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">57  </FONT><A NAME="57"></A>                        }
+<FONT ID="LN">58  </FONT><A NAME="58"></A>                        <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"potion"</FONT>)){
+<FONT ID="LN">59  </FONT><A NAME="59"></A>                            addInventoryItem(Data.potions.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">60  </FONT><A NAME="60"></A>                        }
+<FONT ID="LN">61  </FONT><A NAME="61"></A>                        <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"clothing"</FONT>)){
+<FONT ID="LN">62  </FONT><A NAME="62"></A>                            addInventoryItem(Data.clothes.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">63  </FONT><A NAME="63"></A>                        }
+<FONT ID="LN">64  </FONT><A NAME="64"></A>                        <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"item"</FONT>)){
+<FONT ID="LN">65  </FONT><A NAME="65"></A>                            addInventoryItem(Data.items.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">66  </FONT><A NAME="66"></A>                        }
+<FONT ID="LN">67  </FONT><A NAME="67"></A>                    }
+<FONT ID="LN">68  </FONT><A NAME="68"></A>                }<FONT ID="Catch">catch</FONT>(Exception e){
+<FONT ID="LN">69  </FONT><A NAME="69"></A>                    e.printStackTrace();
+<FONT ID="LN">70  </FONT><A NAME="70"></A>                    logger.error(<FONT ID="StringLiteral">"Corrupt inventory item data for enemy ID "</FONT> + ID,e);
+<FONT ID="LN">71  </FONT><A NAME="71"></A>                }
+<FONT ID="LN">72  </FONT><A NAME="72"></A>            }
+<FONT ID="LN">73  </FONT><A NAME="73"></A>        }
+<FONT ID="LN">74  </FONT><A NAME="74"></A>        <FONT ID="If">if</FONT>(spellIDs[<FONT ID="IntegerLiteral">0</FONT>] != -<FONT ID="IntegerLiteral">1</FONT>){
+<FONT ID="LN">75  </FONT><A NAME="75"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j = <FONT ID="IntegerLiteral">0</FONT>;j&lt;spellIDs.length;j++){
+<FONT ID="LN">76  </FONT><A NAME="76"></A>                spreuken.add(Data.spells.get(spellIDs[j]));
+<FONT ID="LN">77  </FONT><A NAME="77"></A>            }
+<FONT ID="LN">78  </FONT><A NAME="78"></A>        }
+<FONT ID="LN">79  </FONT><A NAME="79"></A>        
+<FONT ID="LN">80  </FONT><A NAME="80"></A>        <FONT ID="Try">try</FONT>{
+<FONT ID="LN">81  </FONT><A NAME="81"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;<FONT ID="IntegerLiteral">10</FONT>;j++){
+<FONT ID="LN">82  </FONT><A NAME="82"></A>                <FONT ID="If">if</FONT>(Data.abilities.get(j) != <FONT ID="Null">null</FONT>){
+<FONT ID="LN">83  </FONT><A NAME="83"></A>                    abilities.put(Data.abilities.get(j), <FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">84  </FONT><A NAME="84"></A>                }
+<FONT ID="LN">85  </FONT><A NAME="85"></A>            }
+<FONT ID="LN">86  </FONT><A NAME="86"></A>        } <FONT ID="Catch">catch</FONT>(Exception e){
+<FONT ID="LN">87  </FONT><A NAME="87"></A>        }
+<FONT ID="LN">88  </FONT><A NAME="88"></A>    }
+<FONT ID="LN">89  </FONT><A NAME="89"></A>    <FONT ID="SingleLineComment">// constructor with gear specified, player loots depending what it hit during combat
+<FONT ID="LN">90  </FONT><A NAME="90"></A></FONT>    <FONT ID="Public">public</FONT> Enemy(Integer id, String name, Integer lvl, Integer hp, Integer intelligence, Integer gold, Integer strength, Integer dexterity, Integer intellect, <FONT ID="Int">int</FONT>[] gear, String invItemIDs, <FONT ID="Int">int</FONT>[] probabilities, <FONT ID="Int">int</FONT>[] spellIDs, Boolean stationary){
+<FONT ID="LN">91  </FONT><A NAME="91"></A>        <FONT ID="Super">super</FONT>(lvl.intValue(),name,hp.intValue(),gold.intValue(),strength.intValue(),dexterity.intValue(),intellect.intValue(),<FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">92  </FONT><A NAME="92"></A>        ID = id.intValue();
+<FONT ID="LN">93  </FONT><A NAME="93"></A>        
+<FONT ID="LN">94  </FONT><A NAME="94"></A>        <FONT ID="This">this</FONT>.intelligence = intelligence.intValue();
+<FONT ID="LN">95  </FONT><A NAME="95"></A>        
+<FONT ID="LN">96  </FONT><A NAME="96"></A>        <FONT ID="This">this</FONT>.stationary = stationary.booleanValue();
+<FONT ID="LN">97  </FONT><A NAME="97"></A>        
+<FONT ID="LN">98  </FONT><A NAME="98"></A>        wapen = initGear(gear[<FONT ID="IntegerLiteral">0</FONT>]);
+<FONT ID="LN">99  </FONT><A NAME="99"></A>        schild = initGear(gear[<FONT ID="IntegerLiteral">1</FONT>]);
+<FONT ID="LN">100 </FONT><A NAME="100"></A>        boog = initGear(gear[<FONT ID="IntegerLiteral">2</FONT>]);
+<FONT ID="LN">101 </FONT><A NAME="101"></A>        helm = initGear(gear[<FONT ID="IntegerLiteral">3</FONT>]);
+<FONT ID="LN">102 </FONT><A NAME="102"></A>        harnas = initGear(gear[<FONT ID="IntegerLiteral">4</FONT>]);
+<FONT ID="LN">103 </FONT><A NAME="103"></A>        handschoenen = initGear(gear[<FONT ID="IntegerLiteral">5</FONT>]);
+<FONT ID="LN">104 </FONT><A NAME="104"></A>        broek = initGear(gear[<FONT ID="IntegerLiteral">6</FONT>]);
+<FONT ID="LN">105 </FONT><A NAME="105"></A>        schoenen = initGear(gear[<FONT ID="IntegerLiteral">7</FONT>]);
+<FONT ID="LN">106 </FONT><A NAME="106"></A>        checkTreats();
+<FONT ID="LN">107 </FONT><A NAME="107"></A>        
+<FONT ID="LN">108 </FONT><A NAME="108"></A>        <FONT ID="If">if</FONT>(!invItemIDs.equalsIgnoreCase(<FONT ID="StringLiteral">"null"</FONT>)){
+<FONT ID="LN">109 </FONT><A NAME="109"></A>            String[] parts = invItemIDs.split(<FONT ID="StringLiteral">";"</FONT>);
+<FONT ID="LN">110 </FONT><A NAME="110"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;parts.length;j++){
+<FONT ID="LN">111 </FONT><A NAME="111"></A>                String[] info = parts[j].split(<FONT ID="StringLiteral">":"</FONT>);
+<FONT ID="LN">112 </FONT><A NAME="112"></A>                
+<FONT ID="LN">113 </FONT><A NAME="113"></A>                <FONT ID="Int">int</FONT> random = Global.generator.nextInt(<FONT ID="IntegerLiteral">100</FONT>);
+<FONT ID="LN">114 </FONT><A NAME="114"></A>                random++;
+<FONT ID="LN">115 </FONT><A NAME="115"></A>                <FONT ID="Try">try</FONT>{
+<FONT ID="LN">116 </FONT><A NAME="116"></A>                    <FONT ID="If">if</FONT>(random &lt;= probabilities[j]){
+<FONT ID="LN">117 </FONT><A NAME="117"></A>                        <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"equipment"</FONT>)){
+<FONT ID="LN">118 </FONT><A NAME="118"></A>                            addInventoryItem(Data.equipment.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">119 </FONT><A NAME="119"></A>                        }
+<FONT ID="LN">120 </FONT><A NAME="120"></A>                        <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"consumable"</FONT>)){
+<FONT ID="LN">121 </FONT><A NAME="121"></A>                            addInventoryItem(Data.consumables.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">122 </FONT><A NAME="122"></A>                        }
+<FONT ID="LN">123 </FONT><A NAME="123"></A>                        <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"potion"</FONT>)){
+<FONT ID="LN">124 </FONT><A NAME="124"></A>                            addInventoryItem(Data.potions.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">125 </FONT><A NAME="125"></A>                        }
+<FONT ID="LN">126 </FONT><A NAME="126"></A>                        <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"clothing"</FONT>)){
+<FONT ID="LN">127 </FONT><A NAME="127"></A>                            addInventoryItem(Data.clothes.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">128 </FONT><A NAME="128"></A>                        }
+<FONT ID="LN">129 </FONT><A NAME="129"></A>                        <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(info[<FONT ID="IntegerLiteral">0</FONT>].equalsIgnoreCase(<FONT ID="StringLiteral">"item"</FONT>)){
+<FONT ID="LN">130 </FONT><A NAME="130"></A>                            addInventoryItem(Data.items.get(Integer.parseInt(info[<FONT ID="IntegerLiteral">1</FONT>])));
+<FONT ID="LN">131 </FONT><A NAME="131"></A>                        }
+<FONT ID="LN">132 </FONT><A NAME="132"></A>                    }
+<FONT ID="LN">133 </FONT><A NAME="133"></A>                }<FONT ID="Catch">catch</FONT>(Exception e){
+<FONT ID="LN">134 </FONT><A NAME="134"></A>                    e.printStackTrace();
+<FONT ID="LN">135 </FONT><A NAME="135"></A>                    logger.error(<FONT ID="StringLiteral">"Corrupt inventory item data for enemy ID "</FONT> + ID,e);
+<FONT ID="LN">136 </FONT><A NAME="136"></A>                }
+<FONT ID="LN">137 </FONT><A NAME="137"></A>            }
+<FONT ID="LN">138 </FONT><A NAME="138"></A>        }
+<FONT ID="LN">139 </FONT><A NAME="139"></A>        <FONT ID="If">if</FONT>(spellIDs[<FONT ID="IntegerLiteral">0</FONT>] != -<FONT ID="IntegerLiteral">1</FONT>){
+<FONT ID="LN">140 </FONT><A NAME="140"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j = <FONT ID="IntegerLiteral">0</FONT>;j&lt;spellIDs.length;j++){
+<FONT ID="LN">141 </FONT><A NAME="141"></A>                spreuken.add(Data.spells.get(spellIDs[j]));
+<FONT ID="LN">142 </FONT><A NAME="142"></A>            }
+<FONT ID="LN">143 </FONT><A NAME="143"></A>        }
+<FONT ID="LN">144 </FONT><A NAME="144"></A>        <FONT ID="Try">try</FONT>{
+<FONT ID="LN">145 </FONT><A NAME="145"></A>            <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;<FONT ID="IntegerLiteral">10</FONT>;j++){
+<FONT ID="LN">146 </FONT><A NAME="146"></A>                <FONT ID="If">if</FONT>(Data.abilities.get(j) != <FONT ID="Null">null</FONT>){
+<FONT ID="LN">147 </FONT><A NAME="147"></A>                    abilities.put(Data.abilities.get(j), <FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">148 </FONT><A NAME="148"></A>                }
+<FONT ID="LN">149 </FONT><A NAME="149"></A>            }
+<FONT ID="LN">150 </FONT><A NAME="150"></A>        } <FONT ID="Catch">catch</FONT>(Exception e){
+<FONT ID="LN">151 </FONT><A NAME="151"></A>        }
+<FONT ID="LN">152 </FONT><A NAME="152"></A>    }
+<FONT ID="LN">153 </FONT><A NAME="153"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> uniqueGear(){
+<FONT ID="LN">154 </FONT><A NAME="154"></A>        wapen = <FONT ID="New">new</FONT> <A HREF="../game/Equipment.java.html">Equipment</A>(wapen);
+<FONT ID="LN">155 </FONT><A NAME="155"></A>        schild = <FONT ID="New">new</FONT> <A HREF="../game/Equipment.java.html">Equipment</A>(schild);
+<FONT ID="LN">156 </FONT><A NAME="156"></A>        boog = <FONT ID="New">new</FONT> <A HREF="../game/Equipment.java.html">Equipment</A>(boog);
+<FONT ID="LN">157 </FONT><A NAME="157"></A>        helm = <FONT ID="New">new</FONT> <A HREF="../game/Equipment.java.html">Equipment</A>(helm);
+<FONT ID="LN">158 </FONT><A NAME="158"></A>        harnas = <FONT ID="New">new</FONT> <A HREF="../game/Equipment.java.html">Equipment</A>(harnas);
+<FONT ID="LN">159 </FONT><A NAME="159"></A>        handschoenen = <FONT ID="New">new</FONT> <A HREF="../game/Equipment.java.html">Equipment</A>(handschoenen);
+<FONT ID="LN">160 </FONT><A NAME="160"></A>        broek = <FONT ID="New">new</FONT> <A HREF="../game/Equipment.java.html">Equipment</A>(broek);
+<FONT ID="LN">161 </FONT><A NAME="161"></A>        schoenen = <FONT ID="New">new</FONT> <A HREF="../game/Equipment.java.html">Equipment</A>(schoenen);
+<FONT ID="LN">162 </FONT><A NAME="162"></A>        uniqueGear = <FONT ID="True">true</FONT>;
+<FONT ID="LN">163 </FONT><A NAME="163"></A>    }
+<FONT ID="LN">164 </FONT><A NAME="164"></A>    <FONT ID="Public">public</FONT> <FONT ID="Boolean">boolean</FONT> getUniqueGearDone(){
+<FONT ID="LN">165 </FONT><A NAME="165"></A>        <FONT ID="Return">return</FONT> uniqueGear;
+<FONT ID="LN">166 </FONT><A NAME="166"></A>    }
+<FONT ID="LN">167 </FONT><A NAME="167"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> updateHPBar(){
+<FONT ID="LN">168 </FONT><A NAME="168"></A>        GameFrameCanvas.enemyPortrait.setBarLength((<FONT ID="Float">float</FONT>)HP/maxHP);
+<FONT ID="LN">169 </FONT><A NAME="169"></A>    }
+<FONT ID="LN">170 </FONT><A NAME="170"></A>    <FONT ID="SingleLineComment">// makes a seperate Enemy object, using the Enemy object in Data as a template, else there's only 1 Enemy object in the entire game
+<FONT ID="LN">171 </FONT><A NAME="171"></A></FONT>    <FONT ID="Public">public</FONT> Enemy(<A HREF="../game/Enemy.java.html">Enemy</A> another){
+<FONT ID="LN">172 </FONT><A NAME="172"></A>        <FONT ID="Super">super</FONT>(another.level,another.naam,another.HP,another.goud,another.strength,another.dexterity,another.intellect,<FONT ID="IntegerLiteral">0</FONT>);
+<FONT ID="LN">173 </FONT><A NAME="173"></A>        <FONT ID="This">this</FONT>.ID = another.ID;
+<FONT ID="LN">174 </FONT><A NAME="174"></A>        <FONT ID="This">this</FONT>.intelligence = another.intelligence;
+<FONT ID="LN">175 </FONT><A NAME="175"></A>        <FONT ID="This">this</FONT>.stationary = another.stationary;
+<FONT ID="LN">176 </FONT><A NAME="176"></A>        <FONT ID="This">this</FONT>.movement = another.movement;
+<FONT ID="LN">177 </FONT><A NAME="177"></A>        <FONT ID="This">this</FONT>.defense = another.defense;
+<FONT ID="LN">178 </FONT><A NAME="178"></A>        <FONT ID="This">this</FONT>.inventory = another.inventory;
+<FONT ID="LN">179 </FONT><A NAME="179"></A>        <FONT ID="This">this</FONT>.spreuken = another.spreuken;
+<FONT ID="LN">180 </FONT><A NAME="180"></A>        <FONT ID="This">this</FONT>.wapen = another.wapen;
+<FONT ID="LN">181 </FONT><A NAME="181"></A>        <FONT ID="If">if</FONT>(Math.random() &lt; <FONT ID="FloatPointLiteral">0.5</FONT>)
+<FONT ID="LN">182 </FONT><A NAME="182"></A>            <FONT ID="This">this</FONT>.schild = another.schild;
+<FONT ID="LN">183 </FONT><A NAME="183"></A>        <FONT ID="Else">else</FONT>
+<FONT ID="LN">184 </FONT><A NAME="184"></A>            <FONT ID="This">this</FONT>.schild = nothing;
+<FONT ID="LN">185 </FONT><A NAME="185"></A>        <FONT ID="This">this</FONT>.boog = another.boog;
+<FONT ID="LN">186 </FONT><A NAME="186"></A>        <FONT ID="This">this</FONT>.helm = another.helm;
+<FONT ID="LN">187 </FONT><A NAME="187"></A>        <FONT ID="This">this</FONT>.harnas = another.harnas;
+<FONT ID="LN">188 </FONT><A NAME="188"></A>        <FONT ID="This">this</FONT>.handschoenen = another.handschoenen;
+<FONT ID="LN">189 </FONT><A NAME="189"></A>        <FONT ID="This">this</FONT>.broek = another.broek;
+<FONT ID="LN">190 </FONT><A NAME="190"></A>        <FONT ID="This">this</FONT>.schoenen = another.schoenen;
+<FONT ID="LN">191 </FONT><A NAME="191"></A>        <FONT ID="This">this</FONT>.abilities = another.abilities;
+<FONT ID="LN">192 </FONT><A NAME="192"></A>    }
+<FONT ID="LN">193 </FONT><A NAME="193"></A>    <FONT ID="Public">public</FONT> Enemy(){
+<FONT ID="LN">194 </FONT><A NAME="194"></A>        
+<FONT ID="LN">195 </FONT><A NAME="195"></A>    }
+<FONT ID="LN">196 </FONT><A NAME="196"></A>    <FONT ID="Public">public</FONT> <FONT ID="Int">int</FONT> getID(){
+<FONT ID="LN">197 </FONT><A NAME="197"></A>        <FONT ID="Return">return</FONT> ID;
+<FONT ID="LN">198 </FONT><A NAME="198"></A>    }
+<FONT ID="LN">199 </FONT><A NAME="199"></A>    <FONT ID="Public">public</FONT> <FONT ID="Int">int</FONT> getIntelligence(){
+<FONT ID="LN">200 </FONT><A NAME="200"></A>        <FONT ID="Return">return</FONT> intelligence;
+<FONT ID="LN">201 </FONT><A NAME="201"></A>    }
+<FONT ID="LN">202 </FONT><A NAME="202"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setIntelligence(<FONT ID="Int">int</FONT> x){
+<FONT ID="LN">203 </FONT><A NAME="203"></A>        intelligence = x;
+<FONT ID="LN">204 </FONT><A NAME="204"></A>    }
+<FONT ID="LN">205 </FONT><A NAME="205"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setDefense(<FONT ID="Int">int</FONT> x,<FONT ID="Int">int</FONT> index){
+<FONT ID="LN">206 </FONT><A NAME="206"></A>        defense[index] = x;
+<FONT ID="LN">207 </FONT><A NAME="207"></A>    }
+<FONT ID="LN">208 </FONT><A NAME="208"></A>    <FONT ID="Public">public</FONT> <FONT ID="Boolean">boolean</FONT> getStationarity(){
+<FONT ID="LN">209 </FONT><A NAME="209"></A>        <FONT ID="Return">return</FONT> stationary;
+<FONT ID="LN">210 </FONT><A NAME="210"></A>    }
+<FONT ID="LN">211 </FONT><A NAME="211"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setStationarity(<FONT ID="Boolean">boolean</FONT> b){
+<FONT ID="LN">212 </FONT><A NAME="212"></A>        stationary = b;
+<FONT ID="LN">213 </FONT><A NAME="213"></A>    }
+<FONT ID="LN">214 </FONT><A NAME="214"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> respawn(){
+<FONT ID="LN">215 </FONT><A NAME="215"></A>        <FONT ID="If">if</FONT>(dood == <FONT ID="True">true</FONT>){
+<FONT ID="LN">216 </FONT><A NAME="216"></A>            <FONT ID="If">if</FONT>(Global.generator.nextInt(<FONT ID="IntegerLiteral">2</FONT>) == <FONT ID="IntegerLiteral">0</FONT>){
+<FONT ID="LN">217 </FONT><A NAME="217"></A>                dood = <FONT ID="False">false</FONT>;
+<FONT ID="LN">218 </FONT><A NAME="218"></A>                HP = maxHP;
+<FONT ID="LN">219 </FONT><A NAME="219"></A>            }
+<FONT ID="LN">220 </FONT><A NAME="220"></A>        }
+<FONT ID="LN">221 </FONT><A NAME="221"></A>    }
+<FONT ID="LN">222 </FONT><A NAME="222"></A>    <FONT ID="Public">public</FONT> <FONT ID="Int">int</FONT> getPursuitIndex(){
+<FONT ID="LN">223 </FONT><A NAME="223"></A>        <FONT ID="Return">return</FONT> pursuitIndex;
+<FONT ID="LN">224 </FONT><A NAME="224"></A>    }
+<FONT ID="LN">225 </FONT><A NAME="225"></A>    <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> setPursuitIndex(<FONT ID="Int">int</FONT> x){
+<FONT ID="LN">226 </FONT><A NAME="226"></A>        pursuitIndex = x;
+<FONT ID="LN">227 </FONT><A NAME="227"></A>    }
+<FONT ID="LN">228 </FONT><A NAME="228"></A>    <FONT ID="Public">public</FONT> String predictAction(<FONT ID="Int">int</FONT>[] playerPos, <FONT ID="Int">int</FONT>[] myPos){
+<FONT ID="LN">229 </FONT><A NAME="229"></A>        <FONT ID="Double">double</FONT> distance = <FONT ID="New">new</FONT> Point(playerPos[<FONT ID="IntegerLiteral">0</FONT>],playerPos[<FONT ID="IntegerLiteral">1</FONT>]).distance(myPos[<FONT ID="IntegerLiteral">0</FONT>],myPos[<FONT ID="IntegerLiteral">1</FONT>]);
+<FONT ID="LN">230 </FONT><A NAME="230"></A>        String prediction = <FONT ID="Null">null</FONT>;
+<FONT ID="LN">231 </FONT><A NAME="231"></A>        
+<FONT ID="LN">232 </FONT><A NAME="232"></A>        <FONT ID="If">if</FONT>(distance &lt; <FONT ID="IntegerLiteral">70</FONT>){
+<FONT ID="LN">233 </FONT><A NAME="233"></A>            prediction = predictPattern(RPGMain.speler.getMeleeActions());
+<FONT ID="LN">234 </FONT><A NAME="234"></A>        }
+<FONT ID="LN">235 </FONT><A NAME="235"></A>        <FONT ID="Else">else</FONT>{
+<FONT ID="LN">236 </FONT><A NAME="236"></A>            prediction = predictPattern(RPGMain.speler.getRangedActions());
+<FONT ID="LN">237 </FONT><A NAME="237"></A>        }
+<FONT ID="LN">238 </FONT><A NAME="238"></A>        
+<FONT ID="LN">239 </FONT><A NAME="239"></A>        <FONT ID="Return">return</FONT> prediction;
+<FONT ID="LN">240 </FONT><A NAME="240"></A>        
+<FONT ID="LN">241 </FONT><A NAME="241"></A>    }
+<FONT ID="LN">242 </FONT><A NAME="242"></A>    <FONT ID="Public">public</FONT> String predictPattern(String actions){
+<FONT ID="LN">243 </FONT><A NAME="243"></A>        <FONT ID="Int">int</FONT> patternNr = intelligence;
+<FONT ID="LN">244 </FONT><A NAME="244"></A>
+<FONT ID="LN">245 </FONT><A NAME="245"></A>        String[] possibilities = {<FONT ID="StringLiteral">"head"</FONT>,<FONT ID="StringLiteral">"torso"</FONT>,<FONT ID="StringLiteral">"legs"</FONT>};
+<FONT ID="LN">246 </FONT><A NAME="246"></A>        <FONT ID="Double">double</FONT>[] occurences = <FONT ID="New">new</FONT> <FONT ID="Double">double</FONT>[possibilities.length];
+<FONT ID="LN">247 </FONT><A NAME="247"></A>        <FONT ID="Double">double</FONT> efficiency = <FONT ID="IntegerLiteral">0</FONT>;
+<FONT ID="LN">248 </FONT><A NAME="248"></A>        
+<FONT ID="LN">249 </FONT><A NAME="249"></A>        String prediction = possibilities[(<FONT ID="Int">int</FONT>)(Math.random()*possibilities.length)];
+<FONT ID="LN">250 </FONT><A NAME="250"></A>        
+<FONT ID="LN">251 </FONT><A NAME="251"></A>        <FONT ID="Try">try</FONT>{
+<FONT ID="LN">252 </FONT><A NAME="252"></A>            <FONT ID="While">while</FONT>(efficiency &lt; (<FONT ID="FloatPointLiteral">0.3</FONT>-<FONT ID="FloatPointLiteral">0.008</FONT>*actions.length()) &amp;&amp; patternNr &gt; <FONT ID="IntegerLiteral">0</FONT>){
+<FONT ID="LN">253 </FONT><A NAME="253"></A>                String lastMoves = actions.substring(actions.length()-patternNr);
+<FONT ID="LN">254 </FONT><A NAME="254"></A>                String consideredMoves = actions.substring(<FONT ID="IntegerLiteral">0</FONT>, actions.length()-patternNr);
+<FONT ID="LN">255 </FONT><A NAME="255"></A>                
+<FONT ID="LN">256 </FONT><A NAME="256"></A>                <FONT ID="Int">int</FONT> i = consideredMoves.indexOf(lastMoves);
+<FONT ID="LN">257 </FONT><A NAME="257"></A>                <FONT ID="While">while</FONT>(i != -<FONT ID="IntegerLiteral">1</FONT>){
+<FONT ID="LN">258 </FONT><A NAME="258"></A>                    <FONT ID="Try">try</FONT>{
+<FONT ID="LN">259 </FONT><A NAME="259"></A>                        <FONT ID="Char">char</FONT> s = consideredMoves.charAt(i+patternNr);
+<FONT ID="LN">260 </FONT><A NAME="260"></A>                        <FONT ID="SingleLineComment">//TODO check if torso is saved as t
+<FONT ID="LN">261 </FONT><A NAME="261"></A></FONT>                        <FONT ID="Switch">switch</FONT>(s){
+<FONT ID="LN">262 </FONT><A NAME="262"></A>                        <FONT ID="Case">case</FONT> <FONT ID="CharacerLiteral">'h'</FONT>: occurences[<FONT ID="IntegerLiteral">0</FONT>]+=<FONT ID="IntegerLiteral">1</FONT>; <FONT ID="Break">break</FONT>;
+<FONT ID="LN">263 </FONT><A NAME="263"></A>                        <FONT ID="Case">case</FONT> <FONT ID="CharacerLiteral">'t'</FONT>: occurences[<FONT ID="IntegerLiteral">1</FONT>]+=<FONT ID="IntegerLiteral">1</FONT>; <FONT ID="Break">break</FONT>;
+<FONT ID="LN">264 </FONT><A NAME="264"></A>                        <FONT ID="Case">case</FONT> <FONT ID="CharacerLiteral">'l'</FONT>: occurences[<FONT ID="IntegerLiteral">2</FONT>]+=<FONT ID="IntegerLiteral">1</FONT>; <FONT ID="Break">break</FONT>;
+<FONT ID="LN">265 </FONT><A NAME="265"></A>                        }
+<FONT ID="LN">266 </FONT><A NAME="266"></A>                        
+<FONT ID="LN">267 </FONT><A NAME="267"></A>                        i = consideredMoves.indexOf(lastMoves,i+patternNr);
+<FONT ID="LN">268 </FONT><A NAME="268"></A>                        
+<FONT ID="LN">269 </FONT><A NAME="269"></A>                    } <FONT ID="Catch">catch</FONT>(IndexOutOfBoundsException exc){
+<FONT ID="LN">270 </FONT><A NAME="270"></A>                        i = -<FONT ID="IntegerLiteral">1</FONT>;
+<FONT ID="LN">271 </FONT><A NAME="271"></A>                    }
+<FONT ID="LN">272 </FONT><A NAME="272"></A>                }
+<FONT ID="LN">273 </FONT><A NAME="273"></A>                <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;occurences.length;j++){
+<FONT ID="LN">274 </FONT><A NAME="274"></A>                    <FONT ID="If">if</FONT>(occurences[j] &gt; <FONT ID="IntegerLiteral">0</FONT>){
+<FONT ID="LN">275 </FONT><A NAME="275"></A>                        occurences[j]*=<FONT ID="FloatPointLiteral">1.0</FONT>/((<FONT ID="Double">double</FONT>)consideredMoves.length()/(<FONT ID="Double">double</FONT>)(patternNr+<FONT ID="IntegerLiteral">1</FONT>));
+<FONT ID="LN">276 </FONT><A NAME="276"></A>                        <FONT ID="If">if</FONT>(occurences[j] &gt;= efficiency){
+<FONT ID="LN">277 </FONT><A NAME="277"></A>                            efficiency = occurences[j];
+<FONT ID="LN">278 </FONT><A NAME="278"></A>                            prediction = possibilities[j];
+<FONT ID="LN">279 </FONT><A NAME="279"></A>                        }
+<FONT ID="LN">280 </FONT><A NAME="280"></A>                    }
+<FONT ID="LN">281 </FONT><A NAME="281"></A>                }
+<FONT ID="LN">282 </FONT><A NAME="282"></A>                patternNr--;
+<FONT ID="LN">283 </FONT><A NAME="283"></A>            }
+<FONT ID="LN">284 </FONT><A NAME="284"></A>        }<FONT ID="Catch">catch</FONT>(NullPointerException exc){
+<FONT ID="LN">285 </FONT><A NAME="285"></A>            
+<FONT ID="LN">286 </FONT><A NAME="286"></A>        }<FONT ID="Catch">catch</FONT>(IndexOutOfBoundsException exc){
+<FONT ID="LN">287 </FONT><A NAME="287"></A>            
+<FONT ID="LN">288 </FONT><A NAME="288"></A>        }
+<FONT ID="LN">289 </FONT><A NAME="289"></A>        <FONT ID="Return">return</FONT> prediction;
+<FONT ID="LN">290 </FONT><A NAME="290"></A>    }
+<FONT ID="LN">291 </FONT><A NAME="291"></A>    <FONT ID="Public">public</FONT> <FONT ID="Int">int</FONT>[] determineMove(<FONT ID="Int">int</FONT>[] playerPos,<FONT ID="Int">int</FONT>[] myPos, <FONT ID="Int">int</FONT>[] bestCoverPos, <FONT ID="Double">double</FONT> bestCover, <FONT ID="Int">int</FONT>[] bestHeightPos, <FONT ID="Double">double</FONT> maxHeightModifier, <FONT ID="Boolean">boolean</FONT> hasActed, HashMap&lt;<FONT ID="Double">double</FONT>[][],Double&gt; covers, <FONT ID="Int">int</FONT> mobIndex){
+<FONT ID="LN">292 </FONT><A NAME="292"></A>        
+<FONT ID="LN">293 </FONT><A NAME="293"></A>        <FONT ID="SingleLineComment">// positions, distances and health perc get calculated, both of enemy and player
+<FONT ID="LN">294 </FONT><A NAME="294"></A></FONT>        <FONT ID="SingleLineComment">// width and height of map window get calculated, path gets initiated
+<FONT ID="LN">295 </FONT><A NAME="295"></A></FONT>        <FONT ID="Int">int</FONT>[] newPos = <FONT ID="New">new</FONT> <FONT ID="Int">int</FONT>[<FONT ID="IntegerLiteral">2</FONT>];
+<FONT ID="LN">296 </FONT><A NAME="296"></A>        newPos[<FONT ID="IntegerLiteral">0</FONT>] = myPos[<FONT ID="IntegerLiteral">0</FONT>];
+<FONT ID="LN">297 </FONT><A NAME="297"></A>        newPos[<FONT ID="IntegerLiteral">1</FONT>] = myPos[<FONT ID="IntegerLiteral">1</FONT>];
+<FONT ID="LN">298 </FONT><A NAME="298"></A>        <FONT ID="Double">double</FONT> myHealthPerc = (<FONT ID="Double">double</FONT>)HP/(<FONT ID="Double">double</FONT>)maxHP;
+<FONT ID="LN">299 </FONT><A NAME="299"></A>        <FONT ID="Double">double</FONT> plHealthPerc = (<FONT ID="Double">double</FONT>)RPGMain.speler.getHP()/(<FONT ID="Double">double</FONT>)RPGMain.speler.getMaxHP();
+<FONT ID="LN">300 </FONT><A NAME="300"></A>        <FONT ID="Double">double</FONT> distance = <FONT ID="New">new</FONT> Point(playerPos[<FONT ID="IntegerLiteral">0</FONT>],playerPos[<FONT ID="IntegerLiteral">1</FONT>]).distance(myPos[<FONT ID="IntegerLiteral">0</FONT>],myPos[<FONT ID="IntegerLiteral">1</FONT>]);
+<FONT ID="LN">301 </FONT><A NAME="301"></A>        <FONT ID="Int">int</FONT> width = GameFrameCanvas.battlefield.getWidth();
+<FONT ID="LN">302 </FONT><A NAME="302"></A>        <FONT ID="Int">int</FONT> height = GameFrameCanvas.battlefield.getHeight();
+<FONT ID="LN">303 </FONT><A NAME="303"></A>        ArrayList&lt;<FONT ID="Int">int</FONT>[]&gt; path = <FONT ID="New">new</FONT> ArrayList&lt;<FONT ID="Int">int</FONT>[]&gt;();
+<FONT ID="LN">304 </FONT><A NAME="304"></A>        
+<FONT ID="LN">305 </FONT><A NAME="305"></A>        <FONT ID="SingleLineComment">// in melee range
+<FONT ID="LN">306 </FONT><A NAME="306"></A></FONT>        <FONT ID="If">if</FONT>(distance*Battlefield.sizeInMeter/width &lt; Data.abilities.get(<FONT ID="IntegerLiteral">0</FONT>).getRange()[<FONT ID="IntegerLiteral">1</FONT>]){
+<FONT ID="LN">307 </FONT><A NAME="307"></A>            <FONT ID="Switch">switch</FONT>(intelligence){
+<FONT ID="LN">308 </FONT><A NAME="308"></A>            <FONT ID="SingleLineComment">// least intelligent, will always stay in melee range
+<FONT ID="LN">309 </FONT><A NAME="309"></A></FONT>            <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">1</FONT>: <FONT ID="Break">break</FONT>;
+<FONT ID="LN">310 </FONT><A NAME="310"></A>            <FONT ID="SingleLineComment">// will stay in melee until below 33% health, then run away, or if better at ranged
+<FONT ID="LN">311 </FONT><A NAME="311"></A></FONT>            <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">2</FONT>: <FONT ID="If">if</FONT>(myHealthPerc &lt; <FONT ID="FloatPointLiteral">0.34</FONT> || boog.getStrength() &gt; wapen.getStrength()){
+<FONT ID="LN">312 </FONT><A NAME="312"></A>                        <FONT ID="SingleLineComment">// newPos = oldPos + movement*cos(theta) for x, sin(theta) for y
+<FONT ID="LN">313 </FONT><A NAME="313"></A></FONT>                        <FONT ID="SingleLineComment">// min, max so that it stays in playing field
+<FONT ID="LN">314 </FONT><A NAME="314"></A></FONT>                        newPos[<FONT ID="IntegerLiteral">0</FONT>] = Math.max(<FONT ID="IntegerLiteral">0</FONT>,Math.min(width-<FONT ID="IntegerLiteral">2</FONT>*Global.playerSize, myPos[<FONT ID="IntegerLiteral">0</FONT>] + (<FONT ID="Int">int</FONT>)(movement*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">0</FONT>]-playerPos[<FONT ID="IntegerLiteral">0</FONT>])/distance))));
+<FONT ID="LN">315 </FONT><A NAME="315"></A>                        newPos[<FONT ID="IntegerLiteral">1</FONT>] = Math.max(<FONT ID="IntegerLiteral">0</FONT>,Math.min(height-<FONT ID="IntegerLiteral">2</FONT>*Global.playerSize,myPos[<FONT ID="IntegerLiteral">1</FONT>] + (<FONT ID="Int">int</FONT>)(movement*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">1</FONT>]-playerPos[<FONT ID="IntegerLiteral">1</FONT>])/distance))));
+<FONT ID="LN">316 </FONT><A NAME="316"></A>                    }
+<FONT ID="LN">317 </FONT><A NAME="317"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">318 </FONT><A NAME="318"></A>            <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">3</FONT>: <FONT ID="If">if</FONT>(bestCover &gt; <FONT ID="IntegerLiteral">0</FONT> &amp;&amp; ((plHealthPerc-myHealthPerc) &lt; <FONT ID="FloatPointLiteral">0.2</FONT> || (bestCover &lt; <FONT ID="FloatPointLiteral">0.6</FONT> &amp;&amp; boog.getStrength() &gt; wapen.getStrength()))){
+<FONT ID="LN">319 </FONT><A NAME="319"></A>                        newPos[<FONT ID="IntegerLiteral">0</FONT>] = bestCoverPos[<FONT ID="IntegerLiteral">0</FONT>];
+<FONT ID="LN">320 </FONT><A NAME="320"></A>                        newPos[<FONT ID="IntegerLiteral">1</FONT>] = bestCoverPos[<FONT ID="IntegerLiteral">1</FONT>];
+<FONT ID="LN">321 </FONT><A NAME="321"></A>                    }
+<FONT ID="LN">322 </FONT><A NAME="322"></A>                    <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(maxHeightModifier &gt; <FONT ID="IntegerLiteral">0</FONT> &amp;&amp; (!hasActed || boog.getStrength() &gt; wapen.getStrength())){
+<FONT ID="LN">323 </FONT><A NAME="323"></A>                        newPos[<FONT ID="IntegerLiteral">0</FONT>] = bestHeightPos[<FONT ID="IntegerLiteral">0</FONT>];
+<FONT ID="LN">324 </FONT><A NAME="324"></A>                        newPos[<FONT ID="IntegerLiteral">1</FONT>] = bestHeightPos[<FONT ID="IntegerLiteral">1</FONT>];
+<FONT ID="LN">325 </FONT><A NAME="325"></A>                    }
+<FONT ID="LN">326 </FONT><A NAME="326"></A>                    <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(myHealthPerc &lt; <FONT ID="FloatPointLiteral">0.34</FONT> || boog.getStrength() &gt; wapen.getStrength()){
+<FONT ID="LN">327 </FONT><A NAME="327"></A>                        newPos[<FONT ID="IntegerLiteral">0</FONT>] = Math.max(<FONT ID="IntegerLiteral">0</FONT>,Math.min(width-<FONT ID="IntegerLiteral">2</FONT>*Global.playerSize, myPos[<FONT ID="IntegerLiteral">0</FONT>] + (<FONT ID="Int">int</FONT>)(movement*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">0</FONT>]-playerPos[<FONT ID="IntegerLiteral">0</FONT>])/distance))));
+<FONT ID="LN">328 </FONT><A NAME="328"></A>                        newPos[<FONT ID="IntegerLiteral">1</FONT>] = Math.max(<FONT ID="IntegerLiteral">0</FONT>,Math.min(height-<FONT ID="IntegerLiteral">2</FONT>*Global.playerSize,myPos[<FONT ID="IntegerLiteral">1</FONT>] + (<FONT ID="Int">int</FONT>)(movement*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">1</FONT>]-playerPos[<FONT ID="IntegerLiteral">1</FONT>])/distance))));
+<FONT ID="LN">329 </FONT><A NAME="329"></A>                    }
+<FONT ID="LN">330 </FONT><A NAME="330"></A>            }
+<FONT ID="LN">331 </FONT><A NAME="331"></A>        }
+<FONT ID="LN">332 </FONT><A NAME="332"></A>        <FONT ID="SingleLineComment">// out of melee range
+<FONT ID="LN">333 </FONT><A NAME="333"></A></FONT>        <FONT ID="Else">else</FONT>{
+<FONT ID="LN">334 </FONT><A NAME="334"></A>            <FONT ID="Switch">switch</FONT>(intelligence){
+<FONT ID="LN">335 </FONT><A NAME="335"></A>            <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">1</FONT>: newPos[<FONT ID="IntegerLiteral">0</FONT>] = myPos[<FONT ID="IntegerLiteral">0</FONT>] - (<FONT ID="Int">int</FONT>)(Math.min(distance - <FONT ID="IntegerLiteral">2</FONT>*Global.playerSize, movement)*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">0</FONT>]-playerPos[<FONT ID="IntegerLiteral">0</FONT>])/distance));
+<FONT ID="LN">336 </FONT><A NAME="336"></A>                    newPos[<FONT ID="IntegerLiteral">1</FONT>] = myPos[<FONT ID="IntegerLiteral">1</FONT>] - (<FONT ID="Int">int</FONT>)(Math.min(distance - <FONT ID="IntegerLiteral">2</FONT>*Global.playerSize, movement)*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">1</FONT>]-playerPos[<FONT ID="IntegerLiteral">1</FONT>])/distance));
+<FONT ID="LN">337 </FONT><A NAME="337"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">338 </FONT><A NAME="338"></A>            <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">2</FONT>: <FONT ID="If">if</FONT>(myHealthPerc &lt; <FONT ID="FloatPointLiteral">0.34</FONT>){
+<FONT ID="LN">339 </FONT><A NAME="339"></A>                        <FONT ID="SingleLineComment">// newPos = oldPos + movement*cos(theta) for x, sin(theta) for y
+<FONT ID="LN">340 </FONT><A NAME="340"></A></FONT>                        <FONT ID="SingleLineComment">// min, max so that it stays in playing field
+<FONT ID="LN">341 </FONT><A NAME="341"></A></FONT>                        newPos[<FONT ID="IntegerLiteral">0</FONT>] = Math.max(<FONT ID="IntegerLiteral">0</FONT>,Math.min(width-<FONT ID="IntegerLiteral">2</FONT>*Global.playerSize, myPos[<FONT ID="IntegerLiteral">0</FONT>] + (<FONT ID="Int">int</FONT>)(movement*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">0</FONT>]-playerPos[<FONT ID="IntegerLiteral">0</FONT>])/distance))));
+<FONT ID="LN">342 </FONT><A NAME="342"></A>                        newPos[<FONT ID="IntegerLiteral">1</FONT>] = Math.max(<FONT ID="IntegerLiteral">0</FONT>,Math.min(height-<FONT ID="IntegerLiteral">2</FONT>*Global.playerSize,myPos[<FONT ID="IntegerLiteral">1</FONT>] + (<FONT ID="Int">int</FONT>)(movement*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">1</FONT>]-playerPos[<FONT ID="IntegerLiteral">1</FONT>])/distance))));
+<FONT ID="LN">343 </FONT><A NAME="343"></A>                    }
+<FONT ID="LN">344 </FONT><A NAME="344"></A>                    <FONT ID="Else">else</FONT>{
+<FONT ID="LN">345 </FONT><A NAME="345"></A>                        newPos[<FONT ID="IntegerLiteral">0</FONT>] = myPos[<FONT ID="IntegerLiteral">0</FONT>] - (<FONT ID="Int">int</FONT>)(Math.min(distance - <FONT ID="IntegerLiteral">2</FONT>*Global.playerSize, movement)*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">0</FONT>]-playerPos[<FONT ID="IntegerLiteral">0</FONT>])/distance));
+<FONT ID="LN">346 </FONT><A NAME="346"></A>                        newPos[<FONT ID="IntegerLiteral">1</FONT>] = myPos[<FONT ID="IntegerLiteral">1</FONT>] - (<FONT ID="Int">int</FONT>)(Math.min(distance - <FONT ID="IntegerLiteral">2</FONT>*Global.playerSize, movement)*((<FONT ID="Double">double</FONT>)(myPos[<FONT ID="IntegerLiteral">1</FONT>]-playerPos[<FONT ID="IntegerLiteral">1</FONT>])/distance));
+<FONT ID="LN">347 </FONT><A NAME="347"></A>                    }
+<FONT ID="LN">348 </FONT><A NAME="348"></A>                    <FONT ID="Break">break</FONT>;
+<FONT ID="LN">349 </FONT><A NAME="349"></A>                    <FONT ID="SingleLineComment">//TODO next cases
+<FONT ID="LN">350 </FONT><A NAME="350"></A></FONT>            }
+<FONT ID="LN">351 </FONT><A NAME="351"></A>        }
+<FONT ID="LN">352 </FONT><A NAME="352"></A>        path = Global.calculatePath(myPos, playerPos, (<FONT ID="Int">int</FONT>)(movement*GameFrameCanvas.battlefield.getWidth()/Battlefield.sizeInMeter), covers,<FONT ID="True">true</FONT>);
+<FONT ID="LN">353 </FONT><A NAME="353"></A>        <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;path.size();j++){
+<FONT ID="LN">354 </FONT><A NAME="354"></A>            GameFrameCanvas.battlefield.updateBattlefield(covers, playerPos, path.get(j),mobIndex);
+<FONT ID="LN">355 </FONT><A NAME="355"></A>            <FONT ID="Try">try</FONT>{
+<FONT ID="LN">356 </FONT><A NAME="356"></A>                Thread.sleep(<FONT ID="IntegerLiteral">1000</FONT>/<FONT ID="IntegerLiteral">24</FONT>);
+<FONT ID="LN">357 </FONT><A NAME="357"></A>            } <FONT ID="Catch">catch</FONT>(InterruptedException exc){
+<FONT ID="LN">358 </FONT><A NAME="358"></A>                
+<FONT ID="LN">359 </FONT><A NAME="359"></A>            }
+<FONT ID="LN">360 </FONT><A NAME="360"></A>            <FONT ID="If">if</FONT>(j == path.size()-<FONT ID="IntegerLiteral">1</FONT>){
+<FONT ID="LN">361 </FONT><A NAME="361"></A>                <FONT ID="Return">return</FONT> path.get(path.size()-<FONT ID="IntegerLiteral">1</FONT>);
+<FONT ID="LN">362 </FONT><A NAME="362"></A>            }
+<FONT ID="LN">363 </FONT><A NAME="363"></A>        }
+<FONT ID="LN">364 </FONT><A NAME="364"></A>        <FONT ID="Return">return</FONT> myPos;
+<FONT ID="LN">365 </FONT><A NAME="365"></A>    }
+<FONT ID="LN">366 </FONT><A NAME="366"></A>    <FONT ID="Public">public</FONT> String determineAction(<FONT ID="Int">int</FONT>[] playerPos, <FONT ID="Int">int</FONT>[] myPos, <FONT ID="Boolean">boolean</FONT> hasMoved){
+<FONT ID="LN">367 </FONT><A NAME="367"></A>        
+<FONT ID="LN">368 </FONT><A NAME="368"></A>        Random generator = <FONT ID="New">new</FONT> Random();
+<FONT ID="LN">369 </FONT><A NAME="369"></A>        
+<FONT ID="LN">370 </FONT><A NAME="370"></A>        <FONT ID="SingleLineComment">// health perc and distance get calculated
+<FONT ID="LN">371 </FONT><A NAME="371"></A></FONT>        <FONT ID="Double">double</FONT> enHealthPerc = (<FONT ID="Double">double</FONT>)HP/(<FONT ID="Double">double</FONT>)maxHP;
+<FONT ID="LN">372 </FONT><A NAME="372"></A>        <FONT ID="Double">double</FONT> plHealthPerc = (<FONT ID="Double">double</FONT>)RPGMain.speler.getHP()/(<FONT ID="Double">double</FONT>)RPGMain.speler.getMaxHP();
+<FONT ID="LN">373 </FONT><A NAME="373"></A>        <FONT ID="Double">double</FONT> distance = <FONT ID="New">new</FONT> Point(playerPos[<FONT ID="IntegerLiteral">0</FONT>],playerPos[<FONT ID="IntegerLiteral">1</FONT>]).distance(myPos[<FONT ID="IntegerLiteral">0</FONT>],myPos[<FONT ID="IntegerLiteral">1</FONT>])/GameFrameCanvas.battlefield.getWidth()*Battlefield.sizeInMeter;
+<FONT ID="LN">374 </FONT><A NAME="374"></A>        System.out.println(<FONT ID="StringLiteral">"In determineAction"</FONT>);
+<FONT ID="LN">375 </FONT><A NAME="375"></A>        
+<FONT ID="LN">376 </FONT><A NAME="376"></A>        <FONT ID="SingleLineComment">// stance is default at defensive
+<FONT ID="LN">377 </FONT><A NAME="377"></A></FONT>        String stance = <FONT ID="StringLiteral">" d"</FONT>;
+<FONT ID="LN">378 </FONT><A NAME="378"></A>        <FONT ID="SingleLineComment">// possible targets to aim at
+<FONT ID="LN">379 </FONT><A NAME="379"></A></FONT>        String[] targets = {<FONT ID="StringLiteral">"head"</FONT>,<FONT ID="StringLiteral">"torso"</FONT>,<FONT ID="StringLiteral">"legs"</FONT>};
+<FONT ID="LN">380 </FONT><A NAME="380"></A>        <FONT ID="SingleLineComment">// check what target is best defended
+<FONT ID="LN">381 </FONT><A NAME="381"></A></FONT>        <FONT ID="Int">int</FONT> strongest = <FONT ID="IntegerLiteral">0</FONT>;
+<FONT ID="LN">382 </FONT><A NAME="382"></A>        <FONT ID="Int">int</FONT> defense = <FONT ID="IntegerLiteral">0</FONT>;
+<FONT ID="LN">383 </FONT><A NAME="383"></A>        <FONT ID="For">for</FONT>(<FONT ID="Int">int</FONT> j=<FONT ID="IntegerLiteral">0</FONT>;j&lt;<FONT ID="IntegerLiteral">3</FONT>;j++){
+<FONT ID="LN">384 </FONT><A NAME="384"></A>            <FONT ID="If">if</FONT>(defense &lt; RPGMain.speler.getDefense(j)){
+<FONT ID="LN">385 </FONT><A NAME="385"></A>                defense = RPGMain.speler.getDefense(j);
+<FONT ID="LN">386 </FONT><A NAME="386"></A>                strongest = j;
+<FONT ID="LN">387 </FONT><A NAME="387"></A>            }
+<FONT ID="LN">388 </FONT><A NAME="388"></A>        }
+<FONT ID="LN">389 </FONT><A NAME="389"></A>        <FONT ID="SingleLineComment">// choose other part to target at, so it is not the strongest one
+<FONT ID="LN">390 </FONT><A NAME="390"></A></FONT>        String toHit = targets[strongest];
+<FONT ID="LN">391 </FONT><A NAME="391"></A>        <FONT ID="While">while</FONT>(toHit.equalsIgnoreCase(targets[strongest])){
+<FONT ID="LN">392 </FONT><A NAME="392"></A>            toHit = targets[generator.nextInt(<FONT ID="IntegerLiteral">3</FONT>)];
+<FONT ID="LN">393 </FONT><A NAME="393"></A>        }
+<FONT ID="LN">394 </FONT><A NAME="394"></A>        
+<FONT ID="LN">395 </FONT><A NAME="395"></A>        <FONT ID="Switch">switch</FONT>(intelligence){
+<FONT ID="LN">396 </FONT><A NAME="396"></A>        <FONT ID="SingleLineComment">// always in offensive stance, uniform target
+<FONT ID="LN">397 </FONT><A NAME="397"></A></FONT>        <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">1</FONT>: <FONT ID="If">if</FONT>(distance &lt; Data.abilities.get(<FONT ID="IntegerLiteral">0</FONT>).getRange()[<FONT ID="IntegerLiteral">1</FONT>]){
+<FONT ID="LN">398 </FONT><A NAME="398"></A>                    <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"hit "</FONT> + targets[generator.nextInt(<FONT ID="IntegerLiteral">3</FONT>)] + <FONT ID="StringLiteral">" o"</FONT>;
+<FONT ID="LN">399 </FONT><A NAME="399"></A>                }
+<FONT ID="LN">400 </FONT><A NAME="400"></A>                <FONT ID="SingleLineComment">// if better at ranged: shoot, else charge
+<FONT ID="LN">401 </FONT><A NAME="401"></A></FONT>                <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(boog.getStrength() &gt; wapen.getStrength()){
+<FONT ID="LN">402 </FONT><A NAME="402"></A>                    <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"shoot "</FONT> + targets[generator.nextInt(<FONT ID="IntegerLiteral">3</FONT>)] + <FONT ID="StringLiteral">" o"</FONT>;
+<FONT ID="LN">403 </FONT><A NAME="403"></A>                }
+<FONT ID="LN">404 </FONT><A NAME="404"></A>                <FONT ID="Else">else</FONT>{
+<FONT ID="LN">405 </FONT><A NAME="405"></A>                    <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"charge "</FONT> + targets[generator.nextInt(<FONT ID="IntegerLiteral">3</FONT>)];
+<FONT ID="LN">406 </FONT><A NAME="406"></A>                }
+<FONT ID="LN">407 </FONT><A NAME="407"></A>        <FONT ID="SingleLineComment">// if health &gt; 30%, offensive, else into defensive, rest same as above
+<FONT ID="LN">408 </FONT><A NAME="408"></A></FONT>        <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">2</FONT>: <FONT ID="If">if</FONT>(enHealthPerc &gt; <FONT ID="FloatPointLiteral">0.3</FONT>){
+<FONT ID="LN">409 </FONT><A NAME="409"></A>                    stance = <FONT ID="StringLiteral">" o"</FONT>;
+<FONT ID="LN">410 </FONT><A NAME="410"></A>                }
+<FONT ID="LN">411 </FONT><A NAME="411"></A>                <FONT ID="If">if</FONT>(distance &lt; Data.abilities.get(<FONT ID="IntegerLiteral">0</FONT>).getRange()[<FONT ID="IntegerLiteral">1</FONT>]){
+<FONT ID="LN">412 </FONT><A NAME="412"></A>                    <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"hit "</FONT> + targets[generator.nextInt(<FONT ID="IntegerLiteral">3</FONT>)] + stance;
+<FONT ID="LN">413 </FONT><A NAME="413"></A>                }
+<FONT ID="LN">414 </FONT><A NAME="414"></A>                <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(boog.getStrength() &gt; wapen.getStrength()){
+<FONT ID="LN">415 </FONT><A NAME="415"></A>                    <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"shoot "</FONT> + targets[generator.nextInt(<FONT ID="IntegerLiteral">3</FONT>)] + stance;
+<FONT ID="LN">416 </FONT><A NAME="416"></A>                }
+<FONT ID="LN">417 </FONT><A NAME="417"></A>                <FONT ID="Else">else</FONT>{
+<FONT ID="LN">418 </FONT><A NAME="418"></A>                    <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"charge "</FONT> + targets[generator.nextInt(<FONT ID="IntegerLiteral">3</FONT>)];
+<FONT ID="LN">419 </FONT><A NAME="419"></A>                }
+<FONT ID="LN">420 </FONT><A NAME="420"></A>        <FONT ID="SingleLineComment">// compares player and own health perc, will try to stun if possible, rest same as above    
+<FONT ID="LN">421 </FONT><A NAME="421"></A></FONT>        <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">3</FONT>: <FONT ID="If">if</FONT>((enHealthPerc-plHealthPerc) &gt; <FONT ID="FloatPointLiteral">0.2</FONT>){
+<FONT ID="LN">422 </FONT><A NAME="422"></A>                    stance = <FONT ID="StringLiteral">" o"</FONT>;
+<FONT ID="LN">423 </FONT><A NAME="423"></A>                }
+<FONT ID="LN">424 </FONT><A NAME="424"></A>                <FONT ID="If">if</FONT>(distance &lt; <FONT ID="IntegerLiteral">35</FONT>){
+<FONT ID="LN">425 </FONT><A NAME="425"></A>                    <FONT ID="If">if</FONT>(hasStun()){
+<FONT ID="LN">426 </FONT><A NAME="426"></A>                        <FONT ID="SingleLineComment">//TODO see commentary on ability-class on Blackberry
+<FONT ID="LN">427 </FONT><A NAME="427"></A></FONT>                        <FONT ID="Return">return</FONT> <FONT ID="Null">null</FONT>;
+<FONT ID="LN">428 </FONT><A NAME="428"></A>                    }
+<FONT ID="LN">429 </FONT><A NAME="429"></A>                    <FONT ID="Else">else</FONT>{
+<FONT ID="LN">430 </FONT><A NAME="430"></A>                        <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"hit "</FONT> + toHit + stance;
+<FONT ID="LN">431 </FONT><A NAME="431"></A>                    }
+<FONT ID="LN">432 </FONT><A NAME="432"></A>                }
+<FONT ID="LN">433 </FONT><A NAME="433"></A>                <FONT ID="Else">else</FONT> <FONT ID="If">if</FONT>(boog.getStrength() &gt; wapen.getStrength()){
+<FONT ID="LN">434 </FONT><A NAME="434"></A>                    <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"shoot "</FONT> + toHit + stance;
+<FONT ID="LN">435 </FONT><A NAME="435"></A>                }
+<FONT ID="LN">436 </FONT><A NAME="436"></A>                <FONT ID="Else">else</FONT>{
+<FONT ID="LN">437 </FONT><A NAME="437"></A>                    <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"charge "</FONT> + toHit;
+<FONT ID="LN">438 </FONT><A NAME="438"></A>                }
+<FONT ID="LN">439 </FONT><A NAME="439"></A>        
+<FONT ID="LN">440 </FONT><A NAME="440"></A>        <FONT ID="Case">case</FONT> <FONT ID="IntegerLiteral">4</FONT>: 
+<FONT ID="LN">441 </FONT><A NAME="441"></A>        }
+<FONT ID="LN">442 </FONT><A NAME="442"></A>        
+<FONT ID="LN">443 </FONT><A NAME="443"></A>        
+<FONT ID="LN">444 </FONT><A NAME="444"></A>        <FONT ID="Return">return</FONT> <FONT ID="Null">null</FONT>;
+<FONT ID="LN">445 </FONT><A NAME="445"></A>    }
+<FONT ID="LN">446 </FONT><A NAME="446"></A>}
+<FONT ID="LN">447 </FONT><A NAME="447"></A></pre>
+</BODY>
+</HTML>

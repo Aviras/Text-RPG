@@ -1,0 +1,22 @@
+if(actionTarget == null){
+	RPGMain.printText(true, "You must specify a target.");
+	return;
+}
+try{
+	int i = Integer.parseInt(actionTarget) - 1;
+	try{
+		if(hostA.lineOfSight(playerCoord,enemyCoords.get(i),covers)){
+			targetIndex = i;
+			enemyPortrait.setVisible(true);
+			target.updateHPBar();
+			dungeonMap.setPlayerTargetIndex(targetIndex);
+		}
+		else{
+			RPGMain.printText(true, "That enemy is not visible.");
+		}
+	}catch(IndexOutOfBoundsException e){
+		RPGMain.printText(true, "Invalid target.");
+	}
+} catch(NumberFormatException e){
+	RPGMain.printText(true, "\"" + actionTarget + "\"" + " is not a valid target. Write a number.");
+}

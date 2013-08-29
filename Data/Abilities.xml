@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Abilities>
+  <ability id="0">
+    <name>Hit</name>
+    <command>hit</command>
+    <type>physical melee</type>
+    <targets>head;body;legs</targets>
+    <duration>1</duration>
+    <cooldown>0</cooldown>
+    <range>0;1</range>
+    <cost>5;5;5</cost>
+    <script>Data/Scripts/Hit.bsh</script>
+  </ability>
+  <ability id="1">
+    <name>Shoot</name>
+    <command>shoot</command>
+    <type>physical ranged</type>
+    <targets>head;body;legs</targets>
+    <duration>1</duration>
+    <cooldown>0</cooldown>
+    <range>1;30</range>
+    <cost>5;5;5</cost>
+    <script>Data/Scripts/Shoot.bsh</script>
+  </ability>
+  <ability id="2">
+    <name>Inspect</name>
+    <command>inspect</command>
+    <type>misc</type>
+    <targets>null</targets>
+    <duration>1</duration>
+    <cooldown>0</cooldown>
+    <range>0;50</range>
+    <cost>0;0;0</cost>
+    <script>Data/Scripts/Inspect.bsh</script>
+  </ability>
+  <ability id="3">
+    <name>Charge</name>
+    <command>charge</command>
+    <type>physical melee</type>
+    <targets>head;body;legs</targets>
+    <duration>1</duration>
+    <cooldown>1</cooldown>
+    <range>1;20</range>
+    <cost>10;10;10</cost>
+    <script>Data/Scripts/Charge.bsh</script>
+  </ability>
+  <ability id="4">
+    <name>Push</name>
+    <command>push</command>
+    <type>physical melee</type>
+    <targets>null</targets>
+    <duration>1</duration>
+    <cooldown>0</cooldown>
+    <range>0;1</range>
+    <cost>2;2;2</cost>
+    <script>Data/Scripts/Push.bsh</script>
+  </ability>
+  <ability id="5">
+    <name>Racial #1</name>
+    <command>racial</command>
+    <type>physical melee</type>
+    <targets>null</targets>
+    <duration>1</duration>
+    <cooldown>10</cooldown>
+    <range>0;1</range>
+    <cost>10;10;10</cost>
+    <script>Data/Scripts/Racial_1.bsh</script>
+  </ability>
+</Abilities>

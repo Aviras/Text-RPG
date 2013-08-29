@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Quests>
+  <Quest id="0">
+    <name>Missing Brother</name>
+    <level>1</level>
+    <objective>Item:0</objective>
+    <maxprogress>1</maxprogress>
+    <prerequisites>-1;</prerequisites>
+    <rewardtype>gold</rewardtype>
+    <reward>20</reward>
+  </Quest>
+  <Quest id="1">
+    <name>Unidentified Scroll</name>
+    <level>1</level>
+    <objective>Item:0</objective>
+    <maxprogress>1</maxprogress>
+    <prerequisites>0;</prerequisites>
+    <rewardtype>gold</rewardtype>
+    <reward>20</reward>
+  </Quest>
+</Quests>

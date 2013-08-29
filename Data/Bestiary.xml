@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Bestiary>
+  <Enemy id="0">
+    <path>Lore/Bestiary/Orc</path>
+    <content>1;The orcs are fierce and strong, though slightly less gifted in the intellectual department. That doesn't stop them from ripping your arm off and hitting you with it until you pass out though. </content>
+    <death>All grows silent as the gaze of the Orc meets yours, and you see the life fading away from those fiery eyes. It collapses onto the floor, and suddenly you become aware of sound again. The anguished cry of that dying throat probably alarmed the entire area. Great.</death>
+  </Enemy>
+</Bestiary>

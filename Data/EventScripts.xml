@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<EventScripts>
+  <TownEvent name="Fire">
+    <script>Data/Scripts/Fire.bsh</script>
+    <description>
+    <townTalk gravity="1">There has been a fire in townName, windDirection of here. The fire was contained quite rapidly, but still a part of the village has burned down. A few families died in the fire before they could be rescued.</townTalk>
+    <townTalk gravity="2">Apparently there has been a fire in townName, windDirection of here. The village is nearly burned to the ground. A few survivors were able to flee to this city, but it seems like many didn't survive the flames. You think you overheard the fire started from the Inn.</townTalk>
+    <destroyedDistrict></destroyedDistrict>
+    <destroyedCity></destroyedCity>
+    </description>
+  </TownEvent>
+</EventScripts>
