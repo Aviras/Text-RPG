@@ -10,6 +10,20 @@ db/sql
 # generated log files
 Gamelog.log.*
 
+# Periferal files
+Periferal Files
+
+# Other file directories
+Sounds
+SoundsFull
+Textures
+images
+Images
+ImagesFull
+Libraries
+SaveGames
+.*
+
 # AssetBundler plugin: generated bundles
 javascripts/bundles
 stylesheets/bundles

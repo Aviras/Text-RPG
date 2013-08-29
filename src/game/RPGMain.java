@@ -302,6 +302,8 @@ public class RPGMain extends SwingWorker<Void,String> {
 			logger.info("Abilities loaded.");
 			data.loadEnemies(new File("Data/Enemies.xml"));
 			logger.info("Enemies loaded.");
+			data.loadArtifacts(new File("Data/Artifacts.xml"));
+			logger.info("Artifacts loaded.");
 			data.loadHostileAreas(new File("Data/HostileAreas.xml"));
 			logger.info("Hostile Areas loaded.");
 			data.loadTowns(new File("Data/Towns.xml"));
