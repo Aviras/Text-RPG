@@ -1901,6 +1901,20 @@ public class HostileArea extends Location implements Serializable {
 							e.printStackTrace();
 						}
 					}
+					else if(type.equalsIgnoreCase("Surprise Quest")){
+						RPGMain.speler.addQuest(id);
+					}
+					else if(type.equalsIgnoreCase("Artifact Discovery")){
+						RPGMain.printText(true, "You uncover an ancient artifact. It looks like a " + Data.artifacts.get(id).getName() + ".");
+						try{
+							Global.pauseProg();
+						} catch(InterruptedException e){
+							e.printStackTrace();
+							logger.error(e);
+						}
+						
+						Data.artifacts.get(id).activate(true);
+					}
 					else if(type.equalsIgnoreCase("Trap")){
 						//TODO
 					}

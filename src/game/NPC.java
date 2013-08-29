@@ -468,28 +468,6 @@ public class NPC extends Data implements Serializable {
 				if(talkType.equalsIgnoreCase("newQuest") && !interrupted){
 					RPGMain.printText(true, "You take notice of what he says, and write the information safely in your logbook.");
 					RPGMain.speler.addQuest(answerValue);
-					try {
-						doc = parser.build(new File("Data/QuestDialog.xml"));
-						Element root = doc.getRootElement();
-						List<Element> children = root.getChildren();
-						Iterator<Element> i = children.iterator();
-						while(i.hasNext()){
-							Element el = i.next();
-							if(el.getAttributeValue("id").equalsIgnoreCase("" + answerValue)){
-								try{
-									Logbook.addContent("Story/Quests/" + el.getAttributeValue("name"), 1, el.getChild("summary").getTextTrim());
-								} catch(NullPointerException e){
-									logger.error("Need a summary for logbook for quest ID " + el.getAttributeValue("id"));
-								}
-							}
-						}
-					} catch (JDOMException e) {
-						e.printStackTrace();
-						logger.debug(e);
-					} catch (IOException e) {
-						e.printStackTrace();
-						logger.debug(e);
-					}
 				}
 				else if(talkType.equalsIgnoreCase("complQuest") && !interrupted){
 					if(reqQuestID == answerValue){

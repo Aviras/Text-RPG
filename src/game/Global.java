@@ -42,6 +42,8 @@ public class Global implements Serializable{
 	
 	public static TreeMap<Double,ArrayList<int[]>> queue = new TreeMap<Double,ArrayList<int[]>>();
 	
+	public static ArrayList<Integer> artifactsDiscovered = new ArrayList<Integer>();
+	
 	public static final int playerSize = 14;
 	public static int coverSize = 180;
 	
@@ -68,6 +70,25 @@ public class Global implements Serializable{
 		RPGMain.printText(true, "");
 		GameFrameCanvas.textField.setEnabled(true);
 		GameFrameCanvas.textField.requestFocus();
+	}
+	public static void addDiscoveredArtifactID(int ID, boolean playerFound){
+		artifactsDiscovered.add(ID);
+		
+		//TODO remove the artifact in the world if it was discovered by an npc
+	}
+	public static void increaseKnowledge(String type, int amount){
+		if(type.equalsIgnoreCase("culture")){
+			
+		}
+		else if(type.equalsIgnoreCase("military")){
+			
+		}
+		else if(type.equalsIgnoreCase("religion")){
+			
+		}
+		else if(type.equalsIgnoreCase("economy")){
+			
+		}
 	}
 	// Send messages to server, interpreted at server
 	public static void message(String message){

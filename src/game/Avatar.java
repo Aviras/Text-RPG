@@ -1,13 +1,21 @@
 package game;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 
 public class Avatar extends Wezen implements Serializable{
@@ -974,6 +982,30 @@ public class Avatar extends Wezen implements Serializable{
 	public void addQuest(int ID){
 		questlog.add(Data.quests.get(ID));
 		RPGMain.printText(true, "Acquired: \"" + getQuest(ID).getNaam() + "\".");
+		
+		try {
+			SAXBuilder parser = new SAXBuilder();
+			Document doc = parser.build(new File("Data/QuestDialog.xml"));
+			Element root = doc.getRootElement();
+			List<Element> children = root.getChildren();
+			Iterator<Element> i = children.iterator();
+			while(i.hasNext()){
+				Element el = i.next();
+				if(el.getAttributeValue("id").equalsIgnoreCase("" + ID)){
+					try{
+						Logbook.addContent("Story/Quests/" + el.getAttributeValue("name"), 1, el.getChild("summary").getTextTrim());
+					} catch(NullPointerException e){
+						logger.error("Need a summary for logbook for quest ID " + ID);
+					}
+				}
+			}
+		} catch (JDOMException e) {
+			e.printStackTrace();
+			logger.debug(e);
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.debug(e);
+		}
 		for(Item i: inventory.keySet()){
 			Data.quests.get(ID).checkProgress(i.getClass().getName().split("\\.")[1], i.getID());
 		}
