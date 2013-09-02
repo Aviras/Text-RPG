@@ -44,6 +44,7 @@ public class HostileArea extends Location implements Serializable {
 	private String category,type;
 	private String weather;
 	private ArrayList<int[]> playerPath = new ArrayList<int[]>();
+	private HashMap<Integer,int[]> artifacts;
 	private HashMap<Integer,DungeonRoom[][]> dungeon;
 	private int WIDTH,HEIGHT,SWIMTIREDNESS = 8;
 	private int[] playerPos = new int[2];
@@ -136,6 +137,20 @@ public class HostileArea extends Location implements Serializable {
 						}
 					}
 				}
+				else if(child.getName().equalsIgnoreCase("artifact")){
+					if(artifacts == null){
+						artifacts = new HashMap<Integer,int[]>();
+					}
+					String eventType = child.getAttributeValue("type");
+					
+					try{
+						artifacts.put(Integer.parseInt(eventType.split(":")[1]), new int[]{X,Y,Z});
+						dungeon.get(Z)[X][Y].setDungeonEvent(eventType, child.getTextTrim());
+					} catch(Exception e){
+						e.printStackTrace();
+						logger.error(e);
+					}
+				}
 			} catch(Exception e){
 				e.printStackTrace();
 				logger.debug("Exception thrown for " + child.getName() + " in " + name + " for x=" + X + ", y=" + Y + ", z=" + Z + ", z1=" + z1 + ", z2=" + z2, e);
@@ -147,6 +162,14 @@ public class HostileArea extends Location implements Serializable {
 	}
 	public HashMap<Integer,DungeonRoom[][]> getDungeon(){
 		return dungeon;
+	}
+	public HashMap<Integer,int[]> getArtifacts(){
+		return artifacts;
+	}
+	public void removeArtifact(int ID){
+		int[] artifactPos = artifacts.get(ID);
+		dungeon.get(artifactPos[2])[artifactPos[0]][artifactPos[1]].removeEvent();
+		artifacts.remove(ID);
 	}
 	public void buildMap(Element dungeonMap){
 
@@ -164,14 +187,12 @@ public class HostileArea extends Location implements Serializable {
 		if(lines.length == 1){
 			lines = heightMap.split("\n");
 		}
-		logger.info("Number of lines: " + lines.length);
 		lines = trimStringArray(lines);
 		HEIGHT = lines.length;
 		WIDTH = 0;
 		for(String str: lines){
 			if(str.length() > WIDTH) WIDTH = str.length();
 		}
-		logger.info("HEIGHT: " + HEIGHT + " WIDTH: " + WIDTH);
 		DungeonRoom[][] mainLevel = new DungeonRoom[WIDTH][HEIGHT];
 		
 		for(int k=0;k<HEIGHT;k++){
@@ -687,6 +708,9 @@ public class HostileArea extends Location implements Serializable {
 		public void addEvent(DungeonEvent event){
 			this.event = event;
 		}
+		public void removeEvent(){
+			event = null;
+		}
 		public boolean hasAliveEnemies(){
 			for(Enemy mob: mobs){
 				if(!mob.checkDood()){
@@ -857,6 +881,7 @@ public class HostileArea extends Location implements Serializable {
 						// put it back on a random place in the map, only possible for the general height map
 						/*dungeon.get(0)[generator.nextInt(WIDTH)][generator.nextInt(HEIGHT)].addEvent(event);
 						event = null;*/
+						logger.debug("Returning a position since newPos from event is not null. " + newPos[0] + "," + newPos[1]);
 						return new int[] {newPos[0] - playerPos[0],newPos[1] - playerPos[1]};
 					}
 				}
@@ -1769,6 +1794,7 @@ public class HostileArea extends Location implements Serializable {
 			}
 			public DungeonEvent(String type, int id){
 				this.type = type;
+				this.id = id;
 			}
 			public int[] doAction(){
 				if(npc != null){

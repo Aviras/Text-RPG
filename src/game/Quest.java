@@ -113,12 +113,20 @@ public class Quest extends Data implements Serializable {
 		}
 	}
 	public boolean meetsRequirements(){
+		// has done previous quests necessary for this one
 		for(int i: prerequisites){
 			if(i != -1 && !RPGMain.speler.isQuestCompleted(i)){
 				return false;
 			}
 		}
-		
+		// if objective is discovery of an artifact, make sure it isn't discovered yet by an npc
+		if(objectType.equalsIgnoreCase("artifact")){
+			for(int id: Global.artifactsDiscovered){
+				if(id == objectID){
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 	public void complete(){

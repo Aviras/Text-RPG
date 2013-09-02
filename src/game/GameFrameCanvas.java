@@ -85,7 +85,7 @@ public class GameFrameCanvas extends JPanel{
 		        if(!text.isEmpty() || Global.pause){
 			        printText(text + "\n", "sienna");
 			        RPGMain.recieveMessage(text);
-			        textField.selectAll();
+			        textField.setText("");
 	
 			        //Make sure the new text is visible, even if there
 			        //was a selection in the text area.

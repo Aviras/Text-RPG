@@ -1,5 +1,7 @@
 package game;
 
+import game.HostileArea.DungeonRoom;
+
 import java.util.*;
 import java.awt.Point;
 import java.io.*;
@@ -74,7 +76,32 @@ public class Global implements Serializable{
 	public static void addDiscoveredArtifactID(int ID, boolean playerFound){
 		artifactsDiscovered.add(ID);
 		
-		//TODO remove the artifact in the world if it was discovered by an npc
+		boolean found = false;
+		
+		if(!playerFound){
+			for(int j=0;j<Data.wereld.length;j++){
+				for(int k=0;k<Data.wereld[0].length;k++){
+					if(!found && Data.wereld[j][k] instanceof HostileArea){
+						HostileArea h = (HostileArea)Data.wereld[j][k];
+						HashMap<Integer,int[]> localArtifacts = h.getArtifacts();
+						if(localArtifacts != null){
+							for(int id: localArtifacts.keySet()){
+								if(id == ID){
+									h.removeArtifact(ID);
+									found = true;
+									logger.debug("Found and removed the artifact (ID:" + id + ") in HostileArea " + h.getName() + " at " + 
+											h.getPositie()[0] + "," + h.getPositie()[1] + ", at " + 
+											localArtifacts.get(id)[0] + "," + localArtifacts.get(id)[1] + "," + localArtifacts.get(id)[2] + ".");
+									//normally, artifact should only exist in one place
+									break;
+								}
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 	public static void increaseKnowledge(String type, int amount){
 		if(type.equalsIgnoreCase("culture")){

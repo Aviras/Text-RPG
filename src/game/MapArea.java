@@ -669,8 +669,10 @@ public class MapArea extends JPanel implements KeyListener{
 				try{
 					//when on the normal play area, level 0
 					if(elevation.get(currentLevel)[playerPos[0] + x[0]][playerPos[1] + x[1]] != 10){
-						//TODO make random string
-						String random = "Random";
+						String random = "";
+						for(int j=0;j<10;j++){
+							random+=Global.generator.nextInt(10);
+						}
 						HostileArea.setKeyCode(random);
 						
 						RPGMain.recieveMessage(random);
