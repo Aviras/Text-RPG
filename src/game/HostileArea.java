@@ -766,6 +766,22 @@ public class HostileArea extends Location implements Serializable {
 			
 			logger.debug("Past weather stuff");
 			
+			if(RPGMain.speler.getMovementMode().equalsIgnoreCase("running")){
+				if(Math.random() < 0.5/Math.pow(RPGMain.speler.getStamina(),1.5)){
+					RPGMain.speler.addStamina(1);
+				}
+			}
+			else if(RPGMain.speler.getMovementMode().equalsIgnoreCase("walking")){
+				if(Math.random() < 0.5/Math.pow(RPGMain.speler.getStamina(),2)){
+					RPGMain.speler.addStamina(1);
+				}
+			}
+			else{
+				if(Math.random() < 0.5/Math.pow(RPGMain.speler.getStamina(),2.5)){
+					RPGMain.speler.addStamina(1);
+				}
+			}
+			
 			double distToWater = 100;
 			double distToEntrance = 0;
 			
@@ -1042,22 +1058,6 @@ public class HostileArea extends Location implements Serializable {
 			else if(direction.equalsIgnoreCase("south")){
 				dir[0] = 0;
 				dir[1] = 1;
-			}
-			
-			if(RPGMain.speler.getMovementMode().equalsIgnoreCase("running")){
-				if(Math.random() < 0.5/Math.pow(RPGMain.speler.getStamina(),1.5)){
-					RPGMain.speler.addStamina(1);
-				}
-			}
-			else if(RPGMain.speler.getMovementMode().equalsIgnoreCase("walking")){
-				if(Math.random() < 0.5/Math.pow(RPGMain.speler.getStamina(),2)){
-					RPGMain.speler.addStamina(1);
-				}
-			}
-			else{
-				if(Math.random() < 0.5/Math.pow(RPGMain.speler.getStamina(),2.5)){
-					RPGMain.speler.addStamina(1);
-				}
 			}
 			
 			//TODO

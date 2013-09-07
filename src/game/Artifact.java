@@ -3,8 +3,8 @@ package game;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.jdom.Element;
 
 import bsh.EvalError;
@@ -20,6 +20,7 @@ public class Artifact extends Item {
 	private String effect, script;
 	private boolean canCarry;
 	private HashMap<Integer,String> extractedInfo;
+	private static Logger logger = Logger.getLogger(Artifact.class);
 	
 	public Artifact(Integer id, String name, String description, String effect, Integer amount, Integer worth, Integer difficulty, boolean canCarry, String logbookpath, Element logbookSummaries){
 		super(id,name,description,0.0,-1,logbookpath,null);
@@ -112,9 +113,9 @@ public class Artifact extends Item {
 	public void activate(boolean playerFound){
 		//what has to happen?
 		/*
-		 * 1) Show the description
+		 * 1) Show the description 
 		 * 2) if present, execute the attached script
-		 * 3) put info in logbook
+		 * 3) print extracted info and put it in logbook
 		 * 4) reward player and show effect on society
 		 * 5) add artifact to inventory if possible
 		 * 6) check if its discovery completed some quest
@@ -123,26 +124,7 @@ public class Artifact extends Item {
 		
 		int level = (int)(Math.max(1.0, Math.min(3.0, 2.0*RPGMain.speler.getErudition()/difficulty)));
 		
-		RPGMain.printText(true, description);
-		
-		//execute script if present
-		if(script != null){
-			try {
-				//TODO set beanShell values
-				Global.beanShell.eval(script);
-			} catch (EvalError e) {
-				e.printStackTrace();
-			}
-		}
-		
-		RPGMain.printText(true, extractedInfo.get(level));
-		
 		double multiplier = (double)level/2.0;
-		
-		//TODO reward player
-		// possibilities: 
-		// * make an Item as a letter with the description being a letter format. Have to hand it in somewhere
-		RPGMain.printText(true,"You note your findings in a letter to the capital.");
 		
 		//effect on society
 		Global.increaseKnowledge(effect, (int)(multiplier*amount));
@@ -150,24 +132,68 @@ public class Artifact extends Item {
 		//put it in the list of already discovered artifacts
 		Global.addDiscoveredArtifactID(ID, playerFound);
 		
-		//put info in logbook
-		Logbook.addContent(logbookPath, 0, description);
-		Logbook.addContent(logbookPath, 1, extractedInfo.get(level));
+		// only if it was the player that discovered the artifact
+		if(playerFound){
+			
+			RPGMain.printText(true, description);
+			
+			//execute script if present
+			if(script != null){
+				try {
+					//TODO set beanShell values
+					Global.beanShell.eval(script);
+				} catch (EvalError e) {
+					e.printStackTrace();
+				}
+			}
+			
+			RPGMain.printText(true,"You try to decipher what it could mean, or what it could have been used for.");
+			
+			try{
+				Global.pauseProg();
+			} catch(InterruptedException e){
+				e.printStackTrace();
+				logger.error(e);
+			}
+			
+			RPGMain.printText(true, extractedInfo.get(level));
+			
+			// create small minigame for extracting info, it gets easier/harder dependent on the ratio erudition/difficulty
+			// minigame based on lockpick (perhaps in an abstract form), information was being saved in containers, more important information has harder coding
+			// different layers of security, each layer gives new information
+			
+			//TODO reward player
+			// possibilities for delivering the info: 
+			// * make an Item as a letter with the description being a letter format. Have to hand it in somewhere
+			// * use something like a post pigeon to deliver your message to the HQ
+			// * create instant travel to cities, and be able to quickly get back to where you left off
+			// * 
+			RPGMain.printText(true,"You note your findings in a letter to the capital.");
 		
-		//add it to inventory if player can carry it
-		if(canCarry){
-			RPGMain.speler.addInventoryItem(this);
-			RPGMain.printText(true, "You recieved " + name + ".");
-		}
-		
-		//add new quest if it gives one
-		if(questID >= 0){
-			RPGMain.speler.addQuest(questID);
-		}
-		
-		// check if its discovery completed some quest
-		for(Quest q: RPGMain.speler.getQuestLog()){
-			q.checkProgress("Artifact", ID);
+			//put info in logbook
+			Logbook.addContent(logbookPath, 0, description);
+			Logbook.addContent(logbookPath, 1, extractedInfo.get(level));
+			
+			//add it to inventory if player can carry it
+			if(canCarry){
+				RPGMain.speler.addInventoryItem(this);
+				RPGMain.printText(true, "You recieved " + name + ".");
+			}
+			
+			// check if its discovery completed some quest
+			for(Quest q: RPGMain.speler.getQuestLog()){
+				q.checkProgress("Artifact", ID);
+			}
+			
+			//add new quest if it gives one, player doesn't have it already (somehow) and hasn't completed it before (somehow)
+			if(questID >= 0 && RPGMain.speler.getQuest(questID) == null && !RPGMain.speler.isQuestCompleted(questID)){
+				RPGMain.speler.addQuest(questID);
+			}
+			
+			// increase erudition
+			//TODO check influence of amount
+			int addEr = (int)Math.abs((4+level)*(1+amount)*Global.generator.nextGaussian()) + 1;
+			RPGMain.speler.addErudition(addEr);
 		}
 		
 	}
