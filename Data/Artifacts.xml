@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Artifacts>
+  <Artifact id="0">
+    <name>TestArtifact</name>
+    <description>This is a description.</description>
+    <effect>culture</effect>
+    <amount>5</amount>
+    <worth>100</worth>
+    <difficulty>15</difficulty>
+    <canCarry>true</canCarry>
+    <logbookPath>Lore/Artifacts/TestArtifact</logbookPath>
+    <Info>
+      <info level="1">Test 1</info>
+      <info level="2">Test 2</info>
+    </Info>
+  </Artifact>
+</Artifacts>

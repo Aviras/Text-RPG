@@ -163,6 +163,9 @@ public class NPC extends Data implements Serializable {
 	public String getName(){
 		return name;
 	}
+	public String getFullName(){
+		return name + " (" + function + ")";
+	}
 	public int getConversationTreeID(){
 		return conversationTreeID;
 	}
