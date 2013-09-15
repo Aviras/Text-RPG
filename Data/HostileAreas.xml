@@ -1028,6 +1028,7 @@ oooooooooooooooooooooooooooooooooooooooo
 <event x="17" y="2" z="-1" type="Text encounter:-1">There are some cloven bones lying around. Some are more fresh than others.</event>
 <event x="18" y="3" z="-1" type="Text encounter:-1">A trail of dried blood is visible in the murky sand. Vague footprints reveal only three legs. A wounded predator is all the more dangerous..</event>
 <event x="21" y="7" z="-1" type="Surprise Item:0">This seems to be the remaining skeleton of a fallen warrior. This must be Darius. He seems to be holding a Paper Scroll, still tightly gripped is his hand.</event>
+<event x="25" y="1" z="0" type="Artifact:0">You notice an artifact.</event>
 <entrance x="4" y="20" z1="0" z2="-1">
 	<text z="0">A small hollowed out cave appears in the side of the hill.</text>
 	<text z="-1">As you exit the cave you have a nice view of the river flowing beneath you.</text>

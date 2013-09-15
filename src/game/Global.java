@@ -40,7 +40,7 @@ public class Global implements Serializable{
 	public static ReadWriteTextFile rwtext = new ReadWriteTextFile();
 	public static SoundEngine soundEngine = new SoundEngine();
 	public static boolean busy = false;
-	public static int culture,military,religion,economy;
+	public static int culture,technology,religion,economy;
 	
 	public static TreeMap<Double,ArrayList<int[]>> queue = new TreeMap<Double,ArrayList<int[]>>();
 	

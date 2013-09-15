@@ -251,6 +251,58 @@ public class HostileArea extends Location implements Serializable {
 		// different description when entering
 		
 	}
+	public String getPositionDescription(){
+		String text = "";
+		String terrainType = dungeon.get(currentLevel)[playerPos[0]][playerPos[1]].getTerrainType();
+		
+		if(currentLevel == 0){
+			if(terrainType.equalsIgnoreCase("water")){
+				text+=" in a river,";
+			}
+		}
+		else if(currentLevel < 0){
+			if(terrainType.equalsIgnoreCase("water")){
+				text+=" in a small pool";
+			}
+			text+=" in a cave,";
+		}
+		else if(currentLevel > 0){
+			text+=" up high in the trees,";
+		}
+		
+		double heightRatio = (double)playerPos[1]/(double)HEIGHT;
+		double widthRatio = (double)playerPos[0]/(double)WIDTH;
+		
+		text+=" in the ";
+		
+		if(heightRatio < 0.33){
+			text+="North";
+		}
+		else if(heightRatio > 0.66){
+			text+="South";
+		}
+		if(widthRatio < 0.33){
+			if(heightRatio < 0.33 || heightRatio > 0.66){
+				text+="-";
+			}
+			text+="West";
+		}
+		else if(widthRatio > 0.66){
+			if(heightRatio < 0.33 || heightRatio > 0.66){
+				text+="-";
+			}
+			text+="East";
+		}
+		
+		text+=" of " + naam;
+		
+		//TODO
+		/*if(category.equalsIgnoreCase("forest")){
+			text+=" woods.";
+		}*/
+		
+		return text;
+	}
 	public static void setKeyCode(String s){
 		keyCode = s;
 	}
@@ -1930,7 +1982,7 @@ public class HostileArea extends Location implements Serializable {
 					else if(type.equalsIgnoreCase("Surprise Quest")){
 						RPGMain.speler.addQuest(id);
 					}
-					else if(type.equalsIgnoreCase("Artifact Discovery")){
+					else if(type.equalsIgnoreCase("Artifact")){
 						RPGMain.printText(true, "You uncover an ancient artifact. It looks like a " + Data.artifacts.get(id).getName() + ".");
 						try{
 							Global.pauseProg();
@@ -1940,6 +1992,10 @@ public class HostileArea extends Location implements Serializable {
 						}
 						
 						Data.artifacts.get(id).activate(true);
+						
+						if(Data.artifacts.get(id).getCanCarry()){
+							active = false;
+						}
 					}
 					else if(type.equalsIgnoreCase("Trap")){
 						//TODO

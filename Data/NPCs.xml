@@ -9,11 +9,14 @@
 		<conversation_tree_id>0</conversation_tree_id>
 		<soundGreet>m00_hello.mp3</soundGreet>
 		<soundFarewell>m00_goodbye.mp3</soundFarewell>
-		<mentalstate>frightened</mentalstate>
-		<Quests>
-		  <starts>0;1</starts>
-		  <ends>0</ends>
-		</Quests>
+		<extraOptions>
+      <mentalstate>frightened</mentalstate>
+      <Quests>
+        <starts>0;1</starts>
+        <ends>0</ends>
+      </Quests>
+      <function>scientist</function>
+		</extraOptions>
 	</NPC>
 	<NPC id="1">
 	  <name>Theresa</name>
@@ -35,9 +38,11 @@
 	  <conversation_tree_id>0</conversation_tree_id>
 	  <soundGreet>f02_hello.mp3</soundGreet>
 	  <soundFarewell>f02_goodbye.mp3</soundFarewell>
-	  <Quests>
-	    <ends>1</ends>
-	  </Quests>
+	  <extraOptions>
+      <Quests>
+        <ends>1</ends>
+      </Quests>
+	  </extraOptions>
 	</NPC>
 	<NPC id="4">
 	  <name>Talec</name>

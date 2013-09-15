@@ -19,7 +19,7 @@ public class NPC extends Data implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected String name,soundGreet,soundFarewell,description,activeArea;
+	protected String name,soundGreet,soundFarewell,description,activeArea,function;
 	private int ID,conversationTreeID,reqQuestID;
 	private HashMap<String,Double> emotionValues;
 	private double importance;
@@ -41,8 +41,9 @@ public class NPC extends Data implements Serializable {
 		this.soundFarewell = soundFarewell;
 		prepareEmoValues();
 	}
-	//npc with quests
-	public NPC(Integer ID,String name,String gender,Integer conversationTreeID,String soundGreet,String soundFarewell, Element quests){
+	
+	// npc with extra options
+	public NPC(Integer ID,String name,String gender,Integer conversationTreeID,String soundGreet,String soundFarewell, Element extraOptions){
 		this.ID = ID;
 		this.name = name;
 		this.gender = gender;
@@ -50,19 +51,31 @@ public class NPC extends Data implements Serializable {
 		this.soundGreet = soundGreet;
 		this.soundFarewell = soundFarewell;
 		prepareEmoValues();
-		manageQuests(quests);
-	}
-	// npc with quests and definite mentalstate
-	public NPC(Integer ID,String name,String gender,Integer conversationTreeID,String soundGreet,String soundFarewell,String mentalState, Element quests){
-		this.ID = ID;
-		this.name = name;
-		this.gender = gender;
-		this.conversationTreeID = conversationTreeID;
-		this.soundGreet = soundGreet;
-		this.soundFarewell = soundFarewell;
-		prepareEmoValues();
-		addEmotionValue(mentalState,1.0);
-		manageQuests(quests);
+		
+		// extra options
+		try{
+			manageQuests(extraOptions.getChild("Quests"));
+		} catch(Exception e){
+			e.printStackTrace();
+			logger.error(e);
+		}
+		
+		try{
+			String mentalState = extraOptions.getChildText("mentalState");
+			if(mentalState != null && !mentalState.equalsIgnoreCase("")){
+				addEmotionValue(mentalState,1.0);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+			logger.error(e);
+		}
+		
+		try{
+			function = extraOptions.getChildText("function");
+		} catch(Exception e){
+			logger.error(e);
+			e.printStackTrace();
+		}
 	}
 	// key person
 	public NPC(Integer ID,String name,String gender,Integer conversationTreeID,String soundGreet,String soundFarewell,String description,String activeArea,Double importance, int requiredQuestID, Element quests){
@@ -283,6 +296,11 @@ public class NPC extends Data implements Serializable {
 				int j = 2;
 				RPGMain.printText(true,"1: Small talk");
 				possibleAnswers.put(1, -1);
+				if(function.equalsIgnoreCase("scientist")){
+					RPGMain.printText(true, j + ": Talk about new Artifact Discoveries.");
+					possibleAnswers.put(j, -2);
+					j++;
+				}
 				try{
 					for(int i: questIDs[0]){
 						logger.debug("Starts quest ID " + i);
@@ -307,7 +325,7 @@ public class NPC extends Data implements Serializable {
 					logger.error(exc);
 				}
 				RPGMain.printText(false, j + ": Cancel\n>");
-				possibleAnswers.put(j, -2);
+				possibleAnswers.put(j, -3);
 
 				try {
 					answer = Integer.parseInt(RPGMain.waitForMessage());
@@ -336,7 +354,9 @@ public class NPC extends Data implements Serializable {
 									}
 								}
 								break;
-					case -2:	Global.soundEngine.playSound("Sounds/Voices/" + soundFarewell, "effects", 0, 0, 0, true);
+					case -2:	handleArtifacts();
+								break;
+					case -3:	Global.soundEngine.playSound("Sounds/Voices/" + soundFarewell, "effects", 0, 0, 0, true);
 								return;
 					default:	doc = parser.build(new File("Data/QuestDialog.xml"));
 								root = doc.getRootElement();
@@ -484,6 +504,118 @@ public class NPC extends Data implements Serializable {
 		}
 		
 		isTalking = false;
+	}
+	
+	public void handleArtifacts(){
+		/* What has to happen here?
+		 * 1) Check what artifacts player has discovered
+		 * 2) Present a menu to let player choose which artifact to discuss
+		 * 3) Give a message of how you hand it to him and his reaction, based on the importance and type of artifact
+		 * 4) Check whether the player has an item corresponding to the ID of the letter
+		 * 5) If player has item, ask him to hand it over for more cash so that other can study it
+		 * 6) Reward player in cash depending on how much they learned from it and its own value
+		 * 7) Increase society parameter
+		 */
+		
+		//TODO
+		while(true){
+			
+			RPGMain.printText(true,"\'My dear adventurer, you have found some artifacts?\', says " + name + " with a hopeful expression.");
+			int j = 1;
+			
+			HashMap<Item,Integer> inv = RPGMain.speler.getInventory();
+			ArrayList<Integer> artifactIDs = new ArrayList<Integer>();
+			
+			for(Item i: inv.keySet()){
+				if(i.getName().startsWith("Letter")){
+					RPGMain.printText(true,j + ": Report about the " + i.getName().split(": ")[1]);
+					artifactIDs.add(-i.getID());
+					j++;
+				}
+			}
+			if(j > 1){
+				RPGMain.printText(false, j + ": Cancel\n>");
+			}
+			else{
+				RPGMain.printText(true,"You have nothing to report.");
+				try {
+					Global.pauseProg();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					logger.error(e);
+				}
+				break;
+			}
+			
+			try{
+				int choice = Integer.parseInt(RPGMain.waitForMessage());
+				
+				if(choice < j && choice > 0){
+					int artifactID = artifactIDs.get(choice-1);
+					
+					Artifact a = Data.artifacts.get(artifactID);
+					
+					int discoveredInfoPhase = a.getDiscoveredInfo();
+					//TODO more variation + change gender
+					switch(discoveredInfoPhase){
+					case 1:	RPGMain.printText(true,name + " carefully reads your report. \'It is obvious we need to study this further,\', he says, \'but you help our people as a whole by this discovery.\'");
+							break;
+					case 2: RPGMain.printText(true, name + " carefully reads your report, and is visibly intrigued.");
+					}
+					
+					int modifier = 0;
+					
+					if(RPGMain.speler.hasItem(a.getName())){
+						RPGMain.printText(false,"Also hand in " + a.getName() + ", so that it can be further studied? [y/n]\n>");
+						String s = RPGMain.waitForMessage().toLowerCase();
+						
+						if(s.startsWith("y")){
+							modifier = 1;
+							RPGMain.speler.delInventoryItem(a);
+						}
+					}
+					
+					int reward = (int)(a.getWorth()*discoveredInfoPhase/2.0) + modifier*a.getWorth();
+					
+					RPGMain.speler.addGoud(reward);
+					
+					RPGMain.printText(true, name + " hands you over " + reward + " gold pieces, for your hard work and contribution to society. It will be soon to that your info reaches the other scientists in the capital.");
+					
+					//effect on society
+					Global.increaseKnowledge(a.getEffect(), (int)(discoveredInfoPhase*a.getAmount()/2.0));
+					
+					//destroy the letter
+					Item letter = null;
+					for(Item i: RPGMain.speler.getInventory().keySet()){
+						if(i.getID() == -artifactID && i.getName().startsWith("Letter")){
+							logger.debug("Deleting letter with ID " + i.getID());
+							letter = i;
+							break;
+						}
+					}
+					if(letter != null){
+						RPGMain.speler.delInventoryItem(letter);
+					}
+					
+					//there was only one artifact to report, so stop method
+					if(j == 2){
+						break;
+					}
+				}
+				else if(choice > j || choice < 0){
+					RPGMain.printText(true, "Not a valid option.");
+				}
+				else{
+					break;
+				}
+			} catch(NumberFormatException e){
+				RPGMain.printText(true, "Not a valid option.");
+				continue;
+			} catch(InterruptedException e){
+				e.printStackTrace();
+				logger.error(e);
+			}
+		}
 	}
 
 	/*for(int i:questIDs){
