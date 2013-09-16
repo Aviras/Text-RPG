@@ -650,7 +650,7 @@ public class MapArea extends JPanel implements KeyListener{
 			} catch(ArrayIndexOutOfBoundsException e){
 			}
 		}
-
+		//TODO take weight and damage to legs into account
 		int mod = Math.max(1, (int)(1000.0/(widthRatio*HostileArea.KEYSLEEPPERIOD*speed)));
 		
 		if(progress%mod == 0 && elevation.get(currentLevel)[playerPos[0] + (int)(extraPlayerMovement[0]/widthRatio)][playerPos[1] + (int)(extraPlayerMovement[1]/heightRatio)] != 10){

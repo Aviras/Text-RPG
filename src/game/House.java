@@ -71,7 +71,7 @@ public class House extends DistrictLocation implements Serializable{
 			if(!npcs.isEmpty())
 				RPGMain.printText(true, "Persons present:");
 			for(NPC n: npcs){
-				RPGMain.printText(true, new String[]{"* ", "Talk to ", n.getName()}, new String[]{"regular","bold","regular"});
+				RPGMain.printText(true, new String[]{"* ", "Talk to ", n.getFullName()}, new String[]{"regular","bold","regular"});
 			}
 			
 			if(!items.isEmpty())

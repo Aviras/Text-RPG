@@ -687,7 +687,17 @@ public class Logbook implements Serializable{
 		}
 		public LogbookNode addChild(String name){
 			LogbookNode l = new LogbookNode(name);
-			children.add(l);
+	
+			int index = children.size();
+			for(int j=0;j<children.size();j++){
+				if(children.get(j).getName().compareToIgnoreCase(name) > 0){
+					index = j;
+					break;
+				}
+			}
+			children.add(index, l);
+			logger.debug("New Node added. " + name + " in " + nodeName);
+			
 			return l;
 		}
 		public void addShortcut(String path){

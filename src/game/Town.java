@@ -733,7 +733,7 @@ public class Town extends Location{
 				if(!presentNPCs.isEmpty()){
 					RPGMain.printText(true, "Present citizens:");
 					for(NPC q:presentNPCs){
-						RPGMain.printText(true, new String[]{"Talk to ", q.getName()}, new String[]{"bold","regular"});
+						RPGMain.printText(true, new String[]{"Talk to ", q.getFullName()}, new String[]{"bold","regular"});
 					}
 				}
 				for(DistrictLocation d:locations){

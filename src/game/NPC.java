@@ -164,7 +164,10 @@ public class NPC extends Data implements Serializable {
 		return name;
 	}
 	public String getFullName(){
-		return name + " (" + function + ")";
+		if(function != null){
+			return name + " (" + function + ")";
+		}
+		return name;
 	}
 	public int getConversationTreeID(){
 		return conversationTreeID;
@@ -240,6 +243,7 @@ public class NPC extends Data implements Serializable {
 		physicalState = s;
 	}
 	public void talk(){
+		// boolean is used to give a description if player changed the NPC's mood, but only while talking to him of course
 		isTalking = true;
 
 		if(physicalState.equalsIgnoreCase("dead")){

@@ -1983,7 +1983,7 @@ public class HostileArea extends Location implements Serializable {
 						RPGMain.speler.addQuest(id);
 					}
 					else if(type.equalsIgnoreCase("Artifact")){
-						RPGMain.printText(true, "You uncover an ancient artifact. It looks like a " + Data.artifacts.get(id).getName() + ".");
+						RPGMain.printText(true, "You uncover an ancient artifact. It looks like a " + Data.artifacts.get(id).getName() + ".","redbold");
 						try{
 							Global.pauseProg();
 						} catch(InterruptedException e){

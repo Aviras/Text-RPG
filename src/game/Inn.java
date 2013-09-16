@@ -47,7 +47,7 @@ public class Inn extends DistrictLocation implements Serializable {
 		if(npcs != null && !npcs.isEmpty()){
 			while(true){
 				for(NPC n: npcs){
-					RPGMain.printText(true, new String[]{"* ", "Talk to ", n.getName()}, new String[]{"regular","bold","regular"});
+					RPGMain.printText(true, new String[]{"* ", "Talk to ", n.getFullName()}, new String[]{"regular","bold","regular"});
 				}
 				RPGMain.printText(false, new String[]{"* ", "Visit", " the bar\n* Cancel\n>"}, new String[]{"regular","bold","regular"});
 				
