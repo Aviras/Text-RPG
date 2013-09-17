@@ -256,6 +256,8 @@ public class NPC extends Data implements Serializable {
 			return;
 		}
 		logger.debug("beyond physical states");
+		
+		
 		//GREETING
 		double reputation = HopeSimulator.getReputation(RPGMain.speler.getCurrentPosition()[0], RPGMain.speler.getCurrentPosition()[1]);
 		logger.debug("Reputation: " + reputation);
@@ -289,7 +291,8 @@ public class NPC extends Data implements Serializable {
 			e.printStackTrace();
 			logger.debug(e);
 		}
-
+		
+		//Decide which conversation to have
 		if(reputation > -10){
 			Global.soundEngine.playSound("Sounds/Voices/" + soundGreet, "effects", 0, 0, 0, true);
 
@@ -523,8 +526,6 @@ public class NPC extends Data implements Serializable {
 		 * 6) Reward player in cash depending on how much they learned from it and its own value
 		 * 7) Increase society parameter
 		 */
-		
-		//TODO
 		while(true){
 			
 			RPGMain.printText(true,"\'My dear adventurer, you have found some artifacts?\', says " + name + " with a hopeful expression.");
@@ -563,17 +564,25 @@ public class NPC extends Data implements Serializable {
 					Artifact a = Data.artifacts.get(artifactID);
 					
 					int discoveredInfoPhase = a.getDiscoveredInfo();
-					//TODO more variation + change gender
+					
+					String g = "he";
+					if(gender.equalsIgnoreCase("female")){
+						g = "she";
+					}
+					//TODO more variation
 					switch(discoveredInfoPhase){
-					case 1:	RPGMain.printText(true,name + " carefully reads your report. \'It is obvious we need to study this further,\', he says, \'but you help our people as a whole by this discovery.\'");
+					case 1:	RPGMain.printText(true,name + " carefully reads your report. \'It is obvious we need to study this further,\', he says, \'but you help our people as a whole by this discovery.\'".replace("he", g));
 							break;
-					case 2: RPGMain.printText(true, name + " carefully reads your report, and is visibly intrigued.");
+					case 2: RPGMain.printText(true, name + " carefully reads your report, and is visibly intrigued. \'You seem to have found a great deal already by yourself,\' he says, \'but I think we are not yet at the bottom of this. Either way, your research cannot go unrewarded, for it is invaluable to the further research. For that, you have my sincere gratitude.\'".replace("he", g));
+							break;
+					case 3: RPGMain.printText(true, name + " carefully reads your report, and is enthused by your findings! \'This is incredible, " + RPGMain.speler.getName() + "! Not only the artifact itself, but also your splendid research on it!\' Visibly thrilled, " + name + " goes looking after your reward all the while thinking out loud what implications this might have for the people.".replace("he", g));
+							break;
 					}
 					
 					int modifier = 0;
 					
 					if(RPGMain.speler.hasItem(a.getName())){
-						RPGMain.printText(false,"Also hand in " + a.getName() + ", so that it can be further studied? [y/n]\n>");
+						RPGMain.printText(false, "Would you also be so kind to hand in " + a.getName() + ", so that it can be further studied? " + name + " asks you with a look of dedication. [y/n]\n>");
 						String s = RPGMain.waitForMessage().toLowerCase();
 						
 						if(s.startsWith("y")){
@@ -586,7 +595,7 @@ public class NPC extends Data implements Serializable {
 					
 					RPGMain.speler.addGoud(reward);
 					
-					RPGMain.printText(true, name + " hands you over " + reward + " gold pieces, for your hard work and contribution to society. It will be soon to that your info reaches the other scientists in the capital.");
+					RPGMain.printText(true, name + " hands you over " + reward + " gold pieces, for your hard work and contribution to society. It will be seen to that your info reaches the other scientists in the capital.");
 					
 					//effect on society
 					Global.increaseKnowledge(a.getEffect(), (int)(discoveredInfoPhase*a.getAmount()/2.0));
@@ -624,52 +633,4 @@ public class NPC extends Data implements Serializable {
 			}
 		}
 	}
-
-	/*for(int i:questIDs){
-	if(RPGMain.speler.getQuest(i) != null){
-		childName = "text_quest_" + i;
-		if(RPGMain.speler.getQuest(i).getCompleted()){
-			childName+="_complete";
-			if(reqQuestID == i){
-				int[] playerPos = RPGMain.speler.getCurrentPosition();
-				HopeSimulator.createHopeCenter(playerPos, importance, 1, "Allied with " + name + ".", true);
-				HopeSimulator.addReputation(playerPos[0], playerPos[1], importance);
-				allied = true;
-			}
-		}
-		else{
-			childName+="_busy";
-		}
-		break;
-	}
-}*/
-
-
-	// check for present quests
-	//Element quest = currentTopElement.getChild("quest");
-	//if there is a quest, the player hasn't done it yet, and not doing it right now
-	/*if(quest != null && RPGMain.speler.getQuest(Integer.parseInt(quest.getTextTrim())) == null && 
-			!RPGMain.speler.isQuestCompleted(Integer.parseInt(quest.getTextTrim()))){
-		RPGMain.printText(true, "You take notice of what he says, and write the information safely in your logbook.");
-		RPGMain.speler.addQuest(Integer.parseInt(quest.getTextTrim()));
-		questIDs.add(Integer.parseInt(quest.getTextTrim()));
-		try {
-			Document doc = parser.build(new File("Data/QuestSummary.xml"));
-			Element root = doc.getRootElement();
-			List<Element> children = root.getChildren();
-			Iterator<Element> i = children.iterator();
-			while(i.hasNext()){
-				Element el = i.next();
-				if(el.getAttributeValue("questID").equalsIgnoreCase(quest.getTextNormalize())){
-					Logbook.addContent("Story/Quests/" + el.getAttributeValue("name"), 1, el.getTextTrim());
-				}
-			}
-		} catch (JDOMException e) {
-			e.printStackTrace();
-			logger.debug(e);
-		} catch (IOException e) {
-			e.printStackTrace();
-			logger.debug(e);
-		}
-	}*/
 }

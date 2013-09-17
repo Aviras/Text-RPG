@@ -13,5 +13,9 @@
       <info level="1">Test 1</info>
       <info level="2">Test 2</info>
     </Info>
+    <extraOptions>
+      <riddle>No sooner spoken than broken. What is it?</riddle>
+      <riddleSolution>Silence</riddleSolution>
+    </extraOptions>
   </Artifact>
 </Artifacts>

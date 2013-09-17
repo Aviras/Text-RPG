@@ -1,7 +1,5 @@
 package game;
 
-import game.HostileArea.DungeonRoom;
-
 import java.util.*;
 import java.awt.Point;
 import java.io.*;
@@ -78,6 +76,7 @@ public class Global implements Serializable{
 		
 		boolean found = false;
 		
+		//remove artifact from world if NPC found it
 		if(!playerFound){
 			for(int j=0;j<Data.wereld.length;j++){
 				for(int k=0;k<Data.wereld[0].length;k++){
@@ -103,19 +102,56 @@ public class Global implements Serializable{
 			}
 		}
 	}
+	
 	public static void increaseKnowledge(String type, int amount){
+		/* What has to happen here?
+		 * 1) increase the respective parameter
+		 * 2) see what effect it has on different aspects of society
+		 * 3) give the player a message, of show him in some way the progress made?
+		 */
 		if(type.equalsIgnoreCase("culture")){
-			
+			culture+=amount;
+			/* What happens when culture is increased?
+			 * 1) More books in existing libraries
+			 * 2) More people becoming scholars
+			 * 3) Build theatre halls and make plays players can attend, or poetry
+			 * 4) Make bards, people travelling and telling stories
+			 * 5) Change conversation trees of NPCs
+			 * 6) Build libraries in towns where they have none
+			 */
 		}
-		else if(type.equalsIgnoreCase("military")){
-			
+		else if(type.equalsIgnoreCase("technology")){
+			technology+=amount;
+			/* What happens when technology is increased?
+			 * 1) Prices in shops become lower due to improvements in farming etc
+			 * 2) Creation of technology guilds, scientists gathering to discuss and create, possibly give new quests
+			 * 3) More people becoming inventors
+			 * 4) New technology items in shops
+			 * 5) 
+			 */
 		}
 		else if(type.equalsIgnoreCase("religion")){
-			
+			religion+=amount;
+			/* What happens when religion is increased?
+			 * 1) Building more churches/religious places
+			 * 2) More people becoming "priests"
+			 * 3) Role of religion still has to be thought out
+			 */
 		}
 		else if(type.equalsIgnoreCase("economy")){
-			
+			economy+=amount;
+			/* What happens when economy is increased?
+			 * 1) Prices become cheaper
+			 * 2) Banks open
+			 * 3) More shops selling different, exotic things
+			 * 4) Travelling becomes cheaper because roads are improved
+			 * 5) Cities become bigger
+			 * 6) Less diseases and bad events due to improved quality of life
+			 * 7) More cash money for discovered artifacts
+			 */
 		}
+		
+		logger.debug("Culture: " + culture + "; Technology: " + technology + "; Religion: " + religion + "; Economy: " + economy);
 	}
 	// Send messages to server, interpreted at server
 	public static void message(String message){

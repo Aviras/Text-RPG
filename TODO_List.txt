@@ -1,0 +1,44 @@
+-------------------------------------
+- TODO LIST FOR TEXT RPG ------------
+-------------------------------------
+
+HIGH PRIORITY
+
+1) Finish up artifacts
+	1.1) Mini games for locks
+	1.2) Sound effects and smoothing out of finding and handing in artifacts
+		1.2.1) Sound effect/Music
+		1.2.2) Smoothing out when finding											DONE
+		1.2.3) Smoothing out when handing in										DONE
+
+2) Effects of society parameters
+	2.1) Basic options, not the advanced ones
+
+3) Skill trees
+	3.1) Figure out how to create a skill class
+	3.2) Construct the actual trees
+	
+MEDIUM PRIORITY
+
+4) Hope system
+	4.1) Check that everything works technically
+	4.2) Check the impact of hope on the world
+
+5) Dynamic Events
+	5.1) Create parameters for dynamic cities
+	5.2) Investigate life/disease of NPCs
+	
+6) Figure out functions of different skills
+	6.1) Create a hunting system
+	6.2) Create a firemaking mini-game, or put it on backburner
+	
+LOW PRIORITY
+
+7) Tutorial Area
+
+8) Finish character Panel
+	8.1) Load the images of gear
+	8.2) Show the right statistics and information on it
+	
+9) Fix sound issues
+	9.1) Discontinuous volume changes
