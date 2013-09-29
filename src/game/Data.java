@@ -33,6 +33,7 @@ public class Data {
 	protected static HashMap<Integer,Consumable> consumables = new HashMap<Integer,Consumable>();
 	protected static HashMap<Integer,Herb> herbs = new HashMap<Integer, Herb>();
 	protected static HashMap<Integer, Artifact> artifacts = new HashMap<Integer, Artifact>();
+	protected static HashMap<Integer, SkillElement> skillElements = new HashMap<Integer, SkillElement>();
 	public static Location[][] wereld;
 	public static SAXBuilder parser = new SAXBuilder();
 	
@@ -105,6 +106,25 @@ public class Data {
 			while(i.hasNext()){
 				testArtifact = (Artifact)Global.rwtext.loadData(Artifact.class, (Element)i.next());
 				artifacts.put(testArtifact.getID(),testArtifact);
+			}
+		} catch (JDOMException e) {
+			e.printStackTrace();
+			logger.debug(e);
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.debug(e);
+		}
+	}
+	public void loadSkillElements(File aFile){
+		SkillElement testSkillElement;
+		try {
+			Document doc = parser.build(aFile);
+			Element root = doc.getRootElement();
+			List<?> objects = root.getChildren();
+			Iterator<?> i = objects.iterator();
+			while(i.hasNext()){
+				testSkillElement = (SkillElement)Global.rwtext.loadData(SkillElement.class, (Element)i.next());
+				skillElements.put(testSkillElement.getID(),testSkillElement);
 			}
 		} catch (JDOMException e) {
 			e.printStackTrace();
@@ -191,7 +211,7 @@ public class Data {
 		}
 	}
 
-	public void loadQNPCs(File aFile){
+	public void loadNPCs(File aFile){
 		NPC testNPC;
 		try {
 			Document doc = parser.build(aFile);

@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,18 +22,18 @@ import javax.swing.SpringLayout;
 
 import org.apache.log4j.Logger;
 
-public class CharacterPanel extends JPanel implements Serializable {
+public class CharacterPanel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private static Logger logger = Logger.getLogger(CharacterPanel.class);
-	private static Canvas canvas;
-	
+	private Canvas canvas;
+
 	public CharacterPanel(){
 		canvas = new Canvas();
 	}
 	
-	public static void showCharacterPanel(){
+	public void showCharacterPanel(){
 		
 		JFrame frame = new JFrame("Character Panel");
 		
@@ -65,7 +66,9 @@ public class CharacterPanel extends JPanel implements Serializable {
 		
 		public Canvas(){
 		}
-		
+		/**
+		 * @wbp.parser.entryPoint
+		 */
 		public void init(){
 			
 			//setBackground(Color.black);

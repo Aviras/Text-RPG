@@ -168,6 +168,12 @@
           <connectedCities>0</connectedCities>
           <npcID>0</npcID>
         </location>
+        <location>
+          <name>Theatre Hall</name>
+          <description>You enter the majestic theatre hall. Its walls are lined with paintings, and the illumination shows the rich decoration of the house. Further back, a stage is visible.</description>
+          <type>culturecentre</type>
+          <performances>0;1;2</performances>
+        </location>
       </district>
     </districts>
   </HaldinsDen>

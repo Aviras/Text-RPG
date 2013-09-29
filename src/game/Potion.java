@@ -70,9 +70,7 @@ public class Potion extends Item implements Serializable {
 				 new BuffTimer(); break;
 		}
 		used = true;
-		try {
-			Global.pauseProg();
-		} catch (InterruptedException e) {}
+		Global.pauseProg();
 	}
 	
 	class BuffTimer extends Thread{

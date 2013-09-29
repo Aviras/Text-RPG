@@ -427,7 +427,13 @@ public class SoundEngine {
 					removeClosed(weatherLines);
 				}
 			}
-			logger.debug("Thread for " + fileNames[index-1] + " has ended.");
+			try{
+				logger.debug("Thread for " + fileNames[index-1] + " has ended.");
+			} catch(ArrayIndexOutOfBoundsException e){
+				logger.debug("Thread ended with ioob exception. " + fileNames[index-2]);
+				e.printStackTrace();
+				logger.error(e);
+			}
 		}
 		private void playSound(){
 			FloatControl volCtrl = null;

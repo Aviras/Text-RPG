@@ -21,13 +21,13 @@ public class RPGMain extends SwingWorker<Void,String> {
 	private static Socket client = null;
 	public static Avatar speler;
 	private static String fieldMessage = null;
-	
+
 	private static final Logger logger = Logger.getLogger(RPGMain.class);
-	
+
 	private static DayLightThread dayLightThread;
-	
+
 	public RPGMain(){
-		
+
 	}
 
 	protected Void doInBackground() throws Exception {
@@ -36,11 +36,11 @@ public class RPGMain extends SwingWorker<Void,String> {
 	}
 
 	public void start()  throws InterruptedException{
-		
+
 		File about = new File("Data/About.xml");
 
 		while(true){
-			
+
 			GameFrameCanvas.enemyPortrait.setVisible(false);
 			GameFrameCanvas.playerPortrait.setVisible(false);
 			GameFrameCanvas.logoPortrait.setVisible(true);
@@ -48,52 +48,52 @@ public class RPGMain extends SwingWorker<Void,String> {
 			GameFrameCanvas.battlefield.setVisible(false);
 			GameFrameCanvas.imagePanel.setVisible(true);
 			GameFrameCanvas.environmentScrollPane.setVisible(false);
-			
+
 			GameFrameCanvas.textPane.setText("");
-			
+
 			// main menu
 			printText(false,"1: New Game\n" +
-							"2: Load Game\n" +
-							"3: Start Multiplayer\n" +
-							"4: About\n" +
-							"5: Exit\n>");
+					"2: Load Game\n" +
+					"3: Start Multiplayer\n" +
+					"4: About\n" +
+					"5: Exit\n>");
 
 			try{
 				switch(Integer.parseInt(waitForMessage())){
 				// NEW GAME
 				case 1: logger.info("Starting new game.");
-						if(Global.online) Global.message(InetAddress.getLocalHost().getHostName() + " is starting a new game.");
-						
-						// Create new player
-						newGame();
-						
-						dayLightThread = new DayLightThread();
-						//starting point, argument is direction where you're going to
-						int[] direction = Data.towns.get(1).main_menu(Town.getDirection(10, 10));
-						//main loop of the game
-						mainLoop(direction);
-						
-						break;
+				if(Global.online) Global.message(InetAddress.getLocalHost().getHostName() + " is starting a new game.");
+
+				// Create new player
+				newGame();
+
+				dayLightThread = new DayLightThread();
+				//starting point, argument is direction where you're going to
+				int[] direction = Data.towns.get(1).main_menu(Town.getDirection(10, 10));
+				//main loop of the game
+				mainLoop(direction);
+
+				break;
 				case 2: logger.info("Loading previous game");
-						loadGame();
-						if(speler != null){
-							if(Global.online) Global.message(InetAddress.getLocalHost().getHostName() + " has loaded a character and is now at " + Data.wereld[speler.getCurrentPosition()[0]][speler.getCurrentPosition()[1]].getName() + ", known as " + speler.getName() + ".");
-							dayLightThread = new DayLightThread();
-							int[] dir = Data.wereld[speler.getCurrentPosition()[0]][speler.getCurrentPosition()[1]].main_menu(Town.getDirection(10, 10));
-							// main loop of the game
-							mainLoop(dir);
-						}
-						
-						break;
+				loadGame();
+				if(speler != null){
+					if(Global.online) Global.message(InetAddress.getLocalHost().getHostName() + " has loaded a character and is now at " + Data.wereld[speler.getCurrentPosition()[0]][speler.getCurrentPosition()[1]].getName() + ", known as " + speler.getName() + ".");
+					dayLightThread = new DayLightThread();
+					int[] dir = Data.wereld[speler.getCurrentPosition()[0]][speler.getCurrentPosition()[1]].main_menu(Town.getDirection(10, 10));
+					// main loop of the game
+					mainLoop(dir);
+				}
+
+				break;
 				case 3: logger.info("Setting up online");
-						setupOnline();
-						break;
+				setupOnline();
+				break;
 				case 4: logger.info("Showing 'About'");
-						printText(true,Global.rwtext.getContent(about, new String[]{"about"}));
-						Global.pauseProg();
-						break;
+				printText(true,Global.rwtext.getContent(about, new String[]{"about"}));
+				Global.pauseProg();
+				break;
 				case 5: logger.info("Exiting game");
-						System.exit(0);
+				System.exit(0);
 				default: break;
 				}
 			}catch(NumberFormatException e){
@@ -105,44 +105,44 @@ public class RPGMain extends SwingWorker<Void,String> {
 			}
 		}
 	}
-	
+
 	public void newGame() throws InterruptedException{
-		
+
 		File race = new File("Data/Races.xml");
-		
+
 		File initializeF = new File("Data/Initialization.xml");
-		
+
 		String s = Global.rwtext.getContent(initializeF, new String[] {"equipment"});
 		String t = Global.rwtext.getContent(initializeF, new String[] {"clothing"});
 
-		
+
 		String[] p = s.split(",");
 		String[] u = t.split(",");
-		
+
 		int[] startEquipmentIDs = new int[p.length];
 		int[] startClothingIDs = new int[u.length];
-		
+
 		for(int j=0;j<p.length;j++){
 			startEquipmentIDs[j] = Integer.parseInt(p[j]);
 		}
 		for(int j=0;j<u.length;j++){
 			startClothingIDs[j] = Integer.parseInt(u[j]);
 		}
-		
+
 		printText(false,"Welcome to Text RPG v0.8...\nHow would you like to be named ?\n>");
 		speler = new Avatar(1,upperCaseSingle(waitForMessage(),0),100,50,0,0,0,0,startEquipmentIDs,startClothingIDs);
-		
+
 		try{
 			if(Global.online){
 				Global.message(InetAddress.getLocalHost().getHostName() + " is now known as " + speler.getName() + ".");
 				Global.message("NAME: " + speler.getName());
 			}
 		} catch(UnknownHostException e){
-			
+
 		}
-		
-		
-		
+
+
+
 		//ASK FOR GENDER
 		String gender = "";
 		while(!(gender.equalsIgnoreCase("m") || gender.equalsIgnoreCase("male")) && !(gender.equalsIgnoreCase("f") || gender.equalsIgnoreCase("female"))){
@@ -180,7 +180,7 @@ public class RPGMain extends SwingWorker<Void,String> {
 				}
 				printText(false,"(Type info <race> for background lore)\n>");
 				String keuze = waitForMessage().toLowerCase().trim();
-				
+
 				// info about race
 				if(keuze.startsWith("info")){
 					keuze = upperCaseSingle(keuze,5);
@@ -218,14 +218,14 @@ public class RPGMain extends SwingWorker<Void,String> {
 		speler.setCurrentPosition(Data.towns.get(0).getPositie());
 		speler.initiateLogbook();
 	}
-	
+
 	public void mainLoop(int[] initialDir){
 		int[] direction = initialDir;
-		
+
 		while(true){
 			// is either initialized from newGame() or from loaded profile of save file
 			int[] prevPos = speler.getCurrentPosition();
-			
+
 			try{
 				// see if weather is different in the next area. If so, give a description of the weather.
 				String newWeather = WeatherSimulator.getWeather(prevPos[0] + direction[0], prevPos[1] + direction[1]);
@@ -274,7 +274,7 @@ public class RPGMain extends SwingWorker<Void,String> {
 			}
 		}
 	}
-	
+
 	// LOAD DATA
 	public static void initialize(){
 		try{
@@ -290,9 +290,11 @@ public class RPGMain extends SwingWorker<Void,String> {
 			logger.info("Consumables loaded.");
 			data.loadSpells(new File("Data/Spells.xml"));
 			logger.info("Spells loaded.");
+			data.loadSkillElements(new File("Data/SkillElements.xml"));
+			logger.info("SkillElements loaded.");
 			data.loadQuests(new File("Data/Quests.xml"));
 			logger.info("Quests loaded.");
-			data.loadQNPCs(new File("Data/NPCs.xml"));
+			data.loadNPCs(new File("Data/NPCs.xml"));
 			logger.info("NPCs loaded.");
 			data.loadItems(new File("Data/Items.xml"));
 			logger.info("Items loaded.");
@@ -312,7 +314,7 @@ public class RPGMain extends SwingWorker<Void,String> {
 			//data.loadSeas(new File("Data/Seas.xml"));
 			data.loadWereld(new File("Data/WorldMap.xml"));
 			logger.info("WorldMap loaded.");
-			
+
 			logger.info("Load succesful");
 		} catch(Exception e){
 			e.printStackTrace();
@@ -341,11 +343,16 @@ public class RPGMain extends SwingWorker<Void,String> {
 	public static void recieveMessage(String message){
 		fieldMessage = message;
 	}
-	public static String waitForMessage(int seconds) throws InterruptedException{
+	public static String waitForMessage(int seconds){
 		long start = System.nanoTime();
-		
+
 		while(fieldMessage == null){
-			Thread.sleep(50);
+			try{
+				Thread.sleep(50);
+			} catch(InterruptedException e){
+				e.printStackTrace();
+				logger.error(e);
+			}
 			if(seconds > 0 && (System.nanoTime()-start)/1000000000 > seconds){
 				printText(true,"Not fast enough");
 				return "";
@@ -355,51 +362,56 @@ public class RPGMain extends SwingWorker<Void,String> {
 		fieldMessage = null;
 		try{
 			Global.busy = true;
-			if(message.equalsIgnoreCase("inventory") || message.equalsIgnoreCase("inv")){
-				speler.showInventory();
-				message = "";
+			if(RPGMain.speler != null){
+				if(message.equalsIgnoreCase("inventory") || message.equalsIgnoreCase("inv")){
+					speler.showInventory();
+					message = "";
+				}
+				else if(message.equalsIgnoreCase("stats") || message.equalsIgnoreCase("character panel") || message.equalsIgnoreCase("char")){
+					new CharacterPanel().showCharacterPanel();
+					message = "";
+				}
+				else if(message.equalsIgnoreCase("questlog")){
+					speler.showQuestlog();
+					message = "";
+				}
+				else if(message.toLowerCase().startsWith("skills")){
+					new SkillTreePanel().showSkillTree(message.split(" ")[1]);
+					message="";
+				}
+				else if(message.equalsIgnoreCase("sleep")){
+					speler.sleep();
+					message="";
+				}
+				else if(message.equalsIgnoreCase("clock") || message.equalsIgnoreCase("hour")){
+					DayLightThread.giveDescriptiveHour();
+					message="";
+				}
+				else if(message.equalsIgnoreCase("weather")){
+					int[] playerPos = speler.getCurrentPosition();
+					WeatherSimulator.getDescriptiveWeather(playerPos[0], playerPos[1]);
+					message="";
+				}
+				else if(message.equalsIgnoreCase("log") || message.equalsIgnoreCase("logbook")){
+					Logbook.showLogbook();
+					message = "";
+				}
+				else if(message.equalsIgnoreCase("help")){
+					printText(true,"General Options:","darkblue");
+					printText(true, new String[]{"* inventory || inv: ","Shows your inventory and allows  you to interact with the items within"}, new String[]{"bold","regular"});
+					printText(true, new String[]{"* stats || character panel || char: ","Shows your character panel. In here you find all your currently equipped items, your basic information and a graphical representation of your character"}, new String[]{"bold","regular"});
+					printText(true, new String[]{"* clock || hour: ","Shows a description of the current time of day"}, new String[]{"bold","regular"});
+					printText(true, new String[]{"* log || logbook: ","Shows your logbook, which records your travels and new things you come across while doing so. It is your help in surviving in this world."}, new String[]{"bold","regular"});
+					printText(true, new String[]{"* sleep: ","Let your avatar sleep, dependent on your current location"}, new String[]{"bold","regular"});
+					printText(true, new String[]{"* weather: ","Shows a description of the weather at your current location"}, new String[]{"bold","regular"});
+					Global.pauseProg();
+				}
+				else if(message.equalsIgnoreCase("save")){
+					saveGame();
+					message = "";
+				}
 			}
-			else if(message.equalsIgnoreCase("stats") || message.equalsIgnoreCase("character panel") || message.equalsIgnoreCase("char")){
-				new CharacterPanel();
-				CharacterPanel.showCharacterPanel();
-				message = "";
-			}
-			else if(message.equalsIgnoreCase("questlog")){
-				speler.showQuestlog();
-				message = "";
-			}
-			else if(message.equalsIgnoreCase("sleep")){
-				speler.sleep();
-				message="";
-			}
-			else if(message.equalsIgnoreCase("clock") || message.equalsIgnoreCase("hour")){
-				DayLightThread.giveDescriptiveHour();
-				message="";
-			}
-			else if(message.equalsIgnoreCase("weather")){
-				int[] playerPos = speler.getCurrentPosition();
-				WeatherSimulator.getDescriptiveWeather(playerPos[0], playerPos[1]);
-				message="";
-			}
-			else if(message.equalsIgnoreCase("log") || message.equalsIgnoreCase("logbook")){
-				Logbook.showLogbook();
-				message = "";
-			}
-			else if(message.equalsIgnoreCase("help")){
-				printText(true,"General Options:","darkblue");
-				printText(true, new String[]{"* inventory || inv: ","Shows your inventory and allows  you to interact with the items within"}, new String[]{"bold","regular"});
-				printText(true, new String[]{"* stats || character panel || char: ","Shows your character panel. In here you find all your currently equipped items, your basic information and a graphical representation of your character"}, new String[]{"bold","regular"});
-				printText(true, new String[]{"* clock || hour: ","Shows a description of the current time of day"}, new String[]{"bold","regular"});
-				printText(true, new String[]{"* log || logbook: ","Shows your logbook, which records your travels and new things you come across while doing so. It is your help in surviving in this world."}, new String[]{"bold","regular"});
-				printText(true, new String[]{"* sleep: ","Let your avatar sleep, dependent on your current location"}, new String[]{"bold","regular"});
-				printText(true, new String[]{"* weather: ","Shows a description of the weather at your current location"}, new String[]{"bold","regular"});
-				Global.pauseProg();
-			}
-			else if(message.equalsIgnoreCase("save")){
-				saveGame();
-				message = "";
-			}
-			else if(message.equalsIgnoreCase("exit")){
+			if(message.equalsIgnoreCase("exit")){
 				printText(false,"Do you want to save first? [y/n/cancel]\n>");
 				String choice = waitForMessage().toLowerCase();
 				if(choice.equalsIgnoreCase("cancel")){
@@ -417,12 +429,12 @@ public class RPGMain extends SwingWorker<Void,String> {
 			e.printStackTrace();
 			logger.error(e);
 		}
-		
+
 		Global.busy = false;
 		return message;
 	}
 	// blijft wachten tot user iets getypt heeft, gebruikt voor input als Scanner vervangmiddel
-	public static String waitForMessage() throws InterruptedException{
+	public static String waitForMessage(){
 		return waitForMessage(-1);
 	}
 
@@ -445,7 +457,7 @@ public class RPGMain extends SwingWorker<Void,String> {
 			new ConnectThread(server);
 			client = new Socket("127.0.0.1",serverPort);//zorgt voor het connecteren, max 4 spelers
 			break;
-			
+
 			case 2: printText(false,"IP address: ");
 			serverIP = waitForMessage();
 			printText(false,"Port number: ");
@@ -490,7 +502,7 @@ public class RPGMain extends SwingWorker<Void,String> {
 			Global.pauseProg();
 		}
 	}
-	
+
 	public static boolean saveGame() throws InterruptedException{
 		/*/
 		 * 
@@ -504,7 +516,7 @@ public class RPGMain extends SwingWorker<Void,String> {
 		 * - State of all NPCs
 		 * - 
 		 */
-		
+
 		ObjectOutputStream outputStream = null;
 		FileOutputStream fos = null;
 		String fileName = null;
@@ -565,7 +577,7 @@ public class RPGMain extends SwingWorker<Void,String> {
 		}
 		return false;
 	}
-	
+
 	public static void loadGame() throws InterruptedException {
 		//Alle nodige variabelen aanmaken
 		ObjectInputStream inputStream = null;
@@ -626,17 +638,17 @@ public class RPGMain extends SwingWorker<Void,String> {
 					if (inputStream != null) {
 						inputStream.close();
 						printText(true,"Progress succesfully loaded.\nWelcome back, " + speler.getName() + ".");
-						
+
 						speler.addHP(0);
 						GameFrameCanvas.playerPortrait.setShowStats(true);
 						GameFrameCanvas.playerPortrait.setHunger(speler.getHunger());
 						GameFrameCanvas.playerPortrait.setThirst(speler.getThirst());
 						GameFrameCanvas.playerPortrait.setFitness(speler.getFitness());
-						
+
 						GameFrameCanvas.setWalking.setVisible(true);
 						GameFrameCanvas.setRunning.setVisible(true);
 						GameFrameCanvas.setCrouching.setVisible(true);
-						
+
 						Global.pauseProg();
 					}
 				} catch (IOException ex) {

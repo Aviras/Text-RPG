@@ -110,11 +110,7 @@ public class House extends DistrictLocation implements Serializable{
 					}
 				}
 				
-				try{
-					Global.pauseProg(1000);
-				} catch(InterruptedException e){
-					
-				}
+				Global.pauseProg(1000);
 			}
 			else if(action.equalsIgnoreCase("cancel")){
 				break;

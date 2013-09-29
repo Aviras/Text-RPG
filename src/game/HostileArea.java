@@ -996,12 +996,8 @@ public class HostileArea extends Location implements Serializable {
 						RPGMain.printText(true, "The water seems safe, and you drink until your thirst has lessened.");
 						RPGMain.speler.addThirst(-100);
 						Global.soundEngine.playSound("Sounds/Effects/drink_water_fountain.wav", "forest", 0, 0, 0, true);
-						try{
-							Global.pauseProg(1000);
-						} catch(InterruptedException e){
-							e.printStackTrace();
-							logger.error(e);
-						}
+						Global.pauseProg(1000);
+
 					}
 					else{
 						RPGMain.printText(true, "There is no water available here.");
@@ -1010,10 +1006,7 @@ public class HostileArea extends Location implements Serializable {
 				else if(action.equalsIgnoreCase("climb tree")){
 					if(category.equalsIgnoreCase("forest") && currentLevel == 0 && !terrainType.equalsIgnoreCase("water")){
 						RPGMain.printText(true, "You climb the nearest tree, and try to have a better look at your surroundings.");
-						try{
-							Global.pauseProg(1000);
-						} catch(InterruptedException e){
-						}
+						Global.pauseProg(1000);
 						GameFrameCanvas.dungeonMap.setElevation(height + 2, position[0], position[1], 0);
 						
 						try{
@@ -1373,10 +1366,7 @@ public class HostileArea extends Location implements Serializable {
 						RPGMain.speler.setKnockedDown(false);
 						actionsCompleted++;
 						RPGMain.printText(true, "You stand back up.");
-						try{
-							Global.pauseProg(2000);
-						} catch(InterruptedException e){
-						}
+						Global.pauseProg(2000);
 					}
 					
 					RPGMain.printText(false, "Choose your next action:\n>");
@@ -1457,11 +1447,7 @@ public class HostileArea extends Location implements Serializable {
 					}
 					else{
 						success = a.activate(actor, target, enemyCoords.get(mobIndex), playerCoord, actionContent[1],covers,coefficients);
-						try {
-							Global.pauseProg(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						Global.pauseProg(1000);
 					}
 					// coefficients can be changed through a script, but since the values in the array don't point to the elements it's made of,
 					// the individual coeff don't get changed
@@ -1592,7 +1578,7 @@ public class HostileArea extends Location implements Serializable {
 						System.out.println("Enemy name and ID: " + mob.getName() + "," + mob.getID());
 						RPGMain.speler.getQuest(j).checkProgress("Enemy",mob.getID());//check progress op kill
 						for(int k=0;k<mob.getInventorySize();k++){
-							RPGMain.speler.getQuest(k).checkProgress(mob.getInventoryItem(k).getClass().getName().split(".")[1], mob.getInventoryItem(k).getID());//check progress op quest item loot
+							RPGMain.speler.getQuest(k).checkProgress(mob.getInventoryItem(k).getClass().getName().split("\\.")[1], mob.getInventoryItem(k).getID());//check progress op quest item loot
 						}
 					}
 					catch(NullPointerException np){
@@ -1641,11 +1627,7 @@ public class HostileArea extends Location implements Serializable {
 								}
 								j++;
 							}
-							try{
-								Global.pauseProg();
-							}catch(InterruptedException exc){
-								exc.printStackTrace();
-							}
+							Global.pauseProg();
 						}
 						else{
 							int choice = Integer.parseInt(action);
@@ -1672,6 +1654,19 @@ public class HostileArea extends Location implements Serializable {
 												int i = Integer.parseInt(RPGMain.waitForMessage());
 												if(i <= loot.get(item)){
 													amount = i;
+													RPGMain.speler.addInventoryItem(item, amount);
+													RPGMain.printText(true, "You recieved " + amount + item.getName() + ".");
+													// all equipment an enemy has, he's wearing it, no equipment in inventory
+													if(item.getClass().equals(Equipment.class)){
+														mob.removeEquippedItem((Equipment)item);
+													}
+													else{
+														mob.delInventoryItem(item,amount);
+													}
+													loot.put(item, loot.get(item)-amount);
+													if(loot.get(item) <= 0){
+														loot.remove(item);
+													}
 													break;
 												}
 												else{
@@ -1682,20 +1677,6 @@ public class HostileArea extends Location implements Serializable {
 												continue;
 											}
 										}
-									}
-									
-									RPGMain.speler.addInventoryItem(item, amount);
-									RPGMain.printText(true, "You recieved " + amount + item.getName() + ".");
-									// all equipment an enemy has, he's wearing it, no equipment in inventory
-									if(item.getClass().equals(Equipment.class)){
-										mob.removeEquippedItem((Equipment)item);
-									}
-									else{
-										mob.delInventoryItem(item,amount);
-									}
-									loot.put(item, loot.get(item)-amount);
-									if(loot.get(item) <= 0){
-										loot.remove(item);
 									}
 									
 								}catch(IndexOutOfBoundsException exc){
@@ -1860,11 +1841,7 @@ public class HostileArea extends Location implements Serializable {
 					// bad weather
 					//
 					RPGMain.printText(true, description);
-					try {
-						Global.pauseProg();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					Global.pauseProg();
 					
 					if(type.equalsIgnoreCase("Surprise Enemy")){
 						addEnemy(id);
@@ -1873,22 +1850,12 @@ public class HostileArea extends Location implements Serializable {
 					}
 					else if(type.equalsIgnoreCase("Surprise QNPC")){
 						RPGMain.printText(true, description);
-						try{
-							Global.pauseProg();
-						} catch(InterruptedException e){
-							e.printStackTrace();
-							logger.error(e);
-						}
+						Global.pauseProg();
 						Data.NPCs.get(id).talk();
 					}
 					else if(type.equalsIgnoreCase("Entrance")){
 						RPGMain.printText(false, "Go through? [y/n]\n>");
-						String enter = "n";
-						try {
-							enter = RPGMain.waitForMessage().toLowerCase();
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						String enter = RPGMain.waitForMessage().toLowerCase();
 						if(enter.startsWith("y")){
 							currentLevel = goToLevel;
 							justEntered = true;
@@ -1901,14 +1868,10 @@ public class HostileArea extends Location implements Serializable {
 						//RPGMain.printText(true, "\"" +  Data.equipment.get(id).getDescription() + "\".");
 						RPGMain.printText(false, "Take it? [y/n]\n>");
 						String choice;
-						try {
-							choice = RPGMain.waitForMessage().toLowerCase();
-							if(choice.startsWith("y")){
-								RPGMain.speler.addInventoryItem(Data.equipment.get(id));
-								active = false;
-							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+						choice = RPGMain.waitForMessage().toLowerCase();
+						if(choice.startsWith("y")){
+							RPGMain.speler.addInventoryItem(Data.equipment.get(id));
+							active = false;
 						}
 					}
 					else if(type.equalsIgnoreCase("Surprise Item")){
@@ -1928,9 +1891,6 @@ public class HostileArea extends Location implements Serializable {
 								else if(choice.startsWith("n")){
 									break;
 								}
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-								logger.error(e);
 							} catch(Exception e){
 								e.printStackTrace();
 								logger.error(e);
@@ -1941,42 +1901,30 @@ public class HostileArea extends Location implements Serializable {
 						RPGMain.printText(true, "You find " + Data.potions.get(id).getName() + ".");
 						RPGMain.printText(false, "Take it? [y/n]\n>");
 						String choice;
-						try {
 							choice = RPGMain.waitForMessage().toLowerCase();
 							if(choice.startsWith("y")){
 								RPGMain.speler.addInventoryItem(Data.potions.get(id));
 								active = false;
 							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
 					}
 					else if(type.equalsIgnoreCase("Surprise Clothing")){
 						RPGMain.printText(true, "You find " + Data.clothes.get(id).getName() + ".");
 						RPGMain.printText(false, "Take it? [y/n]\n>");
 						String choice;
-						try {
-							choice = RPGMain.waitForMessage().toLowerCase();
-							if(choice.startsWith("y")){
-								RPGMain.speler.addInventoryItem(Data.clothes.get(id));
-								active = false;
-							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+						choice = RPGMain.waitForMessage().toLowerCase();
+						if(choice.startsWith("y")){
+							RPGMain.speler.addInventoryItem(Data.clothes.get(id));
+							active = false;
 						}
 					}
 					else if(type.equalsIgnoreCase("Surprise Consumable")){
 						RPGMain.printText(true, "You find " + Data.consumables.get(id).getName() + ".");
 						RPGMain.printText(false, "Take it? [y/n]\n>");
 						String choice;
-						try {
-							choice = RPGMain.waitForMessage().toLowerCase();
-							if(choice.startsWith("y")){
-								RPGMain.speler.addInventoryItem(Data.consumables.get(id));
-								active = false;
-							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+						choice = RPGMain.waitForMessage().toLowerCase();
+						if(choice.startsWith("y")){
+							RPGMain.speler.addInventoryItem(Data.consumables.get(id));
+							active = false;
 						}
 					}
 					else if(type.equalsIgnoreCase("Surprise Quest")){
@@ -1984,12 +1932,7 @@ public class HostileArea extends Location implements Serializable {
 					}
 					else if(type.equalsIgnoreCase("Artifact")){
 						RPGMain.printText(true, "After some moments of wonder, you realize you have found an ancient artifact of a lost people, long buried under ice. You are the first to lay eyes on it for several hundreds of years, created by a people not unlike your own.","greenbold");
-						try{
-							Global.pauseProg();
-						} catch(InterruptedException e){
-							e.printStackTrace();
-							logger.error(e);
-						}
+						Global.pauseProg();
 						
 						Data.artifacts.get(id).activate(true);
 						
@@ -2201,7 +2144,7 @@ public class HostileArea extends Location implements Serializable {
 		}
 		public void run(){
 			//mob isn't dead, is pursuing player, hasn't caught up with him, player is still in the area, and enemy is not at the current player position through intersection in playerpath
-			while(!mob.checkDood() && mob.getPursuitIndex() >=0 && mob.getPursuitIndex() < (playerPath.size()-1) && RPGMain.speler.getCurrentPosition().equals(positie)
+			while(!mob.checkDood() && mob.getPursuitIndex() >=0 && mob.getPursuitIndex() < (playerPath.size()-1) && RPGMain.speler.getCurrentPosition()[0] == positie[0] && RPGMain.speler.getCurrentPosition()[1] == positie[1]
 					&& !(playerPath.get(mob.getPursuitIndex())[0] == playerPath.get(playerPath.size()-1)[0] && playerPath.get(mob.getPursuitIndex())[1] == playerPath.get(playerPath.size()-1)[1])){
 				try{
 					sleep(3000);

@@ -15,8 +15,8 @@ public class Ability implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int ID,duration,cooldown;
-	private String name,description,type,command,scriptFile;
+	private int ID, duration, cooldown;
+	private String name, description, type, command, scriptFile;
 	private String[] possibleTargets;
 	private int[] range,cost;
 	
@@ -34,9 +34,9 @@ public class Ability implements Serializable {
 		this.cost = cost;
 		this.scriptFile = scriptFile;
 	}
-	
+
 	public boolean activate(Wezen actor, Wezen target, int[] actorPos, int[] targetPos, String aimFor, HashMap<double[][], Double> covers, double[] coefficients){
-		
+
 		logger.info("Activating ability " + name + " by " + actor.getName());
 		//TODO check requirements
 		//checks for cooldown

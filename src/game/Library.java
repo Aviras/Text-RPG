@@ -104,9 +104,6 @@ public class Library extends DistrictLocation implements Serializable {
 				choice = Integer.parseInt(RPGMain.waitForMessage())-1;
 			}catch(NumberFormatException e){
 				continue;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				continue;
 			}
 			if(choice == titles.size()){
 				break;

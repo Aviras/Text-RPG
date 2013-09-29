@@ -31,10 +31,7 @@ public class Gate extends DistrictLocation implements Serializable{
 		
 		int[] i = new int[2];
 		RPGMain.printText(true, description);
-		try {
-			Global.pauseProg();
-		} catch (InterruptedException e) {
-		}
+		Global.pauseProg();
 		while(true){
 			RPGMain.printText(false, "What would you like to do?\n" + 
 									 "1: Check nearby villages\n" +

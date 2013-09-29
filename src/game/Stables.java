@@ -319,10 +319,7 @@ public class Stables extends DistrictLocation {
 							else{
 								GameFrameCanvas.imagePanel.changeImage("HostileArea " + connectedCities[choice][0]);
 							}
-							try{
-								Global.pauseProg(2000);
-							} catch(InterruptedException e){
-							}
+							Global.pauseProg(2000);
 							
 							try{
 								int seconds = Global.generator.nextInt(4);

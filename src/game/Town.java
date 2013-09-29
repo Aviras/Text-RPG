@@ -338,272 +338,6 @@ public class Town extends Location{
 			}
 		}
 	}
-	/*public int[] main_menu(Avatar avatar) throws InterruptedException{
-		// manage UI component visibility
-		GameFrameCanvas.imagePanel.changeImage(ID);
-		GameFrameCanvas.imagePanel.setVisible(true);
-		GameFrameCanvas.logoPortrait.setVisible(false);
-		GameFrameCanvas.playerPortrait.setVisible(true);
-		GameFrameCanvas.enemyPortrait.setVisible(false);
-		GameFrameCanvas.dungeonMap.setVisible(false);
-		
-		// set this city to current player location
-		setPlayerPosition();
-		avatar.setTrade(true);
-		
-		while(firstTime == true){
-			String [] path = {naam,"entrance"};
-			Global.makeDialog(new File("Data/CityDialog.xml"), path);
-			RPGMain.printText(false,"Is there a way I can help you?\n" +
-									"1:Tell me about the city\n" +
-									"2:Show me around the place\n" +
-									"3:Go away, I don't need your help\n>");
-			try{
-				switch(Integer.parseInt(RPGMain.waitForMessage())){
-				case 1: tellHistory();
-						firstTime = false;
-						break;
-				case 2: RPGMain.printText(true,"Very well. Follow me, please.");
-						Global.pauseProg();
-						firstTime = false;
-						break;
-				case 3: RPGMain.printText(true,"So be it. Should you require my aid, I'll be at the inn.\nBest of luck!");
-						Global.pauseProg();
-						firstTime = false;
-						break;
-				default: break;
-				}
-			}catch(InputMismatchException IME){
-				RPGMain.printText(true,"Not a valid option.");
-				continue;
-			}
-		}
-		boolean juisteKeuze = false;
-		
-		while(juisteKeuze == false){
-			
-			if(Global.day){
-				RPGMain.printText(true,"Standing in the middle of " + naam + ", many places are to visit. Where would you go?");
-			}
-			else{
-				RPGMain.printText(true,"The streets of " + naam + " are empty. Some lonely lights are glowing faintly in the distance");
-			}
-			RPGMain.printText(false,"1: Visit Inn\n" +
-									"2: Head for the gates\n" +
-									"3: Wander through random streets, looking for something interesting\n" +
-									"4: Visit the War Quarter\n" + 
-									"5: Check your character panel\n" +
-									"6: Check your questlog\n" +
-									"7: Check map\n" +
-									"8: Save progress\n");
-			if(Global.online){
-				RPGMain.printText(false,"9: Trade\n" +
-										"10: Exit\n>");
-			}
-			else{
-				RPGMain.printText(false,"9: Exit\n>");
-			}
-			try{
-				int keuze;
-					// in verband met trade request van andere speler
-					keuze = Integer.parseInt(RPGMain.waitForMessage());
-					if(Global.wait){
-						keuze = 20;
-						Thread.sleep(1000);
-					}
-				
-				switch(keuze){
-					case 1: inn.menu(avatar);
-							RPGMain.printText(true,"You walk back out.");
-							Global.pauseProg();
-							break;
-					case 2: if(Global.online) Global.message(avatar.getName() + " is leaving " + naam + ".");
-							RPGMain.printText(true,"You arrive at the main entrance to the city.");
-							avatar.setTrade(false);
-							switch(grootte){
-								case 1: RPGMain.printText(true,"Once in a while a farmer enters with his harvest, but the place is quiet most of the time."); break;
-								case 2: RPGMain.printText(true,"A couple guards look at you uneasily. Better not stir them up."); break;
-								case 3: RPGMain.printText(true,"Men clad in leather and steel line the walls.\nMen of honour, having vowed their allegiance to the city's ruler, sworn to protect its people."); break;
-							}
-							Global.pauseProg();
-							while(true){
-								RPGMain.printText(false,"Where do you want to go?\n" +
-														"1: What cities can I go to ?\n" +
-														"2: Check out surroundings\n" + 
-														"3: Go back to " + naam + "\n>");
-								try{
-									int[] dir = new int[2];
-									switch(Integer.parseInt(RPGMain.waitForMessage())){
-										case 1: dir = chooseCity(avatar);
-												if(dir!=null){
-													return dir;
-												}
-												break;
-										case 2: dir = checkSurroundings(avatar);
-												if(dir!=null){
-													return dir;
-												}
-												break;
-										default: return new int[] {0,0};
-									}
-								}catch(NumberFormatException e){
-									RPGMain.printText(true,"Not a valid option.");
-									continue;
-								}
-							}
-					case 3: shadyDealer(avatar);
-							break;
-					case 4: war_quarter_menu(avatar);
-							break;
-					case 5: avatar.characterPanel(); 
-							break;
-					case 6: avatar.showQuestlog();
-							break;
-					case 7: RPGMain.printText(true,Global.rwtext.getContents(new File("Map.txt")));
-							Global.pauseProg();
-							break;
-					case 8: boolean b = false;
-							while(b == false) b = RPGMain.saveAvatar(avatar);//loop until correct save
-							break;
-					case 9: if(Global.online){
-								trade();
-							}
-							else{
-								System.exit(0);
-							}
-							break;
-					case 10: if(Global.online){
-								Global.message(avatar.getName() + " has gone offline.");
-								System.exit(0);
-							 }
-					default: break;
-				}
-			}catch(NumberFormatException e){
-				RPGMain.printText(true,"Not a valid option.");
-				continue;
-			}
-		}
-		return new int[] {0,0};
-	}
-	
-	public void shadyDealer(Avatar avatar) throws InterruptedException{
-		if(Global.day){
-			RPGMain.printText(true, "You notice people talking.");
-			Global.pauseProg();
-			String[] path = {naam,"RandomWalk"};
-			Global.makeDialog(new File("Data/CityDialog.xml"), path);
-			Global.pauseProg();
-			RPGMain.printText(true,"A couple of people pass by, you cross the local market, nothing peculiar.\n" +
-					"You start making your way back to the main place.\nPerhaps there's more interesting things going on at night.");
-		}
-		Global.pauseProg();
-		if(!Global.day){
-			RPGMain.printText(false,"In a slightly darker alley, you meet someone who seems to have some interesting wares.\n" +
-					"Check it out ? [y/n]\n>");
-			if(RPGMain.waitForMessage().equalsIgnoreCase("y")){
-				//shadyDealer.verkoop(avatar);
-			}
-		}
-	}*/
-	
-	/*WAR QUARTER komt vanuit TOWN main_menu*/
-	/*public void war_quarter_menu(Avatar avatar) throws InterruptedException{
-		
-		boolean juisteKeuze = false;
-		
-		RPGMain.printText(false,"You enter the War Quarter.");
-		while(juisteKeuze==false){
-			// OVERDAG
-			if(Global.day == true){
-				RPGMain.printText(false,"\n" +
-						"1: Visit Smith\n" +
-						"2: Visit Alchemist\n" +
-						"3: Go back\n>");
-				wil nog training facility bij
-				try{
-					switch(Integer.parseInt(RPGMain.waitForMessage())){
-						case 1: //smid.menu(avatar);break;
-						case 2: //alchemist.menu(avatar);break;
-						case 3: juisteKeuze = true;break;
-						default: break;
-					}
-				}catch(InputMismatchException IME){
-					RPGMain.printText(true,"Not a valid option.");
-					continue;
-				}
-			}
-			// 'S NACHTS
-			else{
-				RPGMain.printText(true," Multiple guards are in the neighbourhood.");
-				RPGMain.printText(false,"1: Try trespassing into the Smith\n" + 
-						"2: Try trespassing into the Alchemist's shop\n" + 
-						"3: Go back\n>");
-				try{
-					switch(Integer.parseInt(RPGMain.waitForMessage())){
-						case 1: //smid.trespass(avatar);break;
-						case 2: //alchemist.trespass(avatar);break;
-						case 3: juisteKeuze = true;break;
-						default: break;
-					}
-				}catch(InputMismatchException IME){
-					RPGMain.printText(true,"Not a valid option.");
-					continue;
-				}
-			}
-		}
-	}*/
-	
-	//komt vanuit main_menu
-	
-	/*private void trade() throws InterruptedException{
-		// ask server to display all player names
-		// let client pick player, send message to other to accept
-		// if accepted, every trading player sees his inventory
-		// both players pick an item, inventorySize+1 for nothing
-		// overview of who's trading what
-		// final accept, item transfer through ID communication
-		
-		/*
-		 * request server for player names, then display them
-		 */
-		/*Global.message("REQPN");
-		while(Global.playerNames.size() == 0){// make sure we get a response from server before continuing
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-			}
-		}
-		RPGMain.printText(true,"\nActive player names: ");
-		for(int j = 0;j<Global.playerNames.size();j++){
-			RPGMain.printText(true,"* " + Global.playerNames.get(j));
-		}
-		RPGMain.printText(true,"* Cancel");
-		RPGMain.printText(false,">");
-		
-		/*
-		 * Process message, start trade
-		 */
-		/*String keuze = RPGMain.waitForMessage();
-		keuze = RPGMain.upperCaseSingle(keuze, 0);
-		try{
-			if(!keuze.equalsIgnoreCase("Cancel") && Global.playerNames.contains(keuze)){
-				Global.message("REQTRADE: " + keuze);
-			}
-			else if(keuze.equalsIgnoreCase("Cancel")){
-				return;
-			}
-		} catch(NullPointerException np){	
-		}
-		Global.wait = true;
-		checkWait();
-	}
-	public static void checkWait() throws InterruptedException{
-		while(Global.wait){
-			Thread.sleep(500);
-		}
-		Global.wait = false;
-	}*/
-	
 	
 	
 	class District implements Serializable{
@@ -647,6 +381,7 @@ public class Town extends Location{
 				String npcID = el.getChildText("npcID");
 				String otherNPCs = el.getChildText("npcs");
 				String connectedCities = el.getChildText("connectedCities");
+				String performances = el.getChildText("performances");
 				if(type.equalsIgnoreCase("shop")){
 					locations.add(new Winkel(nameDummy,0,descriptionDummy,itemsPresent,npcID));
 				}
@@ -662,6 +397,7 @@ public class Town extends Location{
 						locations.add(new Inn(nameDummy,descriptionDummy,npcID,otherNPCs));
 					}
 				}
+				//TODO use constructors with extra npcs
 				else if(type.equalsIgnoreCase("library")){
 					locations.add(new Library(nameDummy,descriptionDummy,itemsPresent));
 				}
@@ -670,6 +406,9 @@ public class Town extends Location{
 				}
 				else if(type.equalsIgnoreCase("stables")){
 					locations.add(new Stables(nameDummy,descriptionDummy,npcID,connectedCities));
+				}
+				else if(type.equalsIgnoreCase("culturecentre")){
+					locations.add(new CultureCentre(nameDummy, descriptionDummy, performances));
 				}
 			}
 		}
@@ -721,11 +460,7 @@ public class Town extends Location{
 			GameFrameCanvas.dungeonMap.setPlayerDistrictPosition(districtPos);
 			
 			RPGMain.printText(true, enterDescription);
-			try{
-				Global.pauseProg();
-			}catch(InterruptedException e){
-			}
-			
+			Global.pauseProg();
 			
 			while(true){
 				RPGMain.printText(true, new String[]{"You are in ",naam + ": " + districtName + "."}, new String[]{"darkblue","darkbluebold"});
@@ -837,6 +572,7 @@ public class Town extends Location{
 										}
 									}
 									else{
+										//TODO fire sound doesn't always have to be here
 										Global.soundEngine.playSound("Sounds/Ambient/fireplace.wav", "ambient", 100, 0, 0, false);
 										d.enter();
 										SoundEngine.closeLine("Sounds/Ambient/fireplace.wav", "ambient");

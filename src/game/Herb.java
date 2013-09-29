@@ -101,22 +101,16 @@ public class Herb extends Item{
 					RPGMain.printText(true, new String[]{"* ",RPGMain.upperCaseSingle(action, 0)," the herb"}, new String[]{"regular","bold","regular"});
 				}
 				RPGMain.printText(false, "* Cancel\n>");
-				try {
-					input = RPGMain.waitForMessage().toLowerCase();
+				input = RPGMain.waitForMessage().toLowerCase();
 
-					if(input.equalsIgnoreCase("cancel")){
-						return;
+				if(input.equalsIgnoreCase("cancel")){
+					return;
+				}
+				for(String s: effects.keySet()){
+					if(s.equalsIgnoreCase(input)){
+						cont = true;
+						break;
 					}
-					for(String s: effects.keySet()){
-						if(s.equalsIgnoreCase(input)){
-							cont = true;
-							break;
-						}
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					logger.error(e);
-					continue;
 				}
 			}
 			prepareMode = input;
@@ -124,36 +118,26 @@ public class Herb extends Item{
 
 			if(input.equalsIgnoreCase("chewing")){
 				RPGMain.printText(true, "You take some leaves, put them in your mouth and start chewing. As with most plants, it tastes quite bitter.");
-				try{
-					Global.pauseProg(4000);
-				} catch(InterruptedException e){
-					e.printStackTrace();
-					logger.error(e);
-				}
+				Global.pauseProg(4000);
 				use();
 			}
 			else if(input.equalsIgnoreCase("grinding")){
 				RPGMain.printText(true, "You take some leaves, put them in an improvised bowl and start grinding until you see the sap.");
-				try{
-					Global.pauseProg(4000);
-					while(true){
-						RPGMain.printText(false, "Do you want to use it now? [y/n]\n>");
-						String choice = RPGMain.waitForMessage().toLowerCase();
-						
-						if(choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("yes")){
-							use();
-							break;
-						}
-						else if(choice.equalsIgnoreCase("n") || choice.equalsIgnoreCase("no")){
-							break;
-						}
-						else{
-							RPGMain.printText(true, "Not a valid option.");
-						}
+				Global.pauseProg(4000);
+				while(true){
+					RPGMain.printText(false, "Do you want to use it now? [y/n]\n>");
+					String choice = RPGMain.waitForMessage().toLowerCase();
+					
+					if(choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("yes")){
+						use();
+						break;
 					}
-				} catch(InterruptedException e){
-					e.printStackTrace();
-					logger.error(e);
+					else if(choice.equalsIgnoreCase("n") || choice.equalsIgnoreCase("no")){
+						break;
+					}
+					else{
+						RPGMain.printText(true, "Not a valid option.");
+					}
 				}
 			}
 			else if(input.equalsIgnoreCase("boiling")){
@@ -206,9 +190,6 @@ public class Herb extends Item{
 					}catch(NumberFormatException exc){
 						RPGMain.printText(true,"Not a valid option.");
 						continue;
-					}catch(InterruptedException exc){
-						exc.printStackTrace();
-						logger.error(exc);
 					}
 				}
 			}
@@ -232,12 +213,7 @@ public class Herb extends Item{
 					}
 				}
 			}
-			try {
-				Global.pauseProg();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-				logger.error(e1);
-			}
+			Global.pauseProg();
 			try{
 				int maxPhase = Logbook.getPhase(logbookPath);
 				Logbook.addContent(logbookPath, maxPhase+1, effects.get(prepareMode)[1].toString());
@@ -270,18 +246,13 @@ public class Herb extends Item{
 			while(true){
 				RPGMain.printText(false, "This weapon already has a poison applied to it. Replace it? [y/n]\n>");
 
-				try{
-					String replace = RPGMain.waitForMessage().toLowerCase();
+				String replace = RPGMain.waitForMessage().toLowerCase();
 
-					if(replace.equalsIgnoreCase("n") || replace.equalsIgnoreCase("no")){
-						break;
-					}
-					else if(replace.equalsIgnoreCase("y") || replace.equalsIgnoreCase("yes")){
-						e.setPoison(params[0].toString(), name, params[1].toString(), Integer.parseInt(params[2].toString()), params[3].toString(), (int)(Math.pow(quality, 2)*(1+RPGMain.speler.getHerbalism()/100.0)));
-					}
-				}catch(InterruptedException exc){
-					exc.printStackTrace();
-					logger.error(exc);
+				if(replace.equalsIgnoreCase("n") || replace.equalsIgnoreCase("no")){
+					break;
+				}
+				else if(replace.equalsIgnoreCase("y") || replace.equalsIgnoreCase("yes")){
+					e.setPoison(params[0].toString(), name, params[1].toString(), Integer.parseInt(params[2].toString()), params[3].toString(), (int)(Math.pow(quality, 2)*(1+RPGMain.speler.getHerbalism()/100.0)));
 				}
 			}
 		}

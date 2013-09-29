@@ -192,8 +192,6 @@ public class Quest extends Data implements Serializable {
 		RPGMain.speler.delQuest(naam);
 		RPGMain.speler.completeQuest(ID);
 		
-		try{
-			Global.pauseProg();
-		} catch(InterruptedException e){}
+		Global.pauseProg();
 	}
 }

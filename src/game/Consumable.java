@@ -110,8 +110,6 @@ public class Consumable extends Item implements Serializable {
 				break;
 			}catch(NumberFormatException e){
 				continue;
-			}catch(InterruptedException e){
-				continue;
 			}
 		}
 		int finalEffect = (int)(effect*percent/100.0);
@@ -165,11 +163,7 @@ public class Consumable extends Item implements Serializable {
 			used = true;
 		}
 		
-		try {
-			Global.pauseProg();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Global.pauseProg();
 		//TODO idea: instead of instant effect of eating bad food, make a timer, so that you get consequences afterwards, like not being able to move in combat, or getting a debuff
 	}
 

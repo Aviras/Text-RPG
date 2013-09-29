@@ -252,7 +252,7 @@ public class NPC extends Data implements Serializable {
 		}
 		else if(physicalState.equalsIgnoreCase("diseased")){
 			RPGMain.printText(true, "Better not come too close, " + name + " will be coughing all over you.");
-			try{ Global.pauseProg(3000); } catch(InterruptedException e){}
+			Global.pauseProg(3000);
 			return;
 		}
 		logger.debug("beyond physical states");
@@ -285,9 +285,6 @@ public class NPC extends Data implements Serializable {
 			e.printStackTrace();
 			logger.debug(e);
 		} catch (IOException e) {
-			e.printStackTrace();
-			logger.debug(e);
-		} catch(InterruptedException e){
 			e.printStackTrace();
 			logger.debug(e);
 		}
@@ -340,8 +337,6 @@ public class NPC extends Data implements Serializable {
 				try {
 					answer = Integer.parseInt(RPGMain.waitForMessage());
 				} catch (NumberFormatException e1) {
-					e1.printStackTrace();
-				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
 				if(possibleAnswers.get(answer) == null){
@@ -429,10 +424,7 @@ public class NPC extends Data implements Serializable {
 					logger.info("MentalState: " + getMentalState());
 					RPGMain.printText(true, name + ": " + nodeText.getTextTrim().replace("playerName", RPGMain.speler.getName()));
 
-					try{
-						Global.pauseProg();
-					} catch(InterruptedException exc){
-					}
+					Global.pauseProg();
 
 					while(true){
 						try{
@@ -483,7 +475,6 @@ public class NPC extends Data implements Serializable {
 							} catch (NumberFormatException e1) {
 								RPGMain.printText(true, "Your choice was not a number");
 								continue;
-							} catch (InterruptedException e1) {
 							}
 						}
 						else{
@@ -546,12 +537,7 @@ public class NPC extends Data implements Serializable {
 			}
 			else{
 				RPGMain.printText(true,"You have nothing to report.");
-				try {
-					Global.pauseProg();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					logger.error(e);
-				}
+				Global.pauseProg();
 				break;
 			}
 			
@@ -627,9 +613,6 @@ public class NPC extends Data implements Serializable {
 			} catch(NumberFormatException e){
 				RPGMain.printText(true, "Not a valid option.");
 				continue;
-			} catch(InterruptedException e){
-				e.printStackTrace();
-				logger.error(e);
 			}
 		}
 	}

@@ -327,7 +327,7 @@ public class Winkel extends DistrictLocation implements Serializable {
 	}
 	class Busted extends Thread{
 		int sleep;
-		private volatile boolean stop = false;
+		private boolean stop = false;
 		public Busted(int time){
 			sleep = time*1000;
 			start();
@@ -355,11 +355,7 @@ public class Winkel extends DistrictLocation implements Serializable {
 					double fine = Math.pow((double)timesCaught, (double)timesCaught) + 3.0;
 					int aGold = RPGMain.speler.getGoud();
 					RPGMain.printText(true,"Amount to pay: " + fine + ".");
-					try {
-						Global.pauseProg(1500);
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
+					Global.pauseProg(1500);
 					if(fine > aGold){
 						RPGMain.printText(true,"You have an insufficient amount of money to buy off your sentence.\nYou will thereby be sent to prison, your current gold and items removed until the total of the fine is collected.");
 					}

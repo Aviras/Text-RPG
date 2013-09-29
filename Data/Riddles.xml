@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Riddles>
+  <Riddle id="0">
+    <text>What goes round the house and in the house but never touches the house? </text>
+    <solution>The sun</solution>
+  </Riddle>
+  <Riddle id="1">
+    <text>What is it that you can keep after giving it to someone else?</text>
+    <solution>Your word</solution>
+  </Riddle>
+  <Riddle id="2">
+    <text>The more you take, the more you leave behind. What are they?</text>
+    <solution>Footsteps</solution>
+  </Riddle>
+  <Riddle id="3">
+    <text>Brothers and sisters have I none but that man's father is my father's son.</text>
+    <solution>My son</solution>
+  </Riddle>
+  <Riddle id="4">
+    <text>A cloud was my mother, the wind is my father, my son is the cool stream, and my daughter is the fruit of the land. A rainbow is my bed, the earth my final resting place, and I'm the torment of man.</text>
+    <solution>Rain;Raindrop</solution>
+  </Riddle>
+  <Riddle id="5">
+    <text>Poke your fingers in my eyes and I will open wide my jaws. Linen cloth, quills, or paper, my greedy lust devours them all.</text>
+    <solution>Shears;Scissors</solution>
+  </Riddle>
+  <Riddle id="6">
+    <text>It's been around for millions of years, but it's no more than a month old. What is it?</text>
+    <solution>The moon</solution>
+  </Riddle>
+  <Riddle id="7">
+    <text> As I went across the bridge, I met a man with a load of wood which was neither straight nor crooked. What kind of wood was it?</text>
+    <solution>Sawdust</solution>
+  </Riddle>
+  <Riddle id="8">
+    <text>What belongs to you but others use it more than you do?</text>
+    <solution>Your name</solution>
+  </Riddle>
+  <Riddle id="9">
+    <text>Who are the two brothers who live on opposite sides of the road yet never see each other?</text>
+    <solution>Eyes</solution>
+  </Riddle>
+</Riddles>

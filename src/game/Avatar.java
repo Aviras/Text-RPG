@@ -19,12 +19,12 @@ import org.jdom.input.SAXBuilder;
 
 
 public class Avatar extends Wezen implements Serializable{
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private ArrayList<Quest> questlog = new ArrayList<Quest>();
 	private int[] currentPosition = new int[2];
 	private int age,daysPlayed;
@@ -39,26 +39,26 @@ public class Avatar extends Wezen implements Serializable{
 	private int archery,swords,axes,clubs,stamina,erudition,thievery,fireMaking,herbalism,hunting,animalKnowledge,swimming;
 	private String meleeActions,rangedActions,magicActions;
 	private LinkedHashMap<String,Integer> achievements = new LinkedHashMap<String,Integer>();
-	
+
 	private transient Logger logger = Logger.getLogger(Avatar.class);
-	
+
 	/*TYPE
-	*0 = geen equipment
-	*1 = wapen 1H
-	*2 = wapen 2H
-	*3 = schild
-	*4 = boog 
-	*5 = helm
-	*6 = harnas
-	*7 = handschoenen
-	*8 = broek
-	*9 = schoenen*/
-	
+	 *0 = geen equipment
+	 *1 = wapen 1H
+	 *2 = wapen 2H
+	 *3 = schild
+	 *4 = boog 
+	 *5 = helm
+	 *6 = harnas
+	 *7 = handschoenen
+	 *8 = broek
+	 *9 = schoenen*/
+
 	public Avatar(int lvl, String name,int hp, int gold, int strength,int dexterity,int intellect,int charisma,int[] startEquipmentID,int[] startClothingIDs){
 		super(lvl,name,hp,gold,strength,dexterity,intellect,charisma);
-		
+
 		logger.debug("Past initial constructor");
-		
+
 		GameFrameCanvas.playerPortrait.setBarLength(1);
 		// make new array to concat to startEquipmentID. 
 		// In case there is not a value for an EquipmentID for weapon up until shoes, 
@@ -66,7 +66,7 @@ public class Avatar extends Wezen implements Serializable{
 		int[] nulls = new int[8-startEquipmentID.length];
 		// initiate all as -1
 		for(int j=0;j<nulls.length;j++){nulls[j]=-1;}
-		
+
 		int[] startEquipmentIDs = new int[8];
 		//concat the arrays
 		System.arraycopy(startEquipmentID, 0, startEquipmentIDs, 0, startEquipmentID.length);
@@ -83,7 +83,7 @@ public class Avatar extends Wezen implements Serializable{
 		schoenen = new Equipment(initGear(startEquipmentIDs[7]));
 		inventory = new LinkedHashMap<Item,Integer>();
 		checkTreats();
-		
+
 		try{
 			mantle = (Clothing)Data.clothes.get(startClothingIDs[0]);
 			//System.out.println("Wearing " + mantle.getName());
@@ -100,7 +100,7 @@ public class Avatar extends Wezen implements Serializable{
 		}catch(ArrayIndexOutOfBoundsException e){
 			pants = noClothing;
 		}
-		
+
 		try{
 			for(int j=0;j<10;j++){
 				if(Data.abilities.get(j) != null){
@@ -109,16 +109,16 @@ public class Avatar extends Wezen implements Serializable{
 			}
 		} catch(Exception e){
 		}
-		
+
 		spreuken.add(Data.spells.get(0));
 		spreuken.add(Data.spells.get(1));
-		
+
 		meleeActions = "";
 		rangedActions = "";
 		magicActions = "";
-		
+
 		addArrows(30);
-		
+
 		// initialize skills
 		archery = 1;
 		swords = 1;
@@ -128,37 +128,61 @@ public class Avatar extends Wezen implements Serializable{
 		erudition = 1;
 		thievery = 1;
 		swimming = 1;
-		hunting = 1;
+		hunting = 5;
 		fireMaking = 1;
 		herbalism = 1;
 		animalKnowledge = 1;
 		//TODO others
-		
+
 		movementMode = "walking";
-		
+
 		GameFrameCanvas.playerPortrait.setShowStats(true);
 		GameFrameCanvas.playerPortrait.setHunger(hunger);
 		GameFrameCanvas.playerPortrait.setThirst(thirst);
 		GameFrameCanvas.playerPortrait.setFitness(fitness);
-		
+
 		logger.info("Created player with name " + name);
-		
+
 	}
-	
+
 	public void initiateLogbook(){
 		//TODO Write starting message
 		Logbook.addContent("Introduction",1,"Take this, and record your travels with it. Write down what you experience, and use the knowledge and wisdom you gained to inspire the people you surround yourself with. Knowledge is power, guard it well.");
 	}
-	
+
 	public void addBuff(String name, String type, int amount, int duration, int intervalTime, String description){
 		buffs.add(new Buff(name,type,amount,duration,intervalTime,description, true));
 	}
-	
+
 	public void setName(String name){
 		this.naam = name;
 	}
-	
+
 	/* GETTERS */
+	public double getSkillParameterIncrease(String parameter){
+		double d = 0.0;
+		for(SkillElement se: Data.skillElements.values()){
+			if(se.getProgress() > 0 && se.getParameter().equalsIgnoreCase(parameter)){
+				d+=se.getMagnitude();
+			}
+		}
+		return d;
+	}
+	public int getStrength(){
+		return strength + (int)statIncrease[0] + (int)getSkillParameterIncrease("Strength");
+	}
+	public int getDexterity(){
+		return dexterity + (int)statIncrease[1] + (int)getSkillParameterIncrease("Dexterity");
+	}
+	public int getIntellect(){
+		return intellect + (int)statIncrease[2] + (int)getSkillParameterIncrease("Intellect");
+	}
+	public int getCharisma(){
+		return charisma + (int)statIncrease[3] + (int)getSkillParameterIncrease("Charisma");
+	}
+	public double getSpeedModifier(){
+		return 1.0 + getSkillParameterIncrease("Speed");
+	}
 	public String getRace(){
 		return race;
 	}
@@ -219,7 +243,7 @@ public class Avatar extends Wezen implements Serializable{
 					return questlog.get(j);
 				}
 			}catch(NullPointerException np){
-				
+
 			}
 		}
 		return null;
@@ -241,8 +265,8 @@ public class Avatar extends Wezen implements Serializable{
 		}
 		return false;
 	}
-	
-	
+
+
 	/* GET SKILLS */
 	public int getArchery(){
 		return archery;
@@ -280,9 +304,48 @@ public class Avatar extends Wezen implements Serializable{
 	public int getAnimalKnowledge(){
 		return animalKnowledge;
 	}
-	
-	
-	
+	public int getSkill(String skill){
+		if(skill.equalsIgnoreCase("archery")){
+			return archery;
+		}
+		else if(skill.equalsIgnoreCase("swords")){
+			return swords;
+		}
+		else if(skill.equalsIgnoreCase("axes")){
+			return axes;
+		}
+		else if(skill.equalsIgnoreCase("clubs")){
+			return clubs;
+		}
+		else if(skill.equalsIgnoreCase("stamina")){
+			return stamina;
+		}
+		else if(skill.equalsIgnoreCase("erudition")){
+			return erudition;
+		}
+		else if(skill.equalsIgnoreCase("thievery")){
+			return thievery;
+		}
+		else if(skill.equalsIgnoreCase("swimming")){
+			return swimming;
+		}
+		else if(skill.equalsIgnoreCase("firemaking")){
+			return fireMaking;
+		}
+		else if(skill.equalsIgnoreCase("herbalism")){
+			return herbalism;
+		}
+		else if(skill.equalsIgnoreCase("hunting")){
+			return hunting;
+		}
+		else if(skill.equalsIgnoreCase("animalknowledge")){
+			return animalKnowledge;
+		}
+		return -1;
+	}
+
+
+
 	public double getPlayerWeight(){
 		double weight = 60;
 		weight+=getEquippedWeight();
@@ -305,7 +368,7 @@ public class Avatar extends Wezen implements Serializable{
 	public boolean getOnHorse(){
 		return onHorse;
 	}
-	
+
 	/* SETTERS */
 	public void addHP(int x){
 		super.addHP(x);
@@ -439,7 +502,7 @@ public class Avatar extends Wezen implements Serializable{
 	public boolean questCompleted(int qID){
 		return completedQuests.contains(qID);
 	}
-	
+
 	/* MANAGE SKILLS */
 	public void addArchery(int d){
 		archery+=d;
@@ -496,21 +559,21 @@ public class Avatar extends Wezen implements Serializable{
 		animalKnowledge+=d;
 		checkLevelUp();
 	}
-	
+
 	/* INVENTORY METHODS */
-	
+
 	/* SLOT
-	*0 = geen equipment
-	*1 = wapen 1H
-	*2 = wapen 2H
-	*3 = schild
-	*4 = boog 
-	*5 = helm
-	*6 = harnas
-	*7 = handschoenen
-	*8 = broek
-	*9 = schoenen*/
-	
+	 *0 = geen equipment
+	 *1 = wapen 1H
+	 *2 = wapen 2H
+	 *3 = schild
+	 *4 = boog 
+	 *5 = helm
+	 *6 = harnas
+	 *7 = handschoenen
+	 *8 = broek
+	 *9 = schoenen*/
+
 	public void equipItem(Equipment item) throws InterruptedException{
 		equipItem(getInventoryItemIndex(item.getName()));
 	}
@@ -521,26 +584,17 @@ public class Avatar extends Wezen implements Serializable{
 			Town current = (Town)Data.wereld[currentPosition[0]][currentPosition[1]];
 			if(current.hasInn()){
 				RPGMain.printText(true, "It appears this city has an Inn. You better try to look for a spot there.");
-				try{
-					Global.pauseProg(2000);
-				} catch(InterruptedException e){
-					
-				}
+				Global.pauseProg(2000);
 			}
 			else{
 				double reputation = HopeSimulator.getReputation(currentPosition[0], currentPosition[1]);
 				//people are generally quite kind, so *1.25 standard
 				double probability = Math.min(1, Math.random()*(1.25 + reputation/10.0));
-				
+
 				if(probability > 0.5){
 					RPGMain.printText(true, "Someone was happy to take you in and stay for a good night sleep.");
-					try{
-						Global.pauseProg();
-					} catch(InterruptedException e){
-						e.printStackTrace();
-						logger.error(e);
-					}
-					
+					Global.pauseProg();
+
 					int hours = 0;
 					while(true){
 						RPGMain.printText(true, "How long would you like to sleep?\n>");
@@ -550,21 +604,12 @@ public class Avatar extends Wezen implements Serializable{
 						} catch(NumberFormatException e){
 							RPGMain.printText(true, "Not a number.");
 							continue;
-						} catch(InterruptedException e){
-							e.printStackTrace();
-							logger.error(e);
-							continue;
 						}
 					}
 					DayLightThread.rest(hours);
 					addFitness(17*hours);
 					dimMovement(-10*hours);
-					try{
-						Global.pauseProg(2000);
-					} catch(InterruptedException e){
-						e.printStackTrace();
-						logger.error(e);
-					}
+					Global.pauseProg(2000);
 				}
 				else{
 					RPGMain.printText(true, "You've asked everyone you saw, though noone was willing to take you in for a night. Looks like you'll have to find a place to sleep in the wild, or move on to the next town.");
@@ -572,22 +617,22 @@ public class Avatar extends Wezen implements Serializable{
 			}
 		}
 		else if(Data.wereld[currentPosition[0]][currentPosition[1]] instanceof HostileArea){
-			
+
 			//look for a decent place to sleep in the surroundings
 			//chance of getting attacked depend on the quality of the sleep and the density of mobs around you
 			//making a fire increases fitness gain, but increases probability of enemies finding you
 			//fitness gain depends also on temperature and clothing
-			
+
 			//What determines quality of sleeping spot? Terrain type, vegetation, mountainous terrain
 			//TODO height variation around player
-			
+
 			HostileArea current = (HostileArea)Data.wereld[currentPosition[0]][currentPosition[1]];
-			
+
 			//type is as "category type (mountain)"
 			String[] type = current.getLocationType().split(" ");
-			
+
 			double quality = Math.random();
-			
+
 			if(type[0].equalsIgnoreCase("Forest")){
 				//more cover in general, less trouble from the wind
 				quality+=0.1;
@@ -606,77 +651,66 @@ public class Avatar extends Wezen implements Serializable{
 					quality+=0.1;
 				}
 			} catch(ArrayIndexOutOfBoundsException e){
-				
+
 			}
-			
+
 			if(hasItem("Tent")){
 				quality+=0.25;
 				RPGMain.printText(true, "You set up your tent and get everything ready. Good thing you brought this with you, you'll notice ");
 			}
-			
+
 			quality = Math.min(1, quality);
-			
+
 			double mobDensity = current.getMobDensity(5);
-			
+
 			//light a fire
 			if(hasItem("Wood") && hasItem("Flint")){
 				while(true){
 					RPGMain.printText(true, "Do you want to create a fire? [y/n]\n>");
-					try {
-						String answer = RPGMain.waitForMessage().toLowerCase();
-						
-						if(answer.startsWith("y")){
-							String weather = WeatherSimulator.getWeather(currentPosition[0], currentPosition[1]);
-							double r = Math.random();
-							if(weather.startsWith("rain") && r > 0.5){
-								RPGMain.printText(true, "You try your best but with all the wood you find wet to the core, it's impossible to get a fire going. You'll have to do without.");
-								break;
-							}
-							else if(weather.endsWith("stormy") && r > 0.75){
-								RPGMain.printText(true, "This heavy wind is giving you a hard time. You keep on trying, but eventually give up, frustrated.");
-								break;
-							}
-							
-							quality+=0.3;
-							delInventoryItem("Wood",1);
-							
+					String answer = RPGMain.waitForMessage().toLowerCase();
+
+					if(answer.startsWith("y")){
+						String weather = WeatherSimulator.getWeather(currentPosition[0], currentPosition[1]);
+						double r = Math.random();
+						if(weather.startsWith("rain") && r > 0.5){
+							RPGMain.printText(true, "You try your best but with all the wood you find wet to the core, it's impossible to get a fire going. You'll have to do without.");
 							break;
 						}
-						else if(answer.startsWith("n")){
+						else if(weather.endsWith("stormy") && r > 0.75){
+							RPGMain.printText(true, "This heavy wind is giving you a hard time. You keep on trying, but eventually give up, frustrated.");
 							break;
 						}
-						else{
-							RPGMain.printText(true, "Not a valid option.");
-							continue;
-						}
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+
+						quality+=0.3;
+						delInventoryItem("Wood",1);
+
+						break;
+					}
+					else if(answer.startsWith("n")){
+						break;
+					}
+					else{
+						RPGMain.printText(true, "Not a valid option.");
 						continue;
 					}
 				}
 			}
-			
+
 			int hours = 0;
 			int fitnessRate = (int)Math.round(8*(1+quality));
 			//ask number of hours
 			while(true){
 				RPGMain.printText(false, "How many hours would you like to sleep? (rate: " + fitnessRate + "%/h)\n>");
-				
+
 				try{
 					hours = Integer.parseInt(RPGMain.waitForMessage());
 					break;
 				} catch(NumberFormatException e){
 					RPGMain.printText(true, "Not a number");
 					continue;
-				} catch(InterruptedException e){
-					continue;
 				}
 			}
-			try{
-				Global.pauseProg(4000);
-			} catch(InterruptedException e){
-				
-			}
+			Global.pauseProg(4000);
 			//rest and see if you get disturbed
 			for(int j=0;j<hours;j++){
 				DayLightThread.rest(1);
@@ -694,80 +728,80 @@ public class Avatar extends Wezen implements Serializable{
 		}
 	}
 	public void equipItem(int keuze) throws InterruptedException{
-			if(getInventoryItem(keuze) instanceof Equipment){
-				Equipment item = (Equipment)getInventoryItem(keuze);
-				// if player wants to equip shield while holding a 2H weapon
-				if((item.getType() == 2 && !schild.getName().equalsIgnoreCase("nothing")) || (item.getType() == 3 && wapen.getType() == 2)){
-					RPGMain.printText(true, "You cannot equip a two-handed weapon and a shield simultaneously.");
-				}
-				else{
-					RPGMain.printText(true,"You have succesfully equipped " + item.getName() + ".");
-					if(!getEquipped(item.getType()).getName().equalsIgnoreCase("nothing")){
-						if(getInventorySpace() >= (getEquipped(item.getType()).getWeight() - item.getWeight())){
-							delInventoryItem(item);
-							switch(item.getType()){
-							case 1: addInventoryItem(wapen);
-									wapen = item;
-									break;
-							case 2: addInventoryItem(wapen);
-									wapen = item;
-									break;
-							case 3: addInventoryItem(schild);
-									schild = item; 
-									break;
-							case 4: addInventoryItem(boog);
-									boog = item;
-									break;
-							case 5: addInventoryItem(helm);
-									helm = item;
-									break;
-							case 6: addInventoryItem(harnas);
-									harnas = item;
-									break;
-							case 7: addInventoryItem(handschoenen);
-									handschoenen = item;
-									break;
-							case 8: addInventoryItem(broek);
-									broek = item;
-									break;
-							case 9: addInventoryItem(schoenen);
-									schoenen = item;
-									break;
-							}
-						}
-						else{
-							RPGMain.printText(true, "The item you are trying to replace is too heavy.");
+		if(getInventoryItem(keuze) instanceof Equipment){
+			Equipment item = (Equipment)getInventoryItem(keuze);
+			// if player wants to equip shield while holding a 2H weapon
+			if((item.getType() == 2 && !schild.getName().equalsIgnoreCase("nothing")) || (item.getType() == 3 && wapen.getType() == 2)){
+				RPGMain.printText(true, "You cannot equip a two-handed weapon and a shield simultaneously.");
+			}
+			else{
+				RPGMain.printText(true,"You have succesfully equipped " + item.getName() + ".");
+				if(!getEquipped(item.getType()).getName().equalsIgnoreCase("nothing")){
+					if(getInventorySpace() >= (getEquipped(item.getType()).getWeight() - item.getWeight())){
+						delInventoryItem(item);
+						switch(item.getType()){
+						case 1: addInventoryItem(wapen);
+						wapen = item;
+						break;
+						case 2: addInventoryItem(wapen);
+						wapen = item;
+						break;
+						case 3: addInventoryItem(schild);
+						schild = item; 
+						break;
+						case 4: addInventoryItem(boog);
+						boog = item;
+						break;
+						case 5: addInventoryItem(helm);
+						helm = item;
+						break;
+						case 6: addInventoryItem(harnas);
+						harnas = item;
+						break;
+						case 7: addInventoryItem(handschoenen);
+						handschoenen = item;
+						break;
+						case 8: addInventoryItem(broek);
+						broek = item;
+						break;
+						case 9: addInventoryItem(schoenen);
+						schoenen = item;
+						break;
 						}
 					}
 					else{
-						delInventoryItem(item);
-						switch(item.getType()){
-						case 1:	wapen = item;
-								break;
-						case 2: wapen = item;
-								break;
-						case 3: schild = item; 
-								break;
-						case 4: boog = item;
-								break;
-						case 5: helm = item;
-								break;
-						case 6: harnas = item;
-								break;
-						case 7: handschoenen = item;
-								break;
-						case 8: broek = item;
-								break;
-						case 9: schoenen = item;
-								break;
-						}
+						RPGMain.printText(true, "The item you are trying to replace is too heavy.");
 					}
-					checkTreats();
 				}
+				else{
+					delInventoryItem(item);
+					switch(item.getType()){
+					case 1:	wapen = item;
+					break;
+					case 2: wapen = item;
+					break;
+					case 3: schild = item; 
+					break;
+					case 4: boog = item;
+					break;
+					case 5: helm = item;
+					break;
+					case 6: harnas = item;
+					break;
+					case 7: handschoenen = item;
+					break;
+					case 8: broek = item;
+					break;
+					case 9: schoenen = item;
+					break;
+					}
+				}
+				checkTreats();
 			}
-			else{
-				RPGMain.printText(true,"You can't equip that.");
-			}
+		}
+		else{
+			RPGMain.printText(true,"You can't equip that.");
+		}
 		Global.pauseProg();
 	}
 	public void removeUsedItems(){
@@ -809,7 +843,7 @@ public class Avatar extends Wezen implements Serializable{
 					RPGMain.printText(true, "");
 				}
 			}
-			
+
 			int aantalItems = inventory.size();
 
 			if(aantalItems > 0){
@@ -837,7 +871,7 @@ public class Avatar extends Wezen implements Serializable{
 					RPGMain.printText(true, "Not a valid option.");
 				}
 			}
-			
+
 			else if(keuze.startsWith("use")){
 				try{
 					index = Integer.parseInt(keuze.substring(4));
@@ -858,7 +892,7 @@ public class Avatar extends Wezen implements Serializable{
 		}
 	}
 	// CHARACTER PANEL
-	
+
 	public void characterPanel() throws InterruptedException{
 		RPGMain.printText(true,"Your name: " + naam);
 		RPGMain.printText(true,"Level: " + level);
@@ -872,7 +906,7 @@ public class Avatar extends Wezen implements Serializable{
 		RPGMain.printText(true,"          Charisma: " + (charisma+statIncrease[3]));
 		//RPGMain.printText(true,"Experience: " + experience + "/" + (int)(Math.pow(level+2, 3) + 6) + " (" + Math.rint((experience/((Math.pow(level+2, 3))+6))*100) + "%)");
 		if(goud >= 0){
-		RPGMain.printText(true,"Gold pieces: " + goud);
+			RPGMain.printText(true,"Gold pieces: " + goud);
 		}
 		else{
 			RPGMain.printText(true,"Gold pieces: 0\nDebt to innkeeper: " + -goud);
@@ -923,7 +957,7 @@ public class Avatar extends Wezen implements Serializable{
 					RPGMain.printText(true, "Not a valid option.");
 				}
 			}
-			
+
 			else if(keuze.startsWith("use")){
 				try{
 					index = Integer.parseInt(keuze.substring(4));
@@ -943,9 +977,9 @@ public class Avatar extends Wezen implements Serializable{
 			}
 		}
 	}
-	
+
 	/* QUEST METHODS */
-	
+
 	public void showQuestlog() throws InterruptedException{
 		RPGMain.printText(true,"Active quests: ");
 		int nullIndex = 1;
@@ -974,7 +1008,7 @@ public class Avatar extends Wezen implements Serializable{
 				questlog.get(keuze-1).showQuest();
 			}
 			else{
-				
+
 			}
 			break;
 		}
@@ -982,7 +1016,7 @@ public class Avatar extends Wezen implements Serializable{
 	public void addQuest(int ID){
 		questlog.add(Data.quests.get(ID));
 		RPGMain.printText(true, "Acquired: \"" + getQuest(ID).getNaam() + "\".");
-		
+
 		try {
 			SAXBuilder parser = new SAXBuilder();
 			Document doc = parser.build(new File("Data/QuestDialog.xml"));
@@ -1009,13 +1043,10 @@ public class Avatar extends Wezen implements Serializable{
 		for(Item i: inventory.keySet()){
 			Data.quests.get(ID).checkProgress(i.getClass().getName().split("\\.")[1], i.getID());
 		}
-		try {
-			Global.pauseProg(2000);
-		} catch (InterruptedException e) {
-		}
+		Global.pauseProg(2000);
 	}
 	public void delQuest(String name){
-		
+
 		for(int j=0;j<questlog.size();j++){
 			try{
 				if(questlog.get(j).getNaam().equalsIgnoreCase(name)){
@@ -1057,48 +1088,40 @@ public class Avatar extends Wezen implements Serializable{
 				try{
 					RPGMain.printText(false,"You have " + punten + " point(s) to spend.\nIncrease:" +
 							"\n1: Strength (current: " + strength + ")" +
-								"\n2: Dexterity (current: " + dexterity + ")" +
-										"\n3: Intellect (current: " + intellect + ")" +
-												"\n4: Charisma (current: " + charisma + ")\n>");
+							"\n2: Dexterity (current: " + dexterity + ")" +
+							"\n3: Intellect (current: " + intellect + ")" +
+							"\n4: Charisma (current: " + charisma + ")\n>");
 					switch(Integer.parseInt(RPGMain.waitForMessage())){
 					case 1: RPGMain.printText(true,"Strength increased.");
-							strength++;
-							punten--;
-							break;
+					strength++;
+					punten--;
+					break;
 					case 2: RPGMain.printText(true,"Dexterity increased.");
-							dexterity++;
-							punten--;
-							break;
+					dexterity++;
+					punten--;
+					break;
 					case 3: RPGMain.printText(true,"Intellect increased.");
-							intellect++;
-							punten--;
-							break;
+					intellect++;
+					punten--;
+					break;
 					case 4: RPGMain.printText(true,"Charisma increased.");
-							charisma++;
-							punten--;
-							break;
+					charisma++;
+					punten--;
+					break;
 					default: break; 
 					}
 					Global.pauseProg(1000);
 				}catch(NumberFormatException exc){
 					RPGMain.printText(true,"Not a valid option.");
 					continue;
-				} catch(InterruptedException e){
-					e.printStackTrace();
-					logger.error(e);
 				}
 			}
-			
+
 			RPGMain.printText(true, "Visit the temple to continue your spiritual journey.");
-			try{
-				Global.pauseProg();
-			}catch(InterruptedException e){
-				e.printStackTrace();
-				logger.error(e);
-			}
+			Global.pauseProg();
 		}
-		
-		
+
+
 		/*while(experience >= (Math.pow(level+2, 3) + 6)){
 			experience-= Math.pow(level+2, 3) + 6;
 			level++;

@@ -183,30 +183,17 @@ public class Artifact extends Item {
 
 			RPGMain.printText(true,"You try to decipher what it could mean, or what it could have been used for.");
 
-			try{
-				Global.pauseProg();
-			} catch(InterruptedException e){
-				e.printStackTrace();
-				logger.error(e);
-			}
-			
+			Global.pauseProg();
+
 			RPGMain.printText(true, "It seems to be some sort of " + name + ".");
 
 			for(int j=1;j<=discoveredInfo;j++){
-				try{
-					Global.pauseProg(2000);
-				} catch(InterruptedException e){
-					e.printStackTrace();
-					logger.error(e);
-				}
+				Global.pauseProg(2000);
 				logger.debug("Printing info for level " + j);
 				RPGMain.printText(true, extractedInfo.get(j));
 			}
 
-			try{
-				Global.pauseProg();
-			} catch(InterruptedException e){
-			}
+			Global.pauseProg();
 
 			// create small minigame for extracting info, it gets easier/harder dependent on the ratio erudition/difficulty
 			// minigame based on lockpick (perhaps in an abstract form), information was being saved in containers, more important information has harder coding
@@ -319,42 +306,32 @@ public class Artifact extends Item {
 
 	public boolean openLock(){
 		RPGMain.printText(true, "What you have found seems to be protected by some form of protection, but with a mechanism preventing you from opening it.");
-		try{
-			Global.pauseProg();
-		} catch(InterruptedException e){
-			e.printStackTrace();
-			logger.error(e);
-		}
+		Global.pauseProg();
 		if(riddle != null){
 			RPGMain.printText(true, "There seems to be a riddle inscribed into the casing. There are some turning wheels with letters on them to form an answer.");
-			try{
-				Global.pauseProg();
+			Global.pauseProg();
 
-				while(true){
-					RPGMain.printText(true, "The riddle goes: " + riddle);
-					RPGMain.printText(false, ">");
+			while(true){
+				RPGMain.printText(true, "The riddle goes: " + riddle);
+				RPGMain.printText(false, ">");
 
-					String answer = RPGMain.waitForMessage();
+				String answer = RPGMain.waitForMessage();
 
-					if(!answer.equalsIgnoreCase("cancel")){
-						logger.debug("Answer: " + riddleSolution);
-						if(answer.equalsIgnoreCase(riddleSolution)){
-							RPGMain.printText(true, "You hear a satisfactory click, and you find that you are now able to open the container.");
-							Global.pauseProg(2000);
-							return true;
-						}
-						else{
-							RPGMain.printText(true, "You wait a few moments, unsure if anything is to happen. There is no sound but your sigh, meaning it wasn't the right answer.");
-							Global.pauseProg(2000);
-						}
+				if(!answer.equalsIgnoreCase("cancel")){
+					logger.debug("Answer: " + riddleSolution);
+					if(answer.equalsIgnoreCase(riddleSolution)){
+						RPGMain.printText(true, "You hear a satisfactory click, and you find that you are now able to open the container.");
+						Global.pauseProg(2000);
+						return true;
 					}
 					else{
-						break;
+						RPGMain.printText(true, "You wait a few moments, unsure if anything is to happen. There is no sound but your sigh, meaning it wasn't the right answer.");
+						Global.pauseProg(2000);
 					}
 				}
-			} catch(InterruptedException e){
-				e.printStackTrace();
-				logger.error(e);
+				else{
+					break;
+				}
 			}
 		}
 		return false;

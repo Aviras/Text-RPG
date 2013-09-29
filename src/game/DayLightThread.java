@@ -12,14 +12,12 @@ public class DayLightThread extends Thread implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private static int hour = 11; // starting hour, sunset at 7pm, sunrise at 7am
 	private static final int DAY_MS = 1800000;
-	private static WeatherSimulator weatherSim;
-	private static HopeSimulator hopeSim;
+	private static WeatherSimulator weatherSim = new WeatherSimulator();
+	private static HopeSimulator hopeSim = new HopeSimulator();
 	
 	private static final Logger logger = Logger.getLogger(DayLightThread.class);
 	
 	public DayLightThread(){
-		weatherSim = new WeatherSimulator();
-		hopeSim = new HopeSimulator();
 		start();
 	}
 	public static WeatherSimulator getWeatherSim(){
@@ -61,11 +59,7 @@ public class DayLightThread extends Thread implements Serializable{
 		else if(hour < 25){
 			RPGMain.printText(true, "It is evening. The sun has left the world again, and its inhabitants are preparing for the night.");
 		}
-		try {
-			Global.pauseProg(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Global.pauseProg(2000);
 		
 	}
 	@SuppressWarnings("unused")

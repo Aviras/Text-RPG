@@ -309,7 +309,11 @@ public class MapArea extends JPanel implements KeyListener{
 	public void getNewDrawingRadius(){
 		
 		//reduced vision during night time
-		double dayLight = WeatherSimulator.getSolarIntensity(locPos[0], locPos[1]);
+		double dayLight = 0.0;
+		try{
+			dayLight = WeatherSimulator.getSolarIntensity(locPos[0], locPos[1]);
+		} catch(NullPointerException e){
+		}
 		
 		if(currentLevel == 0){
 			//radiusExt is a bigger radius due to height effects
@@ -641,6 +645,8 @@ public class MapArea extends JPanel implements KeyListener{
 		if(RPGMain.speler.getMovementMode().equalsIgnoreCase("running")){
 			speed = 2.0;
 		}
+		
+		speed*=RPGMain.speler.getSpeedModifier();
 		
 		if(currentLevel == 0 && heightSpeedInfluence){
 			try{
@@ -1016,17 +1022,20 @@ public class MapArea extends JPanel implements KeyListener{
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		if(drawCity){
-			drawCity(g);
-		}
-		else{
-			getNewDrawingRadius();
-			drawElevation(g);
-			drawRoster(g);
-			drawPlayerPos(g);
-			drawEvents(g);
-			drawNPCs(g);
-			drawHerbs(g);
+		try{
+			if(drawCity){
+				drawCity(g);
+			}
+			else{
+				getNewDrawingRadius();
+				drawElevation(g);
+				drawRoster(g);
+				drawPlayerPos(g);
+				drawEvents(g);
+				drawNPCs(g);
+				drawHerbs(g);
+			}
+		} catch(NullPointerException e){
 		}
 	}
 	

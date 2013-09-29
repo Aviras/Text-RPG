@@ -51,25 +51,34 @@ public class Global implements Serializable{
 	
 	private static final Logger logger = Logger.getLogger(Global.class);
 	
-	public static void pauseProg() throws InterruptedException{
+	public static void pauseProg(){
 		RPGMain.printText(false,"...");
 		GameFrameCanvas.textField.setText("");
 		pause = true;
 		RPGMain.waitForMessage();
 		pause = false;
 	}
-	public static void pauseProg(int ms) throws InterruptedException{
+	public static void pauseProg(int ms){
 		GameFrameCanvas.textField.setEnabled(false);
 		GameFrameCanvas.textField.setText("");
 		pause = true;
 		for(int j=0;j<3;j++){
 			RPGMain.printText(false, ".");
-			Thread.sleep(ms/4);
+			try{
+				Thread.sleep(ms/4);
+			} catch(InterruptedException e){
+				e.printStackTrace();
+				logger.error(e);
+			}
 		}
 		pause = false;
 		RPGMain.printText(true, "");
 		GameFrameCanvas.textField.setEnabled(true);
 		GameFrameCanvas.textField.requestFocus();
+	}
+	public static void pauseProg(int ms, String message){
+		RPGMain.printText(false, message);
+		pauseProg(ms);
 	}
 	public static void addDiscoveredArtifactID(int ID, boolean playerFound){
 		artifactsDiscovered.add(ID);
@@ -86,6 +95,7 @@ public class Global implements Serializable{
 						if(localArtifacts != null){
 							for(int id: localArtifacts.keySet()){
 								if(id == ID){
+									//TODO no need to remove if it's non-carryable
 									h.removeArtifact(ID);
 									found = true;
 									logger.debug("Found and removed the artifact (ID:" + id + ") in HostileArea " + h.getName() + " at " + 
@@ -109,16 +119,27 @@ public class Global implements Serializable{
 		 * 2) see what effect it has on different aspects of society
 		 * 3) give the player a message, of show him in some way the progress made?
 		 */
+		/* TODO
+		 * Make general config files of what has to happen at what levels of the different params
+		 * from a certain level, create guilds that offer quests
+		 * increasing the level opens up new quests
+		 * Guilds should offer some advantages to players
+		 */
+		
+		/*
+		 * Problem with creating new buildings are the descriptions
+		 */
 		if(type.equalsIgnoreCase("culture")){
 			culture+=amount;
 			/* What happens when culture is increased?
 			 * 1) More books in existing libraries
 			 * 2) More people becoming scholars
-			 * 3) Build theatre halls and make plays players can attend, or poetry
+			 * 3) Build theatre halls and make plays players can attend, or poetry, or extend current amount of plays
 			 * 4) Make bards, people travelling and telling stories
 			 * 5) Change conversation trees of NPCs
 			 * 6) Build libraries in towns where they have none
 			 */
+			
 		}
 		else if(type.equalsIgnoreCase("technology")){
 			technology+=amount;
@@ -172,7 +193,7 @@ public class Global implements Serializable{
 	 */
 	public static String makeDialog(File aFile,String[] path){
 		SAXBuilder parser = new SAXBuilder();
-		StringBuilder sb = new StringBuilder();
+
 		try {
 			Document doc = parser.build(aFile);
 			Element root = doc.getRootElement();
@@ -195,6 +216,19 @@ public class Global implements Serializable{
 					System.out.println(t[0]);
 				}
 			}
+			return makeDialog(el);
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+			RPGMain.printText(true, "File " + aFile.getAbsolutePath() + " not found!");
+		}
+		return null;
+	}
+	public static String makeDialog(Element el){
+		StringBuilder sb = new StringBuilder();
+	
+		try{
 			List<?> dialog = el.getChildren();
 			Iterator<?> i = dialog.iterator();
 			while(i.hasNext()){
@@ -205,9 +239,13 @@ public class Global implements Serializable{
 				try{
 					// get the specified delay
 					ms = Integer.parseInt(d.getAttributeValue("delay"));
-				} catch(NumberFormatException e){ ms = 0;}
+				} catch(NumberFormatException e){ 
+					ms = 0;
+				}
 				// print the NPC name if there was one
-				if(name != null) RPGMain.printText(false, name + ": ");
+				if(name != null){
+					RPGMain.printText(false, name + ": ");
+				}
 				// check message for player name or race and change it accordingly
 				String message = d.getTextNormalize();
 				message = message.replaceAll("playerName", RPGMain.speler.getName());
@@ -215,7 +253,9 @@ public class Global implements Serializable{
 				RPGMain.printText(true,message);
 				sb.append(message);
 				// pause program for specified delay
-				if(ms == 0) pauseProg();
+				if(ms == 0){
+					pauseProg();
+				}
 				else Thread.sleep(ms);
 			}
 			if(dialog.isEmpty()){
@@ -223,14 +263,9 @@ public class Global implements Serializable{
 				sb.append(el.getTextTrim());
 			}
 			return sb.toString();
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-			RPGMain.printText(true, "File " + aFile.getAbsolutePath() + " not found!");
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch(InterruptedException e){
 		}
+		
 		return null;
 	}
 	// modified A* algorithm

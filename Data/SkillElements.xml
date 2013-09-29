@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SkillElements>
+  <SkillElement id="0">
+    <name>TestElement1</name>
+    <skillDescription>This is a skill description.</skillDescription>
+    <skillTree>Hunting</skillTree>
+    <type>parameter</type>
+    <levelReq>0</levelReq>
+    <maxProgress>5</maxProgress>
+    <extraOptions>
+      <parameter>Strength</parameter>
+      <magnitude>1.0</magnitude>
+    </extraOptions>
+  </SkillElement>
+  <SkillElement id="1">
+    <name>TestElement2</name>
+    <skillDescription>Increases strength.</skillDescription>
+    <skillTree>Hunting</skillTree>
+    <type>parameter</type>
+    <levelReq>0</levelReq>
+    <maxProgress>5</maxProgress>
+    <extraOptions>
+      <parameter>Strength</parameter>
+      <magnitude>1.0</magnitude>
+    </extraOptions>
+  </SkillElement>
+  <SkillElement id="2">
+    <name>TestElement3</name>
+    <skillDescription>Increases strength.</skillDescription>
+    <skillTree>Hunting</skillTree>
+    <type>parameter</type>
+    <levelReq>4</levelReq>
+    <maxProgress>5</maxProgress>
+    <extraOptions>
+      <parameter>Strength</parameter>
+      <magnitude>1.0</magnitude>
+      <skillRequirements>0</skillRequirements>
+    </extraOptions>
+  </SkillElement>
+  <SkillElement id="3">
+    <name>TestElement4</name>
+    <skillDescription>Increases strength.</skillDescription>
+    <skillTree>Hunting</skillTree>
+    <type>parameter</type>
+    <levelReq>4</levelReq>
+    <maxProgress>5</maxProgress>
+    <extraOptions>
+      <parameter>Strength</parameter>
+      <magnitude>1.0</magnitude>
+    </extraOptions>
+  </SkillElement>
+    <SkillElement id="4">
+    <name>TestElement4</name>
+    <skillDescription>Increases strength.</skillDescription>
+    <skillTree>Hunting</skillTree>
+    <type>parameter</type>
+    <levelReq>10</levelReq>
+    <maxProgress>5</maxProgress>
+    <extraOptions>
+      <parameter>Strength</parameter>
+      <magnitude>1.0</magnitude>
+    </extraOptions>
+  </SkillElement>
+    <SkillElement id="5">
+    <name>TestElement4</name>
+    <skillDescription>Increases strength.</skillDescription>
+    <skillTree>Hunting</skillTree>
+    <type>parameter</type>
+    <levelReq>10</levelReq>
+    <maxProgress>5</maxProgress>
+    <extraOptions>
+      <parameter>Strength</parameter>
+      <magnitude>1.0</magnitude>
+    </extraOptions>
+  </SkillElement>
+    <SkillElement id="6">
+    <name>TestElement4</name>
+    <skillDescription>Increases strength.</skillDescription>
+    <skillTree>Hunting</skillTree>
+    <type>parameter</type>
+    <levelReq>10</levelReq>
+    <maxProgress>5</maxProgress>
+    <extraOptions>
+      <parameter>Strength</parameter>
+      <magnitude>1.0</magnitude>
+    </extraOptions>
+  </SkillElement>
+</SkillElements>

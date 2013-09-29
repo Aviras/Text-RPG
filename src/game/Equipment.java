@@ -188,7 +188,11 @@ public class Equipment extends Item implements Serializable {
 		}
 
 		// POISONS ARE AWESOME
-		class Poison{
+		class Poison implements Serializable{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			private String type,name,description, effectType;
 			private int effect,charges, currentPhase;
 			

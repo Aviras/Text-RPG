@@ -129,6 +129,7 @@ public class ServerThread extends Thread {
 					dout.flush();
 					dout.close();
 				} catch (IOException e) {
+				} catch(NullPointerException e){
 				}
 
 			}

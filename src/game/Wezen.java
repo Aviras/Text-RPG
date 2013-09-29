@@ -34,7 +34,7 @@ public abstract class Wezen implements Serializable {
 	protected HashMap<Ability,Integer> abilities = new HashMap<Ability,Integer>();
 	protected ArrayList<Buff> buffs = new ArrayList<Buff>();
 	
-	private transient Logger logger = Logger.getLogger(Wezen.class);
+	private static final Logger logger = Logger.getLogger(Wezen.class);
 	
 	
 	public Wezen(double lvl, String name, int hp, int gold,int strength,int dexterity,int intellect,int charisma){
@@ -56,8 +56,7 @@ public abstract class Wezen implements Serializable {
 		
 	}
 	
-	public void updateHPBar(){
-	}
+	public abstract void updateHPBar();
 	
 	public HashMap<Ability,Integer> getAbilities(){
 		return abilities;
@@ -479,6 +478,7 @@ public abstract class Wezen implements Serializable {
 	public void addGoud(int x){
 		goud+=x;
 		if(goud < 0) goud = 0;
+		GameFrameCanvas.updatePlayerInfoTable();
 	}
 	public void setStrength(int x){
 		strength = x;

@@ -40,7 +40,7 @@ public class GameFrameCanvas extends JPanel{
 	public static JPanel movementModePanel, clothingPanel;
 	public static NoiseMeter noiseMeter;
 	public static JLabel[] walkIcons, clothingIcons;
-	public static SpringLayout layout;
+	public static SpringLayout layout = new SpringLayout();
 	public static String n,e,s,w;
 	private static Color normalColor, enemyTextColor, playerTextColor, townLocationColor, dungeonStringColor, playerInputColor;
 	private static Logger logger = Logger.getLogger(GameFrameCanvas.class);
@@ -55,7 +55,6 @@ public class GameFrameCanvas extends JPanel{
 	
 	public GameFrameCanvas(){
 
-		layout = new SpringLayout();
 		setLayout(layout);
 		
 		//load background image
@@ -477,11 +476,11 @@ public class GameFrameCanvas extends JPanel{
 		} catch (LineUnavailableException e) {
 		}
     }
-    public void playSound(int index,int loop){
+/*    public static void playSound(int index,int loop){
     	LOOP = loop;
     	SOUNDINDEX = index;
     	clips.get(index).loop(LOOP);
-    }
+    }*/
  
     
 /*	public class Mp3Player extends SwingWorker<Void,Void>{

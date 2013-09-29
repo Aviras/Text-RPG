@@ -48,7 +48,9 @@ public class NoiseMeter extends JPanel {
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		
-		g.drawImage(meter, 0, 0, (int)(dim.width*noiseLevel), dim.height, 0, 0, (int)(meter.getWidth(null)*noiseLevel), meter.getHeight(null), null);
+		try{
+			g.drawImage(meter, 0, 0, (int)(dim.width*noiseLevel), dim.height, 0, 0, (int)(meter.getWidth(null)*noiseLevel), meter.getHeight(null), null);
+		} catch(NullPointerException e){
+		}
 	}
 }

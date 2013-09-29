@@ -25,7 +25,7 @@ public class WeatherSimulator implements Serializable{
 	private static double w_2 = 2*Math.PI/365; //periodicity of one year
 	private static double seasonOffset = 3*Math.PI/2; //seasonOffset determines which season to start with, pi/2 is winter, sin = +1
 	
-	private static Logger logger = Logger.getLogger(WeatherSimulator.class);
+	private static final Logger logger = Logger.getLogger(WeatherSimulator.class);
 	
 	public WeatherSimulator(){
 		clouds = new ArrayList<Cloud>();
