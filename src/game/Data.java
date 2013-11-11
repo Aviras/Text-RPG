@@ -34,10 +34,66 @@ public class Data {
 	protected static HashMap<Integer,Herb> herbs = new HashMap<Integer, Herb>();
 	protected static HashMap<Integer, Artifact> artifacts = new HashMap<Integer, Artifact>();
 	protected static HashMap<Integer, SkillElement> skillElements = new HashMap<Integer, SkillElement>();
+	protected static HashMap<Integer, Guild> guilds = new HashMap<Integer, Guild>();
 	public static Location[][] wereld;
 	public static SAXBuilder parser = new SAXBuilder();
 	
 	private transient final Logger logger = Logger.getLogger(Data.class);
+	
+	public static Object getObject(String type, int id){
+		if(type.equalsIgnoreCase("equipment")){
+			return equipment.get(id);
+		}
+		else if(type.equalsIgnoreCase("item")){
+			return items.get(id);
+		}
+		else if(type.equalsIgnoreCase("clothes")){
+			return clothes.get(id);
+		}
+		else if(type.equalsIgnoreCase("potion")){
+			return potions.get(id);
+		}
+		else if(type.equalsIgnoreCase("spell")){
+			return spells.get(id);
+		}
+		else if(type.equalsIgnoreCase("quest")){
+			return quests.get(id);
+		}
+		else if(type.equalsIgnoreCase("npc")){
+			return NPCs.get(id);
+		}
+		else if(type.equalsIgnoreCase("enemy")){
+			return enemies.get(id);
+		}
+		else if(type.equalsIgnoreCase("hostileArea")){
+			return hostileAreas.get(id);
+		}
+		else if(type.equalsIgnoreCase("town")){
+			return towns.get(id);
+		}
+		else if(type.equalsIgnoreCase("sea")){
+			return seas.get(id);
+		}
+		else if(type.equalsIgnoreCase("ability")){
+			return abilities.get(id);
+		}
+		else if(type.equalsIgnoreCase("consumable")){
+			return consumables.get(id);
+		}
+		else if(type.equalsIgnoreCase("herb")){
+			return herbs.get(id);
+		}
+		else if(type.equalsIgnoreCase("artifact")){
+			return artifacts.get(id);
+		}
+		else if(type.equalsIgnoreCase("skillElement")){
+			return skillElements.get(id);
+		}
+		else if(type.equalsIgnoreCase("guild")){
+			return guilds.get(id);
+		}
+		return null;
+	}
 	
 	public void loadEquipment(File aFile){
 		Equipment testItem;
@@ -49,6 +105,25 @@ public class Data {
 			while(i.hasNext()){
 				testItem = (Equipment)Global.rwtext.loadData(Equipment.class, (Element)i.next());
 				equipment.put(testItem.getID(),testItem);
+			}
+		} catch (JDOMException e) {
+			e.printStackTrace();
+			logger.debug(e);
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.debug(e);
+		}
+	}
+	public void loadGuilds(File aFile){
+		Guild testGuild;
+		try {
+			Document doc = parser.build(aFile);
+			Element root = doc.getRootElement();
+			List<?> objects = root.getChildren();
+			Iterator<?> i = objects.iterator();
+			while(i.hasNext()){
+				testGuild = (Guild)Global.rwtext.loadData(Guild.class, (Element)i.next());
+				guilds.put(testGuild.getID(),testGuild);
 			}
 		} catch (JDOMException e) {
 			e.printStackTrace();

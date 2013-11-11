@@ -158,8 +158,26 @@
           <name>House</name>
           <description>The house has next to no furniture, and there is little light illuminating the room. It must be hard to live here.</description>
           <type>house</type>
-          <npcs>0;1</npcs>
-          <itemsPresent>consumable:0;1</itemsPresent>
+          <options>
+            <Room number="0">
+              <name>Entrance Hall</name>
+              <description>You enter the entrance hall.</description>
+              <function>null</function>
+              <connections>1</connections>
+              <options>
+                <npcs>0;1</npcs>
+              </options>
+            </Room>
+            <Room number="1">
+              <name>Supply Area</name>
+              <description>You enter the supply area.</description>
+              <function>null</function>
+              <connections>0</connections>
+              <options>
+                <items>consumable:0,1</items>
+              </options>
+            </Room>
+          </options>
         </location>
         <location>
           <name>City Stables</name>

@@ -145,7 +145,7 @@ public class CultureCentre extends DistrictLocation {
 			}
 			RPGMain.printText(true, new String[]{"* Engage in a ","riddle"," battle"}, new String[]{"regular","bold","regular"});
 			RPGMain.printText(true, new String[]{"* Write ", "your own poetry or play"}, new String[]{"bold","regular"});
-			RPGMain.printText(false, "* Cancel\n>");
+			RPGMain.printText(false, new String[]{"* ","Leave","\n>"}, new String[]{"regular","bold","regular"});
 			
 			String action = RPGMain.waitForMessage().toLowerCase();
 			
@@ -259,7 +259,7 @@ public class CultureCentre extends DistrictLocation {
 				new Notebook();
 				
 			}
-			else if(action.equalsIgnoreCase("cancel")){
+			else if(action.equalsIgnoreCase("leave")){
 				break;
 			}
 		}

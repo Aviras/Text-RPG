@@ -49,7 +49,7 @@ public class Inn extends DistrictLocation implements Serializable {
 				for(NPC n: npcs){
 					RPGMain.printText(true, new String[]{"* ", "Talk to ", n.getFullName()}, new String[]{"regular","bold","regular"});
 				}
-				RPGMain.printText(false, new String[]{"* ", "Visit", " the bar\n* Cancel\n>"}, new String[]{"regular","bold","regular"});
+				RPGMain.printText(false, new String[]{"* ", "Visit", " the bar\n* ","Leave\n",">"}, new String[]{"regular","bold","regular","bold","regular"});
 				
 				String input = RPGMain.waitForMessage().toLowerCase();
 				if(input.startsWith("talk to")){
@@ -66,7 +66,7 @@ public class Inn extends DistrictLocation implements Serializable {
 				else if(input.startsWith("visit")){
 					bar();
 				}
-				else if(input.equalsIgnoreCase("cancel")){
+				else if(input.equalsIgnoreCase("leave")){
 					RPGMain.printText(true, "You walk out of the " + name + ".");
 					break;
 				}

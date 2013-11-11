@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Guilds>
+  <Guild id="0">
+    <name>Engineer's Guild</name>
+    <description>Test description</description>
+    <options>
+      <quests>0;1</quests>
+      <scriptPath>Scripts</scriptPath>
+      <relations>0:-1</relations>
+    </options>
+  </Guild>
+</Guilds>

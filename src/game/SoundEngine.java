@@ -409,8 +409,14 @@ public class SoundEngine {
 					loop = INITLOOP;
 					index++;
 				}
-				if(!dLine.isOpen()){
-					logger.debug("Returning because of externally closed line.");
+				try{
+					if(!dLine.isOpen()){
+						logger.debug("Returning because of externally closed line.");
+						loop = -1;
+						index++;
+					}
+				} catch(NullPointerException e){
+					logger.debug("Returning because of nullpointerexception on line.");
 					loop = -1;
 					index++;
 				}

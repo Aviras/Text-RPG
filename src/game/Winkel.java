@@ -74,7 +74,7 @@ public class Winkel extends DistrictLocation implements Serializable {
 			RPGMain.printText(false,"1: Check out his wares\n" +
 									"2: Sell items\n" +
 									"3: Talk to " + name + "\n" +
-									"4: Go back\n>");
+									"4: Leave\n>");
 			try{
 				int keuze = Integer.parseInt(RPGMain.waitForMessage());
 				switch(keuze){

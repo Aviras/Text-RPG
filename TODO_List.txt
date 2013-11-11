@@ -2,6 +2,8 @@
 - TODO LIST FOR TEXT RPG ------------
 -------------------------------------
 
+GAMEPLAY SYSTEMS
+
 HIGH PRIORITY
 
 1) Finish up artifacts
@@ -12,7 +14,10 @@ HIGH PRIORITY
 		1.2.3) Smoothing out when handing in										DONE
 
 2) Effects of society parameters
-	2.1) Basic options, not the advanced ones. :( without fancy options it's bland
+	2.1) Culture																	DONE
+	2.2) Technology
+	2.3) Religion
+	2.4) Economy
 
 3) Skill trees
 	3.1) Figure out how to create a skill class										DONE
@@ -45,3 +50,7 @@ LOW PRIORITY
 	9.1) Discontinuous volume changes
 	
 10) Efficient saving, such that the game is compatible with new content being added after release
+
+
+CONTENT
+

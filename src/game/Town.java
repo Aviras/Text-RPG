@@ -382,6 +382,8 @@ public class Town extends Location{
 				String otherNPCs = el.getChildText("npcs");
 				String connectedCities = el.getChildText("connectedCities");
 				String performances = el.getChildText("performances");
+				String faction = el.getChildText("faction");
+				Element options = el.getChild("options");
 				if(type.equalsIgnoreCase("shop")){
 					locations.add(new Winkel(nameDummy,0,descriptionDummy,itemsPresent,npcID));
 				}
@@ -397,12 +399,15 @@ public class Town extends Location{
 						locations.add(new Inn(nameDummy,descriptionDummy,npcID,otherNPCs));
 					}
 				}
+				else if(type.equalsIgnoreCase("guildhouse")){
+					locations.add(new GuildHouse(nameDummy,descriptionDummy,faction,options));
+				}
 				//TODO use constructors with extra npcs
 				else if(type.equalsIgnoreCase("library")){
 					locations.add(new Library(nameDummy,descriptionDummy,itemsPresent));
 				}
 				else if(type.equalsIgnoreCase("house")){
-					locations.add(new House(nameDummy,descriptionDummy,otherNPCs,itemsPresent));
+					locations.add(new House(nameDummy,descriptionDummy,options));
 				}
 				else if(type.equalsIgnoreCase("stables")){
 					locations.add(new Stables(nameDummy,descriptionDummy,npcID,connectedCities));

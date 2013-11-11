@@ -310,6 +310,8 @@ public class RPGMain extends SwingWorker<Void,String> {
 			logger.info("Hostile Areas loaded.");
 			data.loadTowns(new File("Data/Towns.xml"));
 			logger.info("Towns loaded.");
+			data.loadGuilds(new File("Data/Guilds.xml"));
+			logger.info("Guilds loaded.");
 			//TODO
 			//data.loadSeas(new File("Data/Seas.xml"));
 			data.loadWereld(new File("Data/WorldMap.xml"));
