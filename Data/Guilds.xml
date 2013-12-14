@@ -5,7 +5,7 @@
     <description>Test description</description>
     <options>
       <quests>0;1</quests>
-      <scriptPath>Scripts</scriptPath>
+      <scriptPath>Data/Scripts/Engineer's Guild.bsh</scriptPath>
       <relations>0:-1</relations>
     </options>
   </Guild>

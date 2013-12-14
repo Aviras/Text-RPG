@@ -144,6 +144,18 @@ public class House extends DistrictLocation implements Serializable{
 			return reqReputation;
 		}
 		
+		public boolean hasNPCs(){
+			return !npcs.isEmpty();
+		}
+		
+		public boolean hasItems(){
+			return !items.isEmpty();
+		}
+		
+		public int[] getRoomConnections(){
+			return roomConnections;
+		}
+		
 		public String getFunction(){
 			return function;
 		}
@@ -159,88 +171,96 @@ public class House extends DistrictLocation implements Serializable{
 			int nextRoom = roomNumber;
 			
 			while(true){
-				HashMap<String, Integer> availRooms = new HashMap<String, Integer>();
-				for(int j=0;j<roomConnections.length;j++){
-					RPGMain.printText(true, new String[]{"* ", "Enter ", rooms.get(roomConnections[j]).getName()}, new String[]{"regular","bold","regular"});
-					availRooms.put(rooms.get(roomConnections[j]).getName(), roomConnections[j]);
-				}
-				if(!npcs.isEmpty())
-					RPGMain.printText(true, "Persons present:");
-				for(NPC n: npcs){
-					RPGMain.printText(true, new String[]{"* ", "Talk to ", n.getFullName()}, new String[]{"regular","bold","regular"});
-				}
-				
-				if(!items.isEmpty())
-					RPGMain.printText(true, "Items present:");
-				for(int j=0;j<items.size();j++){
-					RPGMain.printText(true,new String[]{"* ","Take ",(j+1) + ": " + items.get(j).getName()}, new String[]{"regular","bold","regular"});
-				}
-				if(function != null && !function.equalsIgnoreCase("null")){
-					RPGMain.printText(true, new String[]{"* Use its ", "function", " as a " + function}, new String[]{"regular","bold","regular"});
-				}
-				if(roomNumber == 0){
-					RPGMain.printText(true, new String[]{"* ", "Leave"}, new String[]{"regular","bold"});
-				}
-				
-				RPGMain.printText(false, ">");
-				String action = RPGMain.waitForMessage().toLowerCase().trim();
-				try{
-					if(action.startsWith("enter")){
-						String name = action.split(" ")[1];
-						for(String s: availRooms.keySet()){
-							if(s.toLowerCase().contains(name)){
-								nextRoom = availRooms.get(s);
+				if(!npcs.isEmpty() || !items.isEmpty()){
+					HashMap<String, Integer> availRooms = new HashMap<String, Integer>();
+					for(int j=0;j<roomConnections.length;j++){
+						RPGMain.printText(true, new String[]{"* ", "Enter ", rooms.get(roomConnections[j]).getName()}, new String[]{"regular","bold","regular"});
+						availRooms.put(rooms.get(roomConnections[j]).getName(), roomConnections[j]);
+					}
+					
+					if(!npcs.isEmpty())
+						RPGMain.printText(true, "Persons present:");
+					for(NPC n: npcs){
+						RPGMain.printText(true, new String[]{"* ", "Talk to ", n.getFullName()}, new String[]{"regular","bold","regular"});
+					}
+					
+					if(!items.isEmpty())
+						RPGMain.printText(true, "Items present:");
+					for(int j=0;j<items.size();j++){
+						RPGMain.printText(true,new String[]{"* ","Take ",(j+1) + ": " + items.get(j).getName()}, new String[]{"regular","bold","regular"});
+					}
+					if(function != null && !function.equalsIgnoreCase("null")){
+						RPGMain.printText(true, new String[]{"* Use its ", "function", " as a " + function}, new String[]{"regular","bold","regular"});
+					}
+					if(roomNumber == 0){
+						RPGMain.printText(true, new String[]{"* ", "Leave"}, new String[]{"regular","bold"});
+					}
+					
+					RPGMain.printText(false, ">");
+					String action = RPGMain.waitForMessage().toLowerCase().trim();
+					try{
+						if(action.startsWith("enter")){
+							String name = action.split(" ")[1];
+							for(String s: availRooms.keySet()){
+								if(s.toLowerCase().contains(name)){
+									nextRoom = availRooms.get(s);
+									break;
+								}
+							}
+							if(nextRoom != currentRoom){
 								break;
 							}
 						}
-						if(nextRoom != currentRoom){
-							break;
+						else if(action.startsWith("talk to")){
+							String name = RPGMain.upperCaseSingle(action.split(" ")[2],0);
+							
+							for(NPC n: npcs){
+								if(n.getName().equalsIgnoreCase(name)){
+									logger.debug("talking to " + name);
+									n.talk();
+									break;
+								}
+							}
 						}
-					}
-					else if(action.startsWith("talk to")){
-						String name = RPGMain.upperCaseSingle(action.split(" ")[2],0);
-						
-						for(NPC n: npcs){
-							if(n.getName().equalsIgnoreCase(name)){
-								logger.debug("talking to " + name);
-								n.talk();
+						else if(action.startsWith("take")){
+							
+							int index = Integer.parseInt(action.split(" ")[1])-1;
+							
+							if(!items.isEmpty()){
+								try{
+									RPGMain.speler.addInventoryItem(items.get(index));
+									
+									items.remove(index);
+									
+									RPGMain.printText(true, "Added item.");
+								} catch(IndexOutOfBoundsException e){
+									RPGMain.printText(true, "That number does not occur.");
+								}
+							}
+							
+							Global.pauseProg(1000);
+						}
+						else if(action.equalsIgnoreCase("function") && function != null && !function.equalsIgnoreCase("null")){
+							//TODO other functions
+							if(!function.equalsIgnoreCase("bedroom")){
+								nextRoom = -2;
+								logger.debug("nextRoom set to -2");
 								break;
 							}
+							
 						}
-					}
-					else if(action.startsWith("take")){
-						
-						int index = Integer.parseInt(action.split(" ")[1])-1;
-						
-						if(!items.isEmpty()){
-							try{
-								RPGMain.speler.addInventoryItem(items.get(index));
-								
-								items.remove(index);
-								
-								RPGMain.printText(true, "Added item.");
-							} catch(IndexOutOfBoundsException e){
-								RPGMain.printText(true, "That number does not occur.");
-							}
-						}
-						
-						Global.pauseProg(1000);
-					}
-					else if(action.equalsIgnoreCase("function") && function != null && !function.equalsIgnoreCase("null")){
-						//TODO other functions
-						if(!function.equalsIgnoreCase("bedroom")){
-							nextRoom = -2;
+						else if(roomNumber == 0 && action.equalsIgnoreCase("leave")){
+							nextRoom = -1;
 							break;
 						}
-						
+					} catch(Exception e){
+						continue;
 					}
-					else if(roomNumber == 0 && action.equalsIgnoreCase("leave")){
-						nextRoom = -1;
-						break;
-					}
-				} catch(Exception e){
-					continue;
 				}
+				else if(function != null && !function.equalsIgnoreCase("null")){
+					nextRoom = -2;
+				}
+				
 			
 			}
 			

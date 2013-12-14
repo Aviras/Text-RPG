@@ -36,6 +36,7 @@ public class Guild {
 		this.description = description;
 		
 		power = 1;
+		reputation = 1;
 		
 		questIDs = new ArrayList<Integer>();
 		
@@ -73,6 +74,9 @@ public class Guild {
 	}
 	public String getDescription(){
 		return description;
+	}
+	public ArrayList<Integer> getQuestIDs(){
+		return questIDs;
 	}
 	public int getID(){
 		return ID;

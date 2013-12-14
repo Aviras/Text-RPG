@@ -180,6 +180,31 @@
           </options>
         </location>
         <location>
+          <name>Engineer's Hall</name>
+          <description>This is the Engineer's Hall. Lots of crazy stuff, and smoke. Lots of smoke.</description>
+          <type>guildhouse</type>
+          <faction>0</faction>
+          <options>
+            <Room number="0">
+              <name>Entrance Hall</name>
+              <description>You enter the entrance hall.</description>
+              <function>interactive</function>
+              <connections>1</connections>
+              <options>
+                <npcs>0</npcs>
+              </options>
+            </Room>
+            <Room number="1">
+              <name>Supply Area</name>
+              <description>This is the supply hall for the Engineer's guild.</description>
+              <function>supply room</function>
+              <connections>0</connections>
+              <options>
+              </options>
+            </Room>
+          </options>
+        </location>
+        <location>
           <name>City Stables</name>
           <description>Test</description>
           <type>stables</type>

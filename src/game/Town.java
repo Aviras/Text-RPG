@@ -415,6 +415,9 @@ public class Town extends Location{
 				else if(type.equalsIgnoreCase("culturecentre")){
 					locations.add(new CultureCentre(nameDummy, descriptionDummy, performances));
 				}
+				else{
+					logger.error("Unknown location type " + type + " in city " + name);
+				}
 			}
 		}
 		public void updateEmoValues(){

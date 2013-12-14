@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <GuildProgress>
   <Guild id="0">
-    <Perk reputation="" power=""></Perk>
+    <Perk reputation="0" power="0">equipment:0;herb:0,2</Perk>
   </Guild>
 </GuildProgress>
