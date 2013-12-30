@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<KnowledgeEvents>
+  <Culture>
+    <event value="2">
+    Global.changeModifier("foodPrice",0.05);
+    RPGMain.printText(true, "Changed food Price modifier to 1.05");
+    </event>
+  </Culture>
+</KnowledgeEvents>

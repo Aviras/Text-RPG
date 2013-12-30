@@ -15,6 +15,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
+import bsh.EvalError;
 import bsh.Interpreter;
 
 public class Global implements Serializable{
@@ -39,6 +40,7 @@ public class Global implements Serializable{
 	public static SoundEngine soundEngine = new SoundEngine();
 	public static boolean busy = false;
 	public static int culture,technology,religion,economy;
+	public static double foodPriceMod, artifactCashMod, weaponPriceMod, armourPriceMod, travelCostMod;
 	
 	public static TreeMap<Double,ArrayList<int[]>> queue = new TreeMap<Double,ArrayList<int[]>>();
 	
@@ -50,6 +52,54 @@ public class Global implements Serializable{
 	public static Interpreter beanShell = new Interpreter();
 	
 	private static final Logger logger = Logger.getLogger(Global.class);
+	
+	public static void initModifiers(){
+		foodPriceMod = 1.0;
+		weaponPriceMod = 1.0;
+		armourPriceMod = 1.0;
+		
+		travelCostMod = 1.0;
+		
+		artifactCashMod = 1.0;
+	}
+	
+	public static void initBeanShell(){
+		try{
+			Global.beanShell.set("RPGMain",new RPGMain());
+			Global.beanShell.set("hostA", new HostileArea());
+			Global.beanShell.set("Global", new Global());
+			Global.beanShell.set("generator", Global.generator);
+			Global.beanShell.set("Data", new Data());
+			
+			beanShell.source("Data/Scripts/Test.bsh");
+		} catch(EvalError e){
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void changeModifier(String mod, double amount){
+		if(mod.equalsIgnoreCase("foodPrice")){
+			foodPriceMod+=amount;
+		}
+		else if(mod.equalsIgnoreCase("weaponPrice")){
+			weaponPriceMod+=amount;
+		}
+		else if(mod.equalsIgnoreCase("armourPrice")){
+			armourPriceMod+=amount;
+		}
+		else if(mod.equalsIgnoreCase("travelCost")){
+			travelCostMod+=amount;
+		}
+		else if(mod.equalsIgnoreCase("artifactCash")){
+			artifactCashMod+=amount;
+		}
+	}
 	
 	public static void pauseProg(){
 		RPGMain.printText(false,"...");
@@ -114,10 +164,12 @@ public class Global implements Serializable{
 	}
 	
 	public static void increaseKnowledge(String type, int amount){
+		
+		logger.debug("Entered increaseKnowledge: type: " + type + " amount " + amount);
 		/* What has to happen here?
 		 * 1) increase the respective parameter
 		 * 2) see what effect it has on different aspects of society
-		 * 3) give the player a message, of show him in some way the progress made?
+		 * 3) give the player a message, or show him in some way the progress made?
 		 */
 		/* TODO
 		 * Make general config files of what has to happen at what levels of the different params
@@ -127,32 +179,178 @@ public class Global implements Serializable{
 		 */
 		
 		/*
+		 * Verschil tussen artifacts ingeven bij gecentraliseerde regering en individuele organisaties:
+		 * Bij regering zorgt voor passieve bonussen mbt de categorie, genereert hoop, en levert direct cash op
+		 * Bij organisaties zorgt voor stijgen in de rangen en vergroot de power van de organisatie
+		 */
+		
+		/*
+		 * Maak Staat ook een 'guild'? Geef guilds meer controle over wat er gebeurt wanneer je iets bij hen binnenbrengt.
+		 * Hier enkel passieve effecten
+		 */
+		
+		/*
 		 * Problem with creating new buildings are the descriptions
 		 */
+		
+		/*
+		 * Maak soort stadhuis of verzamelplaats in steden met allemaal wetenschappers in om artifacts bij de staat binnen te brengen
+		 */
+		
+		/* Concluding: 3 things
+		 * 1) Put all scientists/whatever related to artifacts together in a house in a city
+		 * 2) Increasing a parameter increases some passive effects
+		 * 3) At certain points, special things are introduced as in guildhouses
+		 */
+		
+		int param = 0;
+		
 		if(type.equalsIgnoreCase("culture")){
 			culture+=amount;
+			param = culture;
 			/* What happens when culture is increased?
-			 * 1) More books in existing libraries
-			 * 2) More people becoming scholars
-			 * 3) Build theatre halls and make plays players can attend, or poetry, or extend current amount of plays
-			 * 4) Make bards, people travelling and telling stories
-			 * 5) Change conversation trees of NPCs
-			 * 6) Build libraries in towns where they have none
+			 * 
+			 * PASSIVE:
+			 * 1) More books in existing libraries DONE
+			 * 2) More people becoming scholars DONE
+			 * 3) Extend amount of plays in existing Culture Centres DONE
+			 * 
+			 * ACTIVE:
+			 * 1) Build new Culture Centres
+			 * 2) Build new Libraries
+			 * 3) Make bards, people travelling and telling stories
+			 * 4) Change conversation trees of NPCs
 			 */
 			
+			for(Location[] larr: Data.wereld){
+				for(Location l: larr){
+					if(l != null && l.getClass().equals(Town.class)){
+						Town t = (Town)l;
+						
+						logger.debug("Found town " + t.getName());
+						/* Add books to existing libraries
+						 * It can't just be any book, some books might be obtained through artifact findings or when a parameter reached a specific value
+						 */
+						Library lb = (Library)t.getDistrictLocation("Library");
+						
+						if(lb != null){
+							logger.debug("Found library");
+							ArrayList<Integer> bookIDs = lb.getBookIDs();
+							
+							ArrayList<Integer> newBookIDs = new ArrayList<Integer>();
+							try {
+								Document doc = Data.parser.build(new File("Data/Books.xml"));
+								Element root = doc.getRootElement();
+								List<?> objects = root.getChildren();
+								Iterator<?> i = objects.iterator();
+								while(i.hasNext()){
+									Element el = (Element)i.next();
+									if(el.getAttributeValue("category").equalsIgnoreCase("free") && !bookIDs.contains(Integer.parseInt(el.getAttributeValue("id")))){
+										newBookIDs.add(Integer.parseInt(el.getAttributeValue("id")));
+									}
+								}
+							} catch (JDOMException e) {
+								e.printStackTrace();
+								logger.debug(e);
+							} catch (IOException e) {
+								e.printStackTrace();
+								logger.debug(e);
+							}
+							
+							//TODO tweak probability
+							if(!newBookIDs.isEmpty() && Math.random() < 1){
+								int index = generator.nextInt(newBookIDs.size());
+								lb.addBook(newBookIDs.get(index));
+								logger.info("Added book " + newBookIDs.get(index) + " to library in " + t.getName());
+							}
+							
+							
+							/*
+							 * Make more people scholars
+							 * Question: Make new NPCs and somehow save them to load next time OR
+							 * 			 Turn existing NPCs into scholars and move them?
+							 * Solution: Make new NPCs, either have to make a lot of original NPCs, or the world will become empty quickly + simulates population growth
+							 * 
+							 * Question: How to save these new NPCs such that they are loaded correctly next time? Same applies for all that changes in the world?
+							 * 			 2 Options: Either save all changes made and apply them to a brand new world afterwards OR
+							 * 			 Save everything in the state at the save made
+							 * Remarks: Option 1 might become lengthy, and need to make sure everything stays consistent. For loading procedure there is also a high need
+							 * 			for efficient parsing to distinguish all possible actions. Effectively same as making scripting language for the game
+							 * 			Option 2 throws away all of the original data for Towns and HostileAreas after first use
+							 */
+							
+							/*
+							 * Need name database
+							 */
+							
+							NPC newNPC = createNewNPC();
+							
+							newNPC.setFunction("scholar");
+							
+							lb.addNPC(newNPC);
+
+						}
+						
+						//Add new Performances to existing Culture Centres.
+						CultureCentre cc = (CultureCentre)t.getDistrictLocation("culturecentre");
+						
+						if(cc != null){
+							ArrayList<Integer> performanceIDs = cc.getPerformanceIDs();
+							
+							ArrayList<Integer> newPerformanceIDs = new ArrayList<Integer>();
+							
+							try {
+								Document doc = Data.parser.build(new File("Data/Performances.xml"));
+								Element root = doc.getRootElement();
+								List<?> objects = root.getChildren();
+								Iterator<?> i = objects.iterator();
+								while(i.hasNext()){
+									Element el = (Element)i.next();
+									if(el.getAttributeValue("category").equalsIgnoreCase("free") && !performanceIDs.contains(Integer.parseInt(el.getAttributeValue("id")))){
+										newPerformanceIDs.add(Integer.parseInt(el.getAttributeValue("id")));
+									}
+								}
+							} catch (JDOMException e) {
+								e.printStackTrace();
+								logger.debug(e);
+							} catch (IOException e) {
+								e.printStackTrace();
+								logger.debug(e);
+							}
+							
+							if(!newPerformanceIDs.isEmpty() && Math.random() < 0.5){
+								int index = generator.nextInt(newPerformanceIDs.size());
+								lb.addBook(newPerformanceIDs.get(index));
+								logger.info("Added Performance " + newPerformanceIDs.get(index) + " to CultureCentre in " + t.getName());
+							}
+						}
+					}
+				}
+			}
 		}
 		else if(type.equalsIgnoreCase("technology")){
 			technology+=amount;
+			param = technology;
 			/* What happens when technology is increased?
 			 * 1) Prices in shops become lower due to improvements in farming etc
 			 * 2) Creation of technology guilds, scientists gathering to discuss and create, possibly give new quests
 			 * 3) More people becoming inventors
 			 * 4) New technology items in shops
 			 * 5) 
+			 * 
+			 * 
+			 * PASSIVE:
+			 * 1) More people becoming inventors
+			 * 
+			 * ACTIVE:
+			 * 1) New technology items in shops
+			 * 2) Better food available in shops
+			 * 3) Prices become lower in shops, food due to farming improvements, weapons and armour due to new techniques, new ores (through guilds as well perhaps)
 			 */
 		}
 		else if(type.equalsIgnoreCase("religion")){
 			religion+=amount;
+			param = religion;
 			/* What happens when religion is increased?
 			 * 1) Building more churches/religious places
 			 * 2) More people becoming "priests"
@@ -161,6 +359,7 @@ public class Global implements Serializable{
 		}
 		else if(type.equalsIgnoreCase("economy")){
 			economy+=amount;
+			param = economy;
 			/* What happens when economy is increased?
 			 * 1) Prices become cheaper
 			 * 2) Banks open
@@ -169,10 +368,96 @@ public class Global implements Serializable{
 			 * 5) Cities become bigger
 			 * 6) Less diseases and bad events due to improved quality of life
 			 * 7) More cash money for discovered artifacts
+			 * 
+			 * PASSIVE:
+			 * 1) Prices become cheaper
+			 * 2) Less diseases and bad events due to improved quality of life
+			 * 3) More cash money for discovered artifacts DONE
+			 * 
+			 * ACTIVE:
+			 * 1) More shops selling different, exotic things
+			 * 2) Travelling becomes cheaper because roads are improved
+			 * 3) Cities become bigger
+			 * 
 			 */
+			
+			artifactCashMod+=0.01*amount;
+			
 		}
 		
+		//All active things happening, as written in KnowledgeEvents.xml data file
+		try {
+			Document doc = Data.parser.build(new File("Data/KnowledgeEvents.xml"));
+			Element root = doc.getRootElement();
+			Element typeEvents = root.getChild(RPGMain.upperCaseSingle(type, 0));
+			List<Element> events = typeEvents.getChildren();
+			Iterator<Element> it = events.iterator();
+			while(it.hasNext()){
+				Element el = it.next();
+				if(Integer.parseInt(el.getAttributeValue("value")) <= param){
+					beanShell.eval(el.getTextTrim());
+				}
+			}
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (EvalError e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		
+		
 		logger.debug("Culture: " + culture + "; Technology: " + technology + "; Religion: " + religion + "; Economy: " + economy);
+	}
+	
+	public static NPC createNewNPC(){
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader("Data/First_Names.csv"));
+			List<String> male = new ArrayList<>();
+			List<String> female = new ArrayList<>();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+			    if(line.split(",")[1].equalsIgnoreCase("m")){
+			    	male.add(line.split(",")[0]);
+			    }
+			    else{
+			    	female.add(line.split(",")[0]);
+			    }
+			}
+			
+			reader = new BufferedReader(new FileReader("Data/Last_Names.csv"));
+			List<String> lastNames = new ArrayList<>();
+			line = null;
+			while((line = reader.readLine()) != null){
+				lastNames.add(line);
+			}
+			
+			String newName = null;
+			String gender = null;
+			
+			if(generator.nextDouble() < 0.5){
+				newName = RPGMain.upperCaseSingle(male.get(generator.nextInt(male.size())),0);
+				gender = "male";
+			}
+			else{
+				newName = RPGMain.upperCaseSingle(female.get(generator.nextInt(female.size())),0);
+				gender = "female";
+			}
+			newName+=" " + lastNames.get(generator.nextInt(lastNames.size()));
+			logger.info("Creating new NPC name " + newName);
+			
+			//TODO conversation tree, function and sound effects
+			//public NPC(Integer ID,String name,String gender,Integer conversationTreeID,String soundGreet,String soundFarewell)
+			NPC newNPC = new NPC(-1, newName, gender, 0, null, null);
+			return newNPC;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	// Send messages to server, interpreted at server
 	public static void message(String message){

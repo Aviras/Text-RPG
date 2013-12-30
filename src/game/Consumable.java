@@ -76,6 +76,9 @@ public class Consumable extends Item implements Serializable {
 	public int getEffect(){
 		return effect;
 	}
+	public int getCost(){
+		return (int)(cost*Global.foodPriceMod);
+	}
 	public boolean isUsed(){
 		return used;
 	}

@@ -5,21 +5,19 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.SymbolAxis;
-import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.LookupPaintScale;
 import org.jfree.chart.renderer.xy.VectorRenderer;
 import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.VectorSeries;
 import org.jfree.data.xy.VectorSeriesCollection;
@@ -29,9 +27,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.RefineryUtilities;
 
 public class Weatherplots extends ApplicationFrame {
 
@@ -57,9 +53,10 @@ public class Weatherplots extends ApplicationFrame {
 		}
 		
 		dataset.addSeries("Temperature 1", new double[][]{xvalues,yvalues,zvalues});
-		JPanel chartPanel = createContourPanel(dataset);
+		JPanel chartPanel = createContourPanel(dataset, title);
 		chartPanel.setPreferredSize(new Dimension(500,500));
 		setContentPane(chartPanel);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	public Weatherplots(String title, HashMap<int[],double[]> data){
 		super(title);
@@ -93,8 +90,8 @@ public class Weatherplots extends ApplicationFrame {
 		return new ChartPanel(createChart(dataset));
 	}
 	
-	public JPanel createContourPanel(XYZDataset dataset){
-		return new ChartPanel(createChart(dataset));
+	public JPanel createContourPanel(XYZDataset dataset, String title){
+		return new ChartPanel(createChart(dataset, title));
 	}
 	
 	public JPanel createScatterPanel(XYDataset dataset){
@@ -146,7 +143,7 @@ public class Weatherplots extends ApplicationFrame {
         return chart;
     }
 	
-    private static JFreeChart createChart(XYZDataset dataset) {
+    private static JFreeChart createChart(XYZDataset dataset, String title) {
         NumberAxis xAxis = new NumberAxis("X");
         xAxis.setLowerMargin(0.0);
         xAxis.setUpperMargin(0.0);
@@ -157,7 +154,7 @@ public class Weatherplots extends ApplicationFrame {
         yAxis.setUpperMargin(0.0);
         yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         XYBlockRenderer renderer = new XYBlockRenderer();
-        LookupPaintScale paintScale = new LookupPaintScale(10, 30, Color.black);
+        LookupPaintScale paintScale = new LookupPaintScale(0, 15, Color.black);
         for(int j=0;j<40;j++){
         	paintScale.add((double)j/2.0+10, new Color((int)(255.0/40.0)*j,(int)((255.0/40.0)*(-0.1*Math.pow(j-20, 2)+ 40.0)),(int)(255.0/40.0)*(40-j)));
         }
@@ -168,7 +165,7 @@ public class Weatherplots extends ApplicationFrame {
         plot.setRangeGridlinePaint(Color.white);
         plot.setForegroundAlpha(0.66f);
         plot.setAxisOffset(new RectangleInsets(5, 5, 5, 5));
-        JFreeChart chart = new JFreeChart("World temperature", plot);
+        JFreeChart chart = new JFreeChart(title, plot);
         chart.removeLegend();
         chart.setBackgroundPaint(Color.white);
         /*SymbolAxis scaleAxis = new SymbolAxis(null, new String[] {"", "OK",

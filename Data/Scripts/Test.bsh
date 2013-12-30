@@ -1,0 +1,11 @@
+import game.Town;
+import game.DistrictLocation;
+import java.util.*;
+
+Town t = Data.towns.get(1);
+
+List l = new ArrayList();
+
+l.add(null);
+
+

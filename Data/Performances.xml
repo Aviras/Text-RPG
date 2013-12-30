@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Performances>
-  <Performance id="0">
+  <Performance id="0" category="free">
     <type>poetry</type>
     <name>I Wandered Lonely As A Cloud</name>
     <text> I wandered lonely as a cloud
@@ -32,7 +32,7 @@
                 And dances with the daffodils.
 </text>
   </Performance>
-  <Performance id="1">
+  <Performance id="1" category="free">
     <type>poetry</type>
     <name>All the World's a Stage</name>
     <text>All the world's a stage,
@@ -65,7 +65,7 @@
               Sans teeth, sans eyes, sans taste, sans everything.
 </text>
   </Performance>
-  <Performance id="2">
+  <Performance id="2" category="free">
     <type>music</type>
     <name>Warrior's Theme</name>
     <file>Sounds/Music/Warrior's theme - take 1.wav</file>

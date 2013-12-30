@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
+import org.jfree.ui.RefineryUtilities;
 
 import bsh.EvalError;
 
@@ -24,6 +25,8 @@ public class HopeSimulator implements Serializable {
 	private static double[][] hopeMap,reputationMap;
 	private static ArrayList<HopeCenter> hopeCenters;
 	private static final Logger logger = Logger.getLogger(HopeSimulator.class);
+	private static Weatherplots hope = null;
+	private static Weatherplots rep = null;
 	
 	public HopeSimulator(){
 		hopeMap = new double[Data.wereld.length][Data.wereld[0].length];
@@ -51,19 +54,51 @@ public class HopeSimulator implements Serializable {
 				for(int k=-phase;k<=phase;k++){
 					// emulate a traveling wave, hope doesn't get added continuously,
 					// would make things less transparent
-					if(Math.abs(Math.sqrt(j*j + k*k) - phase) < 0.5){
-						//TODO arrayindexoutofboundsexception
-						hopeMap[j+position[0]][k+position[1]]+=value/Math.sqrt(j*j+k*k);
+					if(phase == 0 && j == 0 && k == 0){
+						hopeMap[position[0]][position[1]]+=value;
 						if(h.getPlayerInduced()){
-							reputationMap[j+position[0]][k+position[1]]+=value/Math.sqrt(j*j+k*k);
+							reputationMap[position[0]][position[1]]+=value;
+						}
+					}
+					else if(Math.abs(Math.sqrt(j*j + k*k) - phase) < 0.5){
+						try{
+							hopeMap[j+position[0]][k+position[1]]+=value/Math.sqrt(j*j+k*k);
+							if(h.getPlayerInduced()){
+								reputationMap[j+position[0]][k+position[1]]+=value/Math.sqrt(j*j+k*k);
+							}
+						} catch(ArrayIndexOutOfBoundsException e){
 						}
 					}
 				}
 			}
 			h.addPhase(1);
 		}
+		
+		showHope();
+		showReputation();
 	}
-	public void createRandomHopeEvent(){
+	public static void showHope(){
+		try{
+			hope.dispose();
+		} catch(NullPointerException e){
+		}
+		hope = new Weatherplots("Hope", hopeMap);
+		hope.pack();
+		RefineryUtilities.centerFrameOnScreen(hope);
+		hope.setVisible(true);
+	}
+	public static void showReputation(){
+		try{
+			rep.dispose();
+		} catch(NullPointerException e){
+		}
+		
+		rep = new Weatherplots("Reputation", reputationMap);
+		rep.pack();
+		RefineryUtilities.centerFrameOnScreen(rep);
+		rep.setVisible(true);
+	}
+	public static void createRandomHopeEvent(){
 		Random generator = new Random();
 		if(generator.nextDouble() < 0.1){
 			int x = -1;
@@ -106,8 +141,6 @@ public class HopeSimulator implements Serializable {
 				int gravity = Global.generator.nextInt(2) + 1;
 				try {
 					Global.beanShell.set("_area", Data.wereld[x][y]);
-					Global.beanShell.set("RPGMain",new RPGMain());
-					Global.beanShell.set("Global", new Global());
 					Global.beanShell.set("gravity", gravity);
 					
 					Global.beanShell.source(chosenEvent.getChild("script").getTextTrim());
@@ -127,7 +160,7 @@ public class HopeSimulator implements Serializable {
 			}
 		}
 	}
-	public void checkHopeImpact(){
+	public static void checkHopeImpact(){
 		/*for(int j=0;j<hopeMap[0].length;j++){
 			for(int k=0;k<hopeMap.length;k++){
 				if(Math.abs(hopeMap[j][k]) >= 1){
@@ -146,7 +179,7 @@ public class HopeSimulator implements Serializable {
 			}
 		}
 	}
-	public void checkTermination(){
+	public static void checkTermination(){
 		ArrayList<HopeCenter> delete = new ArrayList<HopeCenter>();
 		for(HopeCenter h: hopeCenters){
 			if(h.getPhase() == h.getRadius()){
@@ -174,7 +207,7 @@ public class HopeSimulator implements Serializable {
 			this.radius = radius;
 			this.townTalk = townTalk;
 			this.playerInduced = playerInduced;
-			phase = 1;
+			phase = 0;
 		}
 		
 		public double getValue(){

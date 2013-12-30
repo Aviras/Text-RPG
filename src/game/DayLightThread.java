@@ -11,7 +11,7 @@ public class DayLightThread extends Thread implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private static int hour = 11; // starting hour, sunset at 7pm, sunrise at 7am
-	private static final int DAY_MS = 1800000;
+	private static final int DAY_MS = 500000;
 	private static WeatherSimulator weatherSim = new WeatherSimulator();
 	private static HopeSimulator hopeSim = new HopeSimulator();
 	
@@ -19,6 +19,8 @@ public class DayLightThread extends Thread implements Serializable{
 	
 	public DayLightThread(){
 		start();
+		
+		HopeSimulator.createHopeCenter(new int[]{5,10}, 10, 10, null, false);
 	}
 	public static WeatherSimulator getWeatherSim(){
 		return weatherSim;

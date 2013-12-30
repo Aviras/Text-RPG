@@ -4,6 +4,7 @@ import game.Logbook.LogbookNode;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -277,6 +278,7 @@ public class RPGMain extends SwingWorker<Void,String> {
 
 	// LOAD DATA
 	public static void initialize(){
+		
 		try{
 			Data data = new Data();
 			logger.info("Started loading");
@@ -316,6 +318,10 @@ public class RPGMain extends SwingWorker<Void,String> {
 			//data.loadSeas(new File("Data/Seas.xml"));
 			data.loadWereld(new File("Data/WorldMap.xml"));
 			logger.info("WorldMap loaded.");
+			
+			Global.initModifiers();
+			
+			Global.initBeanShell();
 
 			logger.info("Load succesful");
 		} catch(Exception e){

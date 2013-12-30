@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -82,7 +83,7 @@ public class GuildHouse extends House {
 				String function = rooms.get(currentRoom).getFunction();
 				logger.debug("In specific function: " + function);
 				
-				if(function.equalsIgnoreCase("")){
+				if(function.equalsIgnoreCase("artifactTest")){
 					handleQuestsArtifacts();
 				}
 				else if(function.equalsIgnoreCase("supply room")){
@@ -91,9 +92,6 @@ public class GuildHouse extends House {
 				else if(function.equalsIgnoreCase("Interactive")){
 					String scriptPath = Data.guilds.get(factionID).getScriptPath();
 					try {
-						Global.beanShell.set("RPGMain", new RPGMain());
-						Global.beanShell.set("Global", new Global());
-						Global.beanShell.set("generator", Global.generator);
 						Global.beanShell.source(scriptPath);
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
@@ -115,7 +113,7 @@ public class GuildHouse extends House {
 		//TODO accept artifacts and give quests
 		RPGMain.printText(true, new String[]{"* Bring in an ", "artifact"}, new String[]{"regular","bold"});
 		if(!Data.guilds.get(factionID).getQuestIDs().isEmpty()){
-			RPGMain.printText(true, new String[]{"Ask about ", "quests"}, new String[]{"regular","bold"});
+			RPGMain.printText(true, new String[]{"* Ask about ", "quests"}, new String[]{"regular","bold"});
 		}
 		RPGMain.printText(false, ">");
 		String action = RPGMain.waitForMessage().toLowerCase();
@@ -177,18 +175,21 @@ public class GuildHouse extends House {
 						//give reputation and perhaps reward, or notify player of rewards that have now become available
 						int reputation = (int)(a.getWorth()*discoveredInfoPhase + modifier*a.getWorth());
 						
-						RPGMain.printText(true, "Your reputation with " + name + " has increased by " + reputation + ".");
+						Global.pauseProg(2000, "Your reputation with " + name + " has increased by " + reputation + ".");
 						
 						//check if player now has access to new ROOMS
 						for(Room r: rooms.values()){
 							if(r.getRequiredReputation() > Data.guilds.get(factionID).getReputation() && r.getRequiredReputation() <= (Data.guilds.get(factionID).getReputation() + reputation)){
-								RPGMain.printText(true, "You now have acces to room: " + r.getName());
+								RPGMain.printText(true, "You now have access to room: " + r.getName() + ".");
 							}
 						}
 						
 						//check if player now has access to new QUESTS
-						for(int qID: Data.guilds.get(factionID).getQuestIDs()){
-							
+						for(int qID: Data.guilds.get(factionID).getQuestIDs().keySet()){
+							int reqRep = Data.guilds.get(factionID).getQuestIDs().get(qID);
+							if(reqRep > Data.guilds.get(factionID).getReputation() && reqRep <= (Data.guilds.get(factionID).getReputation() + reputation)){
+								RPGMain.printText(true, "You now have access to quest: " + Data.quests.get(qID).getNaam() + ".");
+							}
 						}
 						
 						//check if player now has access to new ITEMS
@@ -226,19 +227,61 @@ public class GuildHouse extends House {
 		else if(action.startsWith("quest") && !Data.guilds.get(factionID).getQuestIDs().isEmpty()){
 			while(true){
 				int j = 1;
-				for(int id: Data.guilds.get(factionID).getQuestIDs()){
-					if(RPGMain.speler.getQuest(id) == null){
-						RPGMain.printText(true, j + ": Ask about " + Data.quests.get(id).getNaam());
+				for(int id: Data.guilds.get(factionID).getQuestIDs().keySet()){
+					if(Data.guilds.get(factionID).getReputation() >= Data.guilds.get(factionID).getQuestIDs().get(id)){
+						if(RPGMain.speler.getQuest(id) == null){
+							RPGMain.printText(true, j + ": Ask about " + Data.quests.get(id).getNaam());
+						}
+						else if(RPGMain.speler.getQuest(id).getCompleted()){
+							RPGMain.printText(true, j + ": Report about " + Data.quests.get(id).getNaam());
+						}
+						else{
+							RPGMain.printText(true, j + ": Repeat assignment about " + Data.quests.get(id).getNaam());
+						}
+						j++;
 					}
-					else if(RPGMain.speler.getQuest(id).getCompleted()){
-						RPGMain.printText(true, j + ": Report about " + Data.quests.get(id).getNaam());
-					}
-					j++;
 				}
+				RPGMain.printText(true, j + ": Cancel");
 				try{
 					int choice = Integer.parseInt(RPGMain.waitForMessage());
-					if(choice > 0 && j <= Data.guilds.get(factionID).getQuestIDs().size()){
-						
+					if(choice > 0 && choice < j){
+						NPC questMaster = new NPC(-1, "Quest Master", "male", -1, null, null);
+						Document doc = Data.parser.build(new File("Data/QuestDialog.xml"));
+						Element root = doc.getRootElement();
+						List<Element> objects = root.getChildren();
+						Iterator<Element> i = objects.iterator();
+						Element myConvTree = null;
+						String talkType = "";
+						int answerValue = 0;
+						for(int k=0;k<Data.guilds.get(factionID).getQuestIDs().size();k++){
+							if(k == choice-1){
+								answerValue = Data.guilds.get(factionID).getQuestIDs().get(k);
+								break;
+							}
+						}
+						while(i.hasNext()){
+							Element e = (Element)i.next();
+							if(e.getAttributeValue("id").equalsIgnoreCase("" + answerValue)){
+								logger.debug("answervalue: " + answerValue + " isQuestCompleted: " + RPGMain.speler.isQuestCompleted(answerValue));
+								if(!RPGMain.speler.questCompleted(answerValue) && RPGMain.speler.getQuest(answerValue) == null){
+									myConvTree = e.getChild("startdialog");
+									talkType = "newQuest";
+								}
+								else if(RPGMain.speler.getQuest(answerValue).getCompleted()){
+									myConvTree = e.getChild("enddialog");
+									talkType = "complQuest";
+								}
+								else{
+									myConvTree = e.getChild("busydialog");
+									talkType = "busyQuest";
+								}
+								break;
+							}
+						}
+						questMaster.converse(myConvTree, talkType, answerValue);
+					}
+					else if(choice == j){
+						break;
 					}
 					else{
 						RPGMain.printText(true, "There is no quest corresponding to that number.");
@@ -246,6 +289,10 @@ public class GuildHouse extends House {
 				} catch(NumberFormatException e){
 					RPGMain.printText(true, "Not a number.");
 					continue;
+				} catch (JDOMException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -258,6 +305,7 @@ public class GuildHouse extends House {
 		LinkedHashMap<Item, Integer> items = new LinkedHashMap<Item, Integer>();
 		try {
 			//TODO load stuff in the beginning, now it gets reset every time the function gets called, infinite supply
+			logger.debug("Inside supply function.");
 			Document doc = Data.parser.build(new File("Data/GuildProgress.xml"));
 			Element root = doc.getRootElement();
 			List<Element> objects = root.getChildren();
@@ -273,6 +321,7 @@ public class GuildHouse extends House {
 						int reqPower = Integer.parseInt(perk.getAttributeValue("power"));
 						
 						if(Data.guilds.get(factionID).getPower() >= reqPower && Data.guilds.get(factionID).getReputation() >= reqReputation){
+							logger.debug("Inside supply function, past constraints");
 							String[] s = perk.getTextTrim().split(";");
 							for(String u: s){
 								String type = u.split(":")[0];
@@ -283,7 +332,7 @@ public class GuildHouse extends House {
 								} catch(NumberFormatException e){
 								} catch(ArrayIndexOutOfBoundsException e){
 								}
-								
+								logger.debug("Found item " + type + ": " + id);
 								items.put((Item)Data.getObject(type, id), amount);
 							}
 						}

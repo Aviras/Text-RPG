@@ -52,7 +52,7 @@ public class Library extends DistrictLocation implements Serializable {
 	public void enter() throws InterruptedException{
 		RPGMain.printText(true, description);
 		Global.pauseProg();
-		if(!npcs.isEmpty()){
+		if(npcs != null && !npcs.isEmpty()){
 			while(true){
 				for(NPC n: npcs){
 					RPGMain.printText(true, new String[]{"* ", "Talk to ", n.getFullName()}, new String[]{"regular","bold","regular"});
@@ -61,10 +61,10 @@ public class Library extends DistrictLocation implements Serializable {
 				
 				String input = RPGMain.waitForMessage().toLowerCase();
 				if(input.startsWith("talk to")){
-					String name = RPGMain.upperCaseSingle(input.split(" ")[2],0);
+					String name = RPGMain.upperCaseSingle(input.split(" ",3)[2],0);
 					
 					for(NPC n: npcs){
-						if(n.getName().equalsIgnoreCase(name)){
+						if(n.getName().contains(name)){
 							logger.debug("talking to " + name);
 							n.talk();
 							break;
@@ -133,6 +133,25 @@ public class Library extends DistrictLocation implements Serializable {
 				continue;
 			}
 		}
+	}
+	
+	public void addBook(int id){
+		IDs.add(id);
+	}
+	public ArrayList<Integer> getBookIDs(){
+		return IDs;
+	}
+	public void addNPC(NPC npc){
+		if(npcs == null){
+			npcs = new ArrayList<NPC>();
+		}
+		npcs.add(npc);
+	}
+	public void addNPC(int id){
+		if(npcs == null){
+			npcs = new ArrayList<NPC>();
+		}
+		npcs.add(Data.NPCs.get(id));
 	}
 
 }

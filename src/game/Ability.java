@@ -58,11 +58,7 @@ public class Ability implements Serializable {
 						Global.beanShell.set("distance", distance);
 						Global.beanShell.set("covers", covers);
 						Global.beanShell.set("hitAbility", Data.abilities.get(0));
-						Global.beanShell.set("RPGMain",new RPGMain());
-						Global.beanShell.set("hostA", new HostileArea());
-						Global.beanShell.set("Global", new Global());
 						Global.beanShell.set("logger", logger);
-						Global.beanShell.set("generator", Global.generator);
 						Global.beanShell.set("coefficients", coefficients);
 						
 						Object o = Global.beanShell.source(scriptFile);

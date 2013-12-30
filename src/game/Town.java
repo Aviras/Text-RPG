@@ -115,6 +115,24 @@ public class Town extends Location{
 		
 		return false;
 	}
+	public DistrictLocation getDistrictLocation(String type){
+		DistrictLocation d = null;
+		for(int j=0;j<districts.length;j++){
+			for(int k=0;k<districts[0].length;k++){
+				try{
+					if(districts[j][k].getLocation(type) != null){
+						d = districts[j][k].getLocation(type);
+						break;
+					}
+				} catch(NullPointerException e){
+				}
+			}
+			if(d != null){
+				break;
+			}
+		}
+		return d;
+	}
 	public static String getDirection(int x,int y){
 		// origin is in left upper corner
 		//TODO if x=y=0
@@ -339,6 +357,30 @@ public class Town extends Location{
 		}
 	}
 	
+	public void addDistrict(int[] pos, String newName, String description, String npcs, ArrayList<DistrictLocation> locations){
+		District d = new District(pos, newName, description, npcs, null);
+		for(DistrictLocation dl: locations){
+			if(dl instanceof Gate){
+				d.addGate((Gate)dl);
+			}
+			else{
+				d.addLocation(dl);
+			}
+		}
+		logger.debug("Width: " + districts.length + " Height: " + districts[0].length);
+		if(districts[pos[0]][pos[1]] != null){
+			logger.error("Trying to overwrite district "  + districts[pos[0]][pos[1]].getName() + " in town " + naam + " at position " + pos[0] + "," + pos[1]);
+		}
+		else{
+			if(pos[0] >= districts.length || pos[1] >= districts[0].length){
+				
+			}
+			else{
+				districts[pos[0]][pos[1]] = d;
+			}
+		}
+	}
+	
 	
 	class District implements Serializable{
 		/**
@@ -370,53 +412,55 @@ public class Town extends Location{
 				}
 			}
 			
-			Iterator<Element> i = extra.iterator();
-			while(i.hasNext()){
-				Element el = i.next();
-				String nameDummy = el.getChildText("name");
-				String descriptionDummy = el.getChildText("description");
-				String type = el.getChildText("type");
-				String itemsPresent = el.getChildText("itemsPresent");
-				//TODO allow multiple npcs and still separate main npc (innkeeper, shopkeeper)
-				String npcID = el.getChildText("npcID");
-				String otherNPCs = el.getChildText("npcs");
-				String connectedCities = el.getChildText("connectedCities");
-				String performances = el.getChildText("performances");
-				String faction = el.getChildText("faction");
-				Element options = el.getChild("options");
-				if(type.equalsIgnoreCase("shop")){
-					locations.add(new Winkel(nameDummy,0,descriptionDummy,itemsPresent,npcID));
-				}
-				else if(type.startsWith("gate")){
-					gates.add(new Gate(nameDummy,descriptionDummy,type));
-				}
-				else if(type.equalsIgnoreCase("inn")){
-					logger.debug("otherNPCs: " + otherNPCs);
-					if(otherNPCs == null){
-						locations.add(new Inn(nameDummy,descriptionDummy,npcID));
+			if(extra != null){
+				Iterator<Element> i = extra.iterator();
+				while(i.hasNext()){
+					Element el = i.next();
+					String nameDummy = el.getChildText("name");
+					String descriptionDummy = el.getChildText("description");
+					String type = el.getChildText("type");
+					String itemsPresent = el.getChildText("itemsPresent");
+					//TODO allow multiple npcs and still separate main npc (innkeeper, shopkeeper)
+					String npcID = el.getChildText("npcID");
+					String otherNPCs = el.getChildText("npcs");
+					String connectedCities = el.getChildText("connectedCities");
+					String performances = el.getChildText("performances");
+					String faction = el.getChildText("faction");
+					Element options = el.getChild("options");
+					if(type.equalsIgnoreCase("shop")){
+						locations.add(new Winkel(nameDummy,0,descriptionDummy,itemsPresent,npcID));
+					}
+					else if(type.startsWith("gate")){
+						gates.add(new Gate(nameDummy,descriptionDummy,type));
+					}
+					else if(type.equalsIgnoreCase("inn")){
+						logger.debug("otherNPCs: " + otherNPCs);
+						if(otherNPCs == null){
+							locations.add(new Inn(nameDummy,descriptionDummy,npcID));
+						}
+						else{
+							locations.add(new Inn(nameDummy,descriptionDummy,npcID,otherNPCs));
+						}
+					}
+					else if(type.equalsIgnoreCase("guildhouse")){
+						locations.add(new GuildHouse(nameDummy,descriptionDummy,faction,options));
+					}
+					//TODO use constructors with extra npcs
+					else if(type.equalsIgnoreCase("library")){
+						locations.add(new Library(nameDummy,descriptionDummy,itemsPresent));
+					}
+					else if(type.equalsIgnoreCase("house")){
+						locations.add(new House(nameDummy,descriptionDummy,options));
+					}
+					else if(type.equalsIgnoreCase("stables")){
+						locations.add(new Stables(nameDummy,descriptionDummy,npcID,connectedCities));
+					}
+					else if(type.equalsIgnoreCase("culturecentre")){
+						locations.add(new CultureCentre(nameDummy, descriptionDummy, performances));
 					}
 					else{
-						locations.add(new Inn(nameDummy,descriptionDummy,npcID,otherNPCs));
+						logger.error("Unknown location type " + type + " in city " + name);
 					}
-				}
-				else if(type.equalsIgnoreCase("guildhouse")){
-					locations.add(new GuildHouse(nameDummy,descriptionDummy,faction,options));
-				}
-				//TODO use constructors with extra npcs
-				else if(type.equalsIgnoreCase("library")){
-					locations.add(new Library(nameDummy,descriptionDummy,itemsPresent));
-				}
-				else if(type.equalsIgnoreCase("house")){
-					locations.add(new House(nameDummy,descriptionDummy,options));
-				}
-				else if(type.equalsIgnoreCase("stables")){
-					locations.add(new Stables(nameDummy,descriptionDummy,npcID,connectedCities));
-				}
-				else if(type.equalsIgnoreCase("culturecentre")){
-					locations.add(new CultureCentre(nameDummy, descriptionDummy, performances));
-				}
-				else{
-					logger.error("Unknown location type " + type + " in city " + name);
 				}
 			}
 		}
@@ -427,6 +471,34 @@ public class Town extends Location{
 				n.addEmotionValue("hopeful", 0.15*prevHope);
 				n.addEmotionValue("frightened", -0.15*prevHope);
 			}
+		}
+		public void addLocation(DistrictLocation dl){
+			if(locations == null){
+				locations = new ArrayList<DistrictLocation>();
+			}
+			if(dl != null){
+				locations.add(dl);
+			}
+		}
+		public void addGate(Gate g){
+			if(gates == null){
+				gates = new ArrayList<Gate>();
+			}
+			if(g != null){
+				gates.add(g);
+			}
+		}
+		public void addNPC(NPC npc){
+			if(presentNPCs == null){
+				presentNPCs = new ArrayList<NPC>();
+			}
+			presentNPCs.add(npc);
+		}
+		public void addNPC(int id){
+			if(presentNPCs == null){
+				presentNPCs = new ArrayList<NPC>();
+			}
+			presentNPCs.add(Data.NPCs.get(id));
 		}
 		public void determineNPCMentalState(){
 			HashMap<String,Double> emotions;
@@ -459,6 +531,26 @@ public class Town extends Location{
 				}
 			}
 			return false;
+		}
+		public DistrictLocation getLocation(String name){
+			DistrictLocation d = null;
+			if(name.equalsIgnoreCase("library")){
+				for(DistrictLocation dl: locations){
+					if(dl instanceof Library){
+						d = dl;
+						break;
+					}
+				}
+			}
+			else if(name.equalsIgnoreCase("culturecentre")){
+				for(DistrictLocation dl: locations){
+					if(dl instanceof CultureCentre){
+						d = dl;
+						break;
+					}
+				}
+			}
+			return d;
 		}
 		
 		public int[] enter(){

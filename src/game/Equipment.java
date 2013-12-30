@@ -110,6 +110,14 @@ public class Equipment extends Item implements Serializable {
 		public int getType(){
 			return type;
 		}
+		public int getCost(){
+			if(type >= 10){
+				return (int)(cost*Global.weaponPriceMod);
+			}
+			else{
+				return (int)(cost*Global.armourPriceMod);
+			}
+		}
 		public String getFullType(){
 			String s = types[type];
 			if(weaponType != null){

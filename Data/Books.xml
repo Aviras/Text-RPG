@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Books>
-  <book id="0">
+  <book id="0" category="free">
     <name>The Great Test Story</name>
     <author>Captain Obvious</author>
     <Content>
@@ -16,7 +16,7 @@
       <summary>1;You read The Great Test Story by Captain Obvious, and learned absolutely nothing from it. Such a piece of garbage.</summary>
     </Log>
   </book>
-  <book id="1">
+  <book id="1" category="free">
     <name>Regulations following The Great Discovery</name>
     <author>Magistrate L. Pontius</author>
     <Content>
@@ -35,7 +35,7 @@
       <summary>1;The new reglations written by Magistrate L. Pontius come off quite strong, prohibiting any adoration of god other than 'the Almighty'. Also, an officer is to appointed to every village. The next pages appear to have been ripped out. It might be interesting to see if you could find out who did this.</summary>
     </Log>
   </book>
-  <book id="2">
+  <book id="2" category="free">
     <name>The story of our ancestors: Volume I</name>
     <author>Felix Deritry</author>
     <Content>

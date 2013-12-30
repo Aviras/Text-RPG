@@ -193,6 +193,9 @@ public class NPC extends Data implements Serializable {
 	public boolean isAllied(){
 		return allied;
 	}
+	public void setFunction(String f){
+		function = f;
+	}
 	public String getMentalState(){
 		String mentalState = null;
 		double max = 0;
@@ -291,7 +294,7 @@ public class NPC extends Data implements Serializable {
 		
 		//Decide which conversation to have
 		if(reputation > -10){
-			Global.soundEngine.playSound("Sounds/Voices/" + soundGreet, "effects", 0, 0, 0, true);
+			//Global.soundEngine.playSound("Sounds/Voices/" + soundGreet, "effects", 0, 0, 0, true);
 
 			String talkType = "Conversation";
 			Element myConvTree = null;
@@ -396,115 +399,119 @@ public class NPC extends Data implements Serializable {
 					e.printStackTrace();
 					logger.debug(e);
 				}
-
-				Element nodeText = null;
-				List<Element> replies = null;
-				Iterator<Element> repliesIter = null;
-
-				String mentalState = getMentalState();
-
-				Element currentTopElement = myConvTree;
-				HashMap<Integer,Element> replyMap = new HashMap<Integer,Element>();
-
-				boolean interrupted = false;
-
-				//ACTUAL CONVERSATION
-				while(currentTopElement != null){
-					replyMap.clear();
-					String childName = "text_" + mentalState;
-
-					nodeText = currentTopElement.getChild(childName);
-					if(nodeText == null){
-						childName = "text_all";
-						nodeText = currentTopElement.getChild(childName);
-					}
-					if(nodeText == null){
-						break;
-					}
-					logger.info("MentalState: " + getMentalState());
-					RPGMain.printText(true, name + ": " + nodeText.getTextTrim().replace("playerName", RPGMain.speler.getName()));
-
-					Global.pauseProg();
-
-					while(true){
-						try{
-							replies = currentTopElement.getChildren("reply");
-						} catch(NullPointerException e){
-							break;
-						}
-						boolean hasText = false;
-						if(!replies.isEmpty()){
-							repliesIter = replies.iterator();
-							//list all possible replies
-							while(repliesIter.hasNext()){
-								Element r = repliesIter.next();
-								String text = r.getChildText(childName);
-								if(text != null){
-									hasText = true;
-									RPGMain.printText(true, r.getAttributeValue("value") + ": " + r.getChildText(childName));
-									replyMap.put(Integer.parseInt(r.getAttributeValue("value")), r);
-								}
-							}
-							// end the conversation if there are no more replies
-							if(!hasText){
-								currentTopElement = null;
-								break;
-							}
-							RPGMain.printText(false, ">");
-							// let player choose reply and interpret it
-							try {
-								int replyChoice = Integer.parseInt(RPGMain.waitForMessage());
-								// replies are mapped
-								Element chosenReply = replyMap.get(replyChoice);
-								if(chosenReply == null){
-									RPGMain.printText(true, "Not a valid option.");
-								}
-								else{
-									currentTopElement = chosenReply.getChild("node");
-									try{
-										interrupted = Boolean.parseBoolean(chosenReply.getAttributeValue("interrupt"));
-									} catch(Exception e){
-									}
-									try{
-										String[] emotionValue = chosenReply.getAttributeValue("emo").split(":");
-										addEmotionValue(emotionValue[0],Double.parseDouble(emotionValue[1]));
-									} catch(Exception e){
-									}
-									break;
-								}
-							} catch (NumberFormatException e1) {
-								RPGMain.printText(true, "Your choice was not a number");
-								continue;
-							}
-						}
-						else{
-							currentTopElement = null;
-							break;
-						}
-					}
-
-				}
-
-				//END OF CONVERSATION, CHECK IF QUEST WAS GIVEN OR COMPLETED
-				if(talkType.equalsIgnoreCase("newQuest") && !interrupted){
-					RPGMain.printText(true, "You take notice of what he says, and write the information safely in your logbook.");
-					RPGMain.speler.addQuest(answerValue);
-				}
-				else if(talkType.equalsIgnoreCase("complQuest") && !interrupted){
-					if(reqQuestID == answerValue){
-						int[] playerPos = RPGMain.speler.getCurrentPosition();
-						HopeSimulator.createHopeCenter(playerPos, importance, 1, "Allied with " + name + ".", true);
-						HopeSimulator.addReputation(playerPos[0], playerPos[1], importance);
-						allied = true;
-					}
-					Data.quests.get(answerValue).complete();
-				}
+				
+				converse(myConvTree, talkType, answerValue);
 
 				//Global.soundEngine.playSound("Sounds/Voices/" + soundFarewell, "effects", 0, 0, 0, true);
 			}
 		}
 		
 		isTalking = false;
+	}
+	
+	public void converse(Element myConvTree, String talkType, int answerValue){
+		Element nodeText = null;
+		List<Element> replies = null;
+		Iterator<Element> repliesIter = null;
+
+		String mentalState = getMentalState();
+
+		Element currentTopElement = myConvTree;
+		HashMap<Integer,Element> replyMap = new HashMap<Integer,Element>();
+
+		boolean interrupted = false;
+
+		//ACTUAL CONVERSATION
+		while(currentTopElement != null){
+			replyMap.clear();
+			String childName = "text_" + mentalState;
+
+			nodeText = currentTopElement.getChild(childName);
+			if(nodeText == null){
+				childName = "text_all";
+				nodeText = currentTopElement.getChild(childName);
+			}
+			if(nodeText == null){
+				break;
+			}
+			logger.info("MentalState: " + getMentalState());
+			RPGMain.printText(true, name + ": " + nodeText.getTextTrim().replace("playerName", RPGMain.speler.getName()));
+
+			Global.pauseProg();
+
+			while(true){
+				try{
+					replies = currentTopElement.getChildren("reply");
+				} catch(NullPointerException e){
+					break;
+				}
+				boolean hasText = false;
+				if(!replies.isEmpty()){
+					repliesIter = replies.iterator();
+					//list all possible replies
+					while(repliesIter.hasNext()){
+						Element r = repliesIter.next();
+						String text = r.getChildText(childName);
+						if(text != null){
+							hasText = true;
+							RPGMain.printText(true, r.getAttributeValue("value") + ": " + r.getChildText(childName));
+							replyMap.put(Integer.parseInt(r.getAttributeValue("value")), r);
+						}
+					}
+					// end the conversation if there are no more replies
+					if(!hasText){
+						currentTopElement = null;
+						break;
+					}
+					RPGMain.printText(false, ">");
+					// let player choose reply and interpret it
+					try {
+						int replyChoice = Integer.parseInt(RPGMain.waitForMessage());
+						// replies are mapped
+						Element chosenReply = replyMap.get(replyChoice);
+						if(chosenReply == null){
+							RPGMain.printText(true, "Not a valid option.");
+						}
+						else{
+							currentTopElement = chosenReply.getChild("node");
+							try{
+								interrupted = Boolean.parseBoolean(chosenReply.getAttributeValue("interrupt"));
+							} catch(Exception e){
+							}
+							try{
+								String[] emotionValue = chosenReply.getAttributeValue("emo").split(":");
+								addEmotionValue(emotionValue[0],Double.parseDouble(emotionValue[1]));
+							} catch(Exception e){
+							}
+							break;
+						}
+					} catch (NumberFormatException e1) {
+						RPGMain.printText(true, "Your choice was not a number");
+						continue;
+					}
+				}
+				else{
+					currentTopElement = null;
+					break;
+				}
+			}
+
+		}
+
+		//END OF CONVERSATION, CHECK IF QUEST WAS GIVEN OR COMPLETED
+		if(talkType.equalsIgnoreCase("newQuest") && !interrupted){
+			RPGMain.printText(true, "You take notice of what he says, and write the information safely in your logbook.");
+			RPGMain.speler.addQuest(answerValue);
+		}
+		else if(talkType.equalsIgnoreCase("complQuest") && !interrupted){
+			if(reqQuestID == answerValue){
+				int[] playerPos = RPGMain.speler.getCurrentPosition();
+				HopeSimulator.createHopeCenter(playerPos, importance, 1, "Allied with " + name + ".", true);
+				HopeSimulator.addReputation(playerPos[0], playerPos[1], importance);
+				allied = true;
+			}
+			Data.quests.get(answerValue).complete();
+		}
 	}
 	
 	public void handleArtifacts(){
@@ -577,7 +584,7 @@ public class NPC extends Data implements Serializable {
 						}
 					}
 					
-					int reward = (int)(a.getWorth()*discoveredInfoPhase/2.0) + modifier*a.getWorth();
+					int reward = (int)(((a.getWorth()*discoveredInfoPhase/2.0) + modifier*a.getWorth())*Global.artifactCashMod);
 					
 					RPGMain.speler.addGoud(reward);
 					
@@ -585,6 +592,10 @@ public class NPC extends Data implements Serializable {
 					
 					//effect on society
 					Global.increaseKnowledge(a.getEffect(), (int)(discoveredInfoPhase*a.getAmount()/2.0));
+					
+					//Create hope event
+					HopeSimulator.createHopeCenter(RPGMain.speler.getCurrentPosition(), (a.getWorth()*discoveredInfoPhase/2.0 + modifier*a.getWorth())/20.0, 3, null, true);
+					logger.info("Created hope event for artifact discovery. Value: " + (a.getWorth()*discoveredInfoPhase/2.0 + modifier*a.getWorth())/20.0);
 					
 					//destroy the letter
 					Item letter = null;

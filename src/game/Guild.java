@@ -1,6 +1,5 @@
 package game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -25,7 +24,7 @@ public class Guild {
 	
 	private String name, description, scriptPath;
 	private int ID, reputation, power;
-	private ArrayList<Integer> questIDs;
+	private HashMap<Integer, Integer> questIDs;
 	private HashMap<Integer, Double> relations;
 	
 	private static Logger logger = Logger.getLogger(Guild.class);
@@ -38,12 +37,12 @@ public class Guild {
 		power = 1;
 		reputation = 1;
 		
-		questIDs = new ArrayList<Integer>();
+		questIDs = new HashMap<Integer, Integer>();
 		
 		try{
 			for(String s: options.getChildText("quests").split(";")){
 				try{
-					questIDs.add(Integer.parseInt(s));
+					questIDs.put(Integer.parseInt(s.split(":")[0]), Integer.parseInt(s.split(":")[1]));
 				} catch(NumberFormatException e){
 					e.printStackTrace();
 					logger.error("Corrupted quest data for Guild " + name, e);
@@ -75,7 +74,7 @@ public class Guild {
 	public String getDescription(){
 		return description;
 	}
-	public ArrayList<Integer> getQuestIDs(){
+	public HashMap<Integer, Integer> getQuestIDs(){
 		return questIDs;
 	}
 	public int getID(){

@@ -927,6 +927,13 @@ public class HostileArea extends Location implements Serializable {
 						targetIndex = 0;
 						logger.info("Exited combat");
 						GameFrameCanvas.battlefield.setPlayerTargetIndex(0);
+						if(!RPGMain.speler.checkDood()){
+							int[] playerPos = RPGMain.speler.getCurrentPosition();
+							HopeSimulator.createHopeCenter(playerPos, 10*mobs.size()*(mobs.get(0).getStrength()/4.0), (int)(5*mobs.size()*(mobs.get(0).getStrength()/4.0)), null, true);
+							logger.info("Created hope event at " + playerPos[0] + ", " + playerPos[1]);
+							HopeSimulator.showHope();
+							HopeSimulator.showReputation();
+						}
 					}catch(Exception e){
 						e.printStackTrace();
 						logger.debug(e);
@@ -1520,7 +1527,6 @@ public class HostileArea extends Location implements Serializable {
 					Global.beanShell.set("logger", logger);
 					Global.beanShell.set("playerCoord", playerCoord);
 					Global.beanShell.set("covers", covers);
-					Global.beanShell.set("hostA", new HostileArea());
 					Global.beanShell.set("speler", RPGMain.speler);
 					Global.beanShell.set("abilities", Data.abilities);
 					Global.beanShell.set("battlefield", GameFrameCanvas.battlefield);

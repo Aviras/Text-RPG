@@ -101,12 +101,6 @@
         <name>Scholar's Retreat</name>
         <description>You mount the stairs leading to Scholar's Retreat. The field ahead of you lies entirely in the shadow of the mountain. People are scurrying about, clearly lost in thought. It's a lot quieter here, the silence broken only by the wind gushing over the blanket that the mountain provides around the village. The atmosphere is somehow dense, but soothing. The path leading to the den appears abandoned, though you know better.</description>
         <npc>2</npc>
-        <location>
-          <name>City Archives</name>
-          <description>The door creaks open and the stale air fills your nostrils. In front of you lie heaps of scrolls, many of which the letters don't appear familiar to you at all. There is an awesome amount of knowledge present here, and trying to grasp the enormity makes you head spin.</description>
-          <type>library</type>
-          <itemsPresent>1;2</itemsPresent>
-        </location>
       </district>
       <district x="1" y="0">
         <name>Haldin's Retreat</name>
@@ -135,6 +129,12 @@
       <district x="1" y="3">
         <name>Palm of the Mountain</name>
         <description>You stand in the middle of an open field. Behind you the mountain top, looming, reaching for the sky. You hear the soft whistling of the wind through the branches of the Great Tree. Ahead of you, through the gate, you have an overview of the valley below, encircled by the mountain range the elderly call 'The Lost Peaks', after an old legend. A darkgreen carpet of pine trees cover its center, the smells of the forest reaching your nostrils. Low hanging clouds have yet to cross the mountains, smearing out the details of what lies beyond.</description>
+        <location>
+          <name>City Archives</name>
+          <description>The door creaks open and the stale air fills your nostrils. In front of you lie heaps of scrolls, many of which the letters don't appear familiar to you at all. There is an awesome amount of knowledge present here, and trying to grasp the enormity makes you head spin.</description>
+          <type>library</type>
+          <itemsPresent>1;2</itemsPresent>
+        </location>
         <location>
           <name>Southern Gate</name>
           <description>You pass through the gate and the land before you gently descends, the thick layer of snow covering the hard rock of the mountain. You see pine trees further down, where the path vanishes in the shadows.</description>
@@ -188,7 +188,7 @@
             <Room number="0">
               <name>Entrance Hall</name>
               <description>You enter the entrance hall.</description>
-              <function>interactive</function>
+              <function>artifactTest</function>
               <connections>1</connections>
               <options>
                 <npcs>0</npcs>

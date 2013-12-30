@@ -156,7 +156,7 @@ public class Stables extends DistrictLocation {
 		
 		double cost = queue.firstKey();
 		
-		connectedCities[cityID][1] = (int)cost;
+		connectedCities[cityID][1] = (int)(cost*Global.travelCostMod);
 		
 		} catch(Exception e){
 			e.printStackTrace();

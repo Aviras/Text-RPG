@@ -4,7 +4,7 @@
     <name>Engineer's Guild</name>
     <description>Test description</description>
     <options>
-      <quests>0;1</quests>
+      <quests>0:0;1:10</quests>
       <scriptPath>Data/Scripts/Engineer's Guild.bsh</scriptPath>
       <relations>0:-1</relations>
     </options>

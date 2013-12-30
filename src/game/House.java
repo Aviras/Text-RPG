@@ -170,8 +170,11 @@ public class House extends DistrictLocation implements Serializable{
 			
 			int nextRoom = roomNumber;
 			
+			logger.debug("Room number: " + roomNumber);
+			
 			while(true){
 				if(!npcs.isEmpty() || !items.isEmpty()){
+					logger.debug("Something in room");
 					HashMap<String, Integer> availRooms = new HashMap<String, Integer>();
 					for(int j=0;j<roomConnections.length;j++){
 						RPGMain.printText(true, new String[]{"* ", "Enter ", rooms.get(roomConnections[j]).getName()}, new String[]{"regular","bold","regular"});
@@ -259,11 +262,12 @@ public class House extends DistrictLocation implements Serializable{
 				}
 				else if(function != null && !function.equalsIgnoreCase("null")){
 					nextRoom = -2;
+					break;
 				}
 				
 			
 			}
-			
+			logger.debug("Returning nextRoom = " + nextRoom);
 			return nextRoom;
 		}
 

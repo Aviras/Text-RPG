@@ -266,6 +266,10 @@ public class CultureCentre extends DistrictLocation {
 		inRoom = false;
 	}
 	
+	public ArrayList<Integer> getPerformanceIDs(){
+		return performanceIDs;
+	}
+	
 	private class Notebook{
 		
 		private final JTextArea textArea = new JTextArea(20,25);
